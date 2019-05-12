@@ -27,9 +27,11 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
     return view("item", ['cat' => $cat, 'id' => $id]);
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-})->middleware('auth');
+Route::prefix('admin')->group(function () {
+    Route::get('/', 'AdminController@index');
+    Route::resource('order', 'OrderController');
+    Route::resource('products', 'ProductController');
+});
 
 
 Auth::routes();

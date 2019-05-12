@@ -20,11 +20,11 @@ class CreateProductsTable extends Migration
             $table->string('vendor_code');
             $table->string('barcode');
             $table->string('collection');
-            $table->tinyInteger('sex', 1);
+            $table->tinyInteger('sex');
             $table->text('desc');
             $table->string('img');
 
-            $table->tinyInteger('size', 2);
+            $table->tinyInteger('size');
             $table->string('num_sizes');
             $table->string('composition');
             $table->string('age');
