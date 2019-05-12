@@ -6,6 +6,7 @@
     {{--<script src="/store/public/js/manifest.js"></script>--}}
     {{--<script src="/store/public/js/vendor.js"></script>--}}
     <script src="/store/public/js/app.js"></script>
+    <link rel="stylesheet" href="/store/public/css/app.css">
 </head>
 <body>
     @section('sidebar')

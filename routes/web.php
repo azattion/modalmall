@@ -27,7 +27,11 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
     return view("item", ['cat' => $cat, 'id' => $id]);
 });
 
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+})->middleware('auth');
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
