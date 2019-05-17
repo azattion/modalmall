@@ -29,8 +29,10 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', 'AdminController@index');
-    Route::resource('order', 'OrderController');
+    Route::resource('orders', 'OrderController');
     Route::resource('products', 'ProductController');
+    Route::resource('posts', 'PostController');
+    Route::resource('users', 'UserController');
 });
 
 

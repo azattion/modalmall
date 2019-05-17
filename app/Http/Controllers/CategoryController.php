@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class OrderController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = DB::table('orders')->get();
-        return view('admin.orders.index', ['orders' => $orders]);
+        //
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class OrderController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = DB::table('orders')->get();
-        return view('admin.orders.index', ['orders' => $orders]);
+        $posts = Post::all();
+//        Post::where('id', '>', 0)->dump();
+        return view('admin.posts.index', compact('posts', $posts));
     }
 
     /**

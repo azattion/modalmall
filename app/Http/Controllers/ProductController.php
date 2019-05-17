@@ -27,7 +27,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $product = new Product;
+        $categories = config('services.product_categories');
+        $sex = config('services.product_sex');
+        return view('admin.products.create', compact('product', 'categories', 'sex'));
     }
 
     /**
@@ -41,6 +44,9 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'desc' => 'required',
+//            'status' => 'boolean',
+            'cat' => 'required|numeric',
+            'img' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $product = new Product;
@@ -48,6 +54,14 @@ class ProductController extends Controller
         $product->desc = $request->get('desc');
         $product->cat = $request->get('cat');
         $product->price = $request->get('price');
+        $product->vendor_code = $request->get('vendor_code');
+        $product->barcode = $request->get('barcode');
+        $product->collection = $request->get('collection');
+        $product->sex = $request->get('sex');
+
+        if ($request->file('img')->isValid())
+            $product->img = $request->img->path();
+
         $product->save();
 
         return redirect('products')->with('success', 'Information has been created');
