@@ -1,6 +1,6 @@
 @extends("layouts.admin")
 
-@section('title', 'Заказы')
+@section('title', 'Категории товаров')
 
 @section('content')
     <div class="row">
@@ -29,9 +29,9 @@
                             <th>Status</th>
                             <th>Reason</th>
                         </tr>
-                        @foreach($orders as $order)
+                        @foreach($categories as $category)
                             <tr>
-                                <td>{{$order['id']}}</td>
+                                <td>{{$category['id']}}</td>
                                 <td>John Doe</td>
                                 <td>11-7-2014</td>
                                 <td><span class="label label-success">Approved</span></td>

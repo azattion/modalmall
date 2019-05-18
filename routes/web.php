@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/catalog', function () {
     return ('catalog');
 });
@@ -27,15 +31,13 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
     return view("item", ['cat' => $cat, 'id' => $id]);
 });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', 'AdminController@index');
-    Route::resource('orders', 'OrderController');
-    Route::resource('products', 'ProductController');
-    Route::resource('posts', 'PostController');
-    Route::resource('users', 'UserController');
+Route::namespace('Admin')->group(function () {
+    Route::get('/admin', 'AdminController@index');
+    Route::get('/admin/profile', 'AdminController@profile');
+    Route::resource('admin/orders', 'OrderController');
+    Route::resource('admin/products', 'ProductController');
+    Route::resource('admin/posts', 'PostController');
+    Route::resource('admin/users', 'UserController');
+    Route::resource('admin/categories', 'CategoryController');
 });
-
-
-Auth::routes();
-
-Route::get('/', 'HomeController@index')->name('home');
+    //->middleware('auth');

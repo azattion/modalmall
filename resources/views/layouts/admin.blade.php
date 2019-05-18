@@ -350,14 +350,34 @@
 
                     </a>
                 </li>
-                <li>
-                    <a href="{{url('admin/products')}}">
-                        <i class="fa fa-product-hunt"></i>
-                        <span>Товары</span>
-            <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
-            </span>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-list"></i>
+                        <span>Каталог</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{url('admin/products')}}">
+                                <i class="fa fa-product-hunt"></i>
+                                <span>Товары</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right">400</span>
+            </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('admin/categories')}}">
+                                <i class="fa fa-product-hunt"></i>
+                                <span>Категории</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right">34</span>
+            </span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{url('admin/orders')}}">
@@ -445,37 +465,37 @@
     <div class="content-wrapper">
         @if ($message = Session::get('success'))
             {{--<div class="alert alert-success alert-block">--}}
-                {{--<button type="button" class="close" data-dismiss="alert">×</button>--}}
-                {{--<strong>{{ $message }}</strong>--}}
+            {{--<button type="button" class="close" data-dismiss="alert">×</button>--}}
+            {{--<strong>{{ $message }}</strong>--}}
             {{--</div>--}}
-        <div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;">
-            <a class="float-right" href="#" data-toggle="tooltip" data-placement="left"
-               title="Never show me this again!" style="color: rgb(255, 255, 255); font-size: 20px;">×</a>
-            <a
-                    href="javascript:void(0)"
-                    style="color: rgba(255, 255, 255, 0.9); display: inline-block; margin-right: 10px; text-decoration: none;">
-                {{$message}}</a><a class="btn btn-default btn-sm" href="https://themequarry.com"
-                          style="margin-top: -5px; border: 0px; box-shadow: none; color: rgb(243, 156, 18); font-weight: 600; background: rgb(255, 255, 255);">Let's
-                Do It!</a>
-        </div>
-        @endif
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                @yield('title')
-                <small>Control panel</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Главная</a></li>
-                <li class="active">@yield('title')</li>
-            </ol>
-        </section>
+            <div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;">
+                <a class="float-right" href="#" data-toggle="tooltip" data-placement="left"
+                   title="Never show me this again!" style="color: rgb(255, 255, 255); font-size: 20px;">×</a>
+                <a
+                        href="javascript:void(0)"
+                        style="color: rgba(255, 255, 255, 0.9); display: inline-block; margin-right: 10px; text-decoration: none;">
+                    {{$message}}</a><a class="btn btn-default btn-sm" href="https://themequarry.com"
+                                       style="margin-top: -5px; border: 0px; box-shadow: none; color: rgb(243, 156, 18); font-weight: 600; background: rgb(255, 255, 255);">Let's
+                    Do It!</a>
+            </div>
+            @endif
+                    <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    @yield('title')
+                    <small>Control panel</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Главная</a></li>
+                    <li class="active">@yield('title')</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            @yield('content')
-        </section>
-        <!-- /.content -->
+            <!-- Main content -->
+            <section class="content">
+                @yield('content')
+            </section>
+            <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
