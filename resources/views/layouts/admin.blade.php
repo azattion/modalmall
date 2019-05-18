@@ -344,15 +344,14 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="active">
+                <li>
                     <a href="{{route('admin.index')}}">
                         <i class="fa fa-dashboard"></i> <span>Доска</span>
-
                     </a>
                 </li>
                 <li class="treeview">
                     <a href="{{route('admin.products.index')}}">
-                        <i class="fa fa-folder-open"></i>
+                        <i class="fa fa-gift"></i>
                         <span>Товары</span>
                     </a>
                 </li>
@@ -360,9 +359,9 @@
                     <a href="{{route('admin.categories.index')}}">
                         <i class="fa fa-list"></i>
                         <span>Категории</span>
-            <span class="pull-right-container">
-              <span class="label label-primary pull-right">34</span>
-            </span>
+            {{--<span class="pull-right-container">--}}
+              {{--<span class="label label-primary pull-right">34</span>--}}
+            {{--</span>--}}
                     </a>
                 </li>
                 <li>

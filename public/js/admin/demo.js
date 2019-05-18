@@ -348,7 +348,57 @@ $(function () {
     $tabPane.append($demoSettings)
     $('#control-sidebar-home-tab').after($tabPane)
 
-    setup()
+    setup();
 
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
+
+    function getCookie(name) {
+        var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+    function checkCookie() {
+        var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+        if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
+            document.cookie = "testcookie";
+            cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
+        }
+        return cookieEnabled;
+    }
+    function setCookie(name, value, opt) {
+        opt = opt || {};
+        var expires = opt.expires;
+        if (typeof expires == 'number' && expires) {
+            var d = new Date();
+            d.setTime(d.getTime() + expires * 1000);
+            expires = opt.expires = d;
+        }
+        if (expires && expires.toUTCString) {
+            opt.expires = expires.toUTCString();
+        }
+        value = encodeURIComponent(value);
+        var updatedCookie = name + '=' + value;
+        for (var propName in opt) {
+            updatedCookie += '; ' + propName;
+            var propValue = opt[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
+        }
+        document.cookie = updatedCookie;
+    }
+    var opened_item = getCookie('sidebar-item');
+    if (opened_item) {
+        $('.sidebar-menu li').removeClass('active menu-open');
+        $('.sidebar-menu>li').eq(opened_item).addClass('active menu-open').find('.treeview-menu').show();
+    }
+    $('.sidebar-menu>li').click(function () {
+        setCookie('sidebar-item', $(this).index(), {expires: 24 * 3600, path: '/'});
+    });
+    $('.sidebar-toggle').click(function () {
+        setCookie('sidebar-collapse', !$('body').is('.sidebar-collapse'), {expires: 3600 * 24 * 30, path: '/'});
+    });
+    var isSidebar = getCookie('sidebar-collapse');
+    if (isSidebar == "true") {
+        $('body').addClass('sidebar-collapse');
+    }
 })

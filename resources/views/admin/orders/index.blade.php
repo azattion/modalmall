@@ -45,9 +45,6 @@
                     <a style="margin-right: 5px;" href="{{route('admin.products.create')}}" class="btn btn-default">
                         <i class="fa fa-plus"></i> Добавить
                     </a>
-                    <a href="{{route('admin.orders.create')}}" class="btn btn-default">
-                        <i class="fa fa-upload"></i> Импорт из файла
-                    </a>
                     <ul class="pagination pagination-sm no-margin pull-right">
                         {{ $orders->links() }}
                     </ul>
