@@ -42,9 +42,6 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a style="margin-right: 5px;" href="{{route('admin.products.create')}}" class="btn btn-default">
-                        <i class="fa fa-plus"></i> Добавить
-                    </a>
                     <ul class="pagination pagination-sm no-margin pull-right">
                         {{ $orders->links() }}
                     </ul>

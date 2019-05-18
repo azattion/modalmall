@@ -394,11 +394,13 @@ $(function () {
     $('.sidebar-menu>li').click(function () {
         setCookie('sidebar-item', $(this).index(), {expires: 24 * 3600, path: '/'});
     });
-    $('.sidebar-toggle').click(function () {
-        setCookie('sidebar-collapse', !$('body').is('.sidebar-collapse'), {expires: 3600 * 24 * 30, path: '/'});
+
+
+    getCookie('sidebar-open') == 0 && $('body').addClass('sidebar-collapse');
+
+    $(document).on('expanded.pushMenu', function(e){
+        setCookie('sidebar-open', 1, {expires: 3600 * 24 * 30, path: '/'});
+    }).on('collapsed.pushMenu', function(e){
+        setCookie('sidebar-open', 0, {expires: 3600 * 24 * 30, path: '/'});
     });
-    var isSidebar = getCookie('sidebar-collapse');
-    if (isSidebar == "true") {
-        $('body').addClass('sidebar-collapse');
-    }
 })

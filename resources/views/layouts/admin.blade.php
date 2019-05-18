@@ -26,7 +26,7 @@
             <!-- Daterange picker -->
     {{--<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">--}}
             <!-- bootstrap wysihtml5 - text editor -->
-    {{--<link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">--}}
+    <link href="/store/public/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet"/>
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -349,7 +349,7 @@
                         <i class="fa fa-dashboard"></i> <span>Доска</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <li>
                     <a href="{{route('admin.products.index')}}">
                         <i class="fa fa-gift"></i>
                         <span>Товары</span>
@@ -733,5 +733,11 @@
 <script src="/store/public/js/admin/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/store/public/js/admin/demo.js"></script>
+<script src="/store/public/js/admin/bootstrap3-wysihtml5.all.min.js"></script>
+<script>
+    $(function () {
+        $('.wysihtml5').wysihtml5()
+    })
+</script>
 </body>
 </html>
