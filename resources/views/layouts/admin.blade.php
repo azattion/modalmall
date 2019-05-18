@@ -44,7 +44,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="{{route('admin.index')}}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>LT</span>
             <!-- logo for regular state and mobile devices -->
@@ -352,7 +352,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-list"></i>
+                        <i class="fa fa-folder-open"></i>
                         <span>Каталог</span>
                         <span class="pull-right-container">
                           <i class="fa fa-angle-left pull-right"></i>
@@ -361,7 +361,7 @@
                     <ul class="treeview-menu">
                         <li>
                             <a href="{{url('admin/products')}}">
-                                <i class="fa fa-product-hunt"></i>
+                                <i class="fa fa-shopping-cart"></i>
                                 <span>Товары</span>
             <span class="pull-right-container">
               <span class="label label-primary pull-right">400</span>
@@ -370,7 +370,7 @@
                         </li>
                         <li>
                             <a href="{{url('admin/categories')}}">
-                                <i class="fa fa-product-hunt"></i>
+                                <i class="fa fa-list"></i>
                                 <span>Категории</span>
             <span class="pull-right-container">
               <span class="label label-primary pull-right">34</span>
@@ -381,19 +381,19 @@
                 </li>
                 <li>
                     <a href="{{url('admin/orders')}}">
-                        <i class="fa fa-pie-chart"></i>
+                        <i class="fa fa-cart-plus"></i>
                         <span>Заказы</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{url('admin/posts')}}">
-                        <i class="fa fa-database"></i>
+                        <i class="fa fa-newspaper-o"></i>
                         <span>Публикации</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{url('admin/users')}}">
-                        <i class="fa fa-user"></i>
+                        <i class="fa fa-users"></i>
                         <span>Пользователи</span>
                     </a>
                 </li>
@@ -463,21 +463,21 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @if ($message = Session::get('success'))
-            {{--<div class="alert alert-success alert-block">--}}
-            {{--<button type="button" class="close" data-dismiss="alert">×</button>--}}
-            {{--<strong>{{ $message }}</strong>--}}
-            {{--</div>--}}
-            <div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;">
-                <a class="float-right" href="#" data-toggle="tooltip" data-placement="left"
-                   title="Never show me this again!" style="color: rgb(255, 255, 255); font-size: 20px;">×</a>
-                <a
-                        href="javascript:void(0)"
-                        style="color: rgba(255, 255, 255, 0.9); display: inline-block; margin-right: 10px; text-decoration: none;">
-                    {{$message}}</a><a class="btn btn-default btn-sm" href="https://themequarry.com"
-                                       style="margin-top: -5px; border: 0px; box-shadow: none; color: rgb(243, 156, 18); font-weight: 600; background: rgb(255, 255, 255);">Let's
-                    Do It!</a>
-            </div>
+            @if ($message = Session::get('success'))
+                {{--<div class="alert alert-success alert-block">--}}
+                {{--<button type="button" class="close" data-dismiss="alert">×</button>--}}
+                {{--<strong>{{ $message }}</strong>--}}
+                {{--</div>--}}
+                <div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;">
+                    <a class="float-right" href="#" data-toggle="tooltip" data-placement="left"
+                       title="Never show me this again!" style="color: rgb(255, 255, 255); font-size: 20px;">×</a>
+                    <a
+                            href="javascript:void(0)"
+                            style="color: rgba(255, 255, 255, 0.9); display: inline-block; margin-right: 10px; text-decoration: none;">
+                        {{$message}}</a><a class="btn btn-default btn-sm" href="https://themequarry.com"
+                                           style="margin-top: -5px; border: 0px; box-shadow: none; color: rgb(243, 156, 18); font-weight: 600; background: rgb(255, 255, 255);">Let's
+                        Do It!</a>
+                </div>
             @endif
                     <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -490,6 +490,15 @@
                     <li class="active">@yield('title')</li>
                 </ol>
             </section>
+
+            @if ($message = Session::get('error'))
+                <div class="pad margin no-print">
+                    <div class="callout callout-info" style="margin-bottom: 0!important;">
+                        <h4><i class="fa fa-info"></i> Note:</h4>
+                        {{$message}}
+                    </div>
+                </div>
+            @endif
 
             <!-- Main content -->
             <section class="content">

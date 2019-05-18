@@ -32,12 +32,11 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
 });
 
 Route::namespace('Admin')->group(function () {
-    Route::get('/admin', 'AdminController@index');
-    Route::get('/admin/profile', 'AdminController@profile');
-    Route::resource('admin/orders', 'OrderController');
-    Route::resource('admin/products', 'ProductController');
-    Route::resource('admin/posts', 'PostController');
-    Route::resource('admin/users', 'UserController');
-    Route::resource('admin/categories', 'CategoryController');
+    Route::get('/admin', 'AdminController@index')->name('admin.index');
+    Route::get('/admin/profile', 'AdminController@profile')->name('admin.profile');
+    Route::resource('admin/orders', 'OrderController', ['as' => 'admin']);
+    Route::resource('admin/products', 'ProductController', ['as' => 'admin']);
+    Route::resource('admin/posts', 'PostController', ['as' => 'admin']);
+    Route::resource('admin/users', 'UserController', ['as' => 'admin']);
+    Route::resource('admin/categories', 'CategoryController', ['as' => 'admin']);
 });
-    //->middleware('auth');

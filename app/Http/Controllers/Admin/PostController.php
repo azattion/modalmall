@@ -25,8 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-//        Post::where('id', '>', 0)->dump();
+        $posts = Post::paginate(config('services.pagination'));
         return view('admin.posts.index', compact('posts', $posts));
     }
 

@@ -24,10 +24,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('status', 1)
-            ->orderBy('id', 'desc')
-            ->take(10)
-            ->get();
+        $products = Product::orderBy('id', 'desc')
+            ->paginate(config('services.pagination'));
         return view('admin.products.index', ['products' => $products]);
     }
 

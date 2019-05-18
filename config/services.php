@@ -51,5 +51,6 @@ return [
     'product_sex' => [
         1 => 'МУЖ',
         2 => 'ЖЕН'
-    ]
+    ],
+    'pagination' => 50
 ];
