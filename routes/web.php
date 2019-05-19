@@ -34,9 +34,13 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
 Route::namespace('Admin')->group(function () {
     Route::get('/admin', 'AdminController@index')->name('admin.index');
     Route::get('/admin/profile', 'AdminController@profile')->name('admin.profile');
-    Route::resource('admin/orders', 'OrderController', ['as' => 'admin']);
+
+    Route::post('admin/products/import', 'ProductController@import')->name('admin.products.import');
+    Route::get('admin/products/multiple', 'ProductController@multiple')->name('admin.products.multiple');
     Route::resource('admin/products', 'ProductController', ['as' => 'admin']);
+
     Route::resource('admin/posts', 'PostController', ['as' => 'admin']);
     Route::resource('admin/users', 'UserController', ['as' => 'admin']);
     Route::resource('admin/categories', 'CategoryController', ['as' => 'admin']);
+    Route::resource('admin/orders', 'OrderController', ['as' => 'admin']);
 });

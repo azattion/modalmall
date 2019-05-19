@@ -3,57 +3,78 @@
 @section('title', 'Товары')
 
 @section('content')
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Список товаров</h3>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Список товаров</h3>
 
-                <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Категория</th>
+                            <th>Количество</th>
+                            <th></th>
+                        </tr>
+                        @foreach($products as $product)
+                            <tr>
+                                <td>{{$product['id']}}</td>
+                                <td>{{$product['name']}}</td>
+                                <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
+                                <td>
+                                    @if($product['status'])
+                                        <span class="label label-success">Активный</span>
+                                    @else
+                                        <span class="label label-default">Невидимый</span>
+                                    @endif
+                                </td>
+                                <td>{{$product['cat']}}</td>
+                                <td>{{$product['quantity']}}</td>
+                                <td>
+                                    <a class="btn btn-default" href="{{route('admin.products.edit', $product)}}">
+                                        <i class="fa fa-edit"></i> Изменить
+                                    </a>
+                                    <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-default" href="{{route('admin.products.destroy', $product)}}">
+                                            <i class="fa fa-remove"></i> Удалить
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="box-footer clearfix">
+                    <a style="margin-right: 5px;" href="{{route('admin.products.create')}}" class="btn btn-default">
+                        <i class="fa fa-plus"></i> Добавить
+                    </a>
+                    <a href="{{route('admin.products.multiple')}}" class="btn btn-default">
+                        <i class="fa fa-upload"></i> Импорт из файла
+                    </a>
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {{ $products->links() }}
+                    </ul>
+                </div>
+                <!-- /.box-body -->
             </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
-                    <tr>
-                        <th>ID</th>
-                        <th>User</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Reason</th>
-                    </tr>
-                    @foreach($products as $product)
-                    <tr>
-                        <td>{{$product['id']}}</td>
-                        <td>John Doe</td>
-                        <td>11-7-2014</td>
-                        <td><span class="label label-success">Approved</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                    </tr>
-                    @endforeach
-                </table>
-            </div>
-            <div class="box-footer clearfix">
-                <a style="margin-right: 5px;" href="{{route('admin.products.create')}}" class="btn btn-default">
-                    <i class="fa fa-plus"></i> Добавить
-                </a>
-                <a href="{{route('admin.products.create')}}" class="btn btn-default">
-                    <i class="fa fa-upload"></i> Импорт из файла
-                </a>
-                <ul class="pagination pagination-sm no-margin pull-right">
-                    {{ $products->links() }}
-                </ul>
-            </div>
-            <!-- /.box-body -->
+            <!-- /.box -->
         </div>
-        <!-- /.box -->
     </div>
-</div>
 @endsection

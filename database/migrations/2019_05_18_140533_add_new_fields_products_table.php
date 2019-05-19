@@ -21,6 +21,10 @@ class AddNewFieldsProductsTable extends Migration
             $table->boolean('sale')->default(false);
             $table->date('sale_start_date')->nullable();
             $table->date('sale_end_date')->nullable();
+
+            $table->string('meta_title')->nullable();
+            $table->string('meta_desc')->nullable();
+            $table->string('meta_keywords')->nullable();
         });
     }
 

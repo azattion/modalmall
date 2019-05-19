@@ -448,22 +448,6 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-            @if ($message = Session::get('success'))
-                {{--<div class="alert alert-success alert-block">--}}
-                {{--<button type="button" class="close" data-dismiss="alert">×</button>--}}
-                {{--<strong>{{ $message }}</strong>--}}
-                {{--</div>--}}
-                <div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;">
-                    <a class="float-right" href="#" data-toggle="tooltip" data-placement="left"
-                       title="Never show me this again!" style="color: rgb(255, 255, 255); font-size: 20px;">×</a>
-                    <a
-                            href="javascript:void(0)"
-                            style="color: rgba(255, 255, 255, 0.9); display: inline-block; margin-right: 10px; text-decoration: none;">
-                        {{$message}}</a><a class="btn btn-default btn-sm" href="https://themequarry.com"
-                                           style="margin-top: -5px; border: 0px; box-shadow: none; color: rgb(243, 156, 18); font-weight: 600; background: rgb(255, 255, 255);">Let's
-                        Do It!</a>
-                </div>
-            @endif
                     <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
@@ -476,10 +460,18 @@
                 </ol>
             </section>
 
-            @if ($message = Session::get('error'))
+            @if ($message = Session::get('success'))
                 <div class="pad margin no-print">
                     <div class="callout callout-info" style="margin-bottom: 0!important;">
-                        <h4><i class="fa fa-info"></i> Note:</h4>
+                        <h4><i class="fa fa-info"></i> Оповещения</h4>
+                        {{$message}}
+                    </div>
+                </div>
+            @endif
+            @if ($message = Session::get('error'))
+                <div class="pad margin no-print">
+                    <div class="callout callout-danger" style="margin-bottom: 0!important;">
+                        <h4><i class="icon fa fa-ban"></i> Предупреждение</h4>
                         {{$message}}
                     </div>
                 </div>

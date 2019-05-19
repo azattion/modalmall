@@ -17,25 +17,26 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('cat')->index();
-            $table->string('vendor_code');
-            $table->string('barcode');
-            $table->string('collection');
-            $table->tinyInteger('sex');
-            $table->text('desc');
-            $table->string('img');
+            $table->string('vendor_code')->nullable(true);
+            $table->string('barcode')->nullable(true);
+            $table->string('collection')->nullable(true);
+            $table->tinyInteger('sex')->nullable(true);
+//            $table->string('img');
 
-            $table->tinyInteger('size');
-            $table->string('num_sizes');
-            $table->string('composition');
-            $table->string('age');
-            $table->string('color');
+            $table->text('desc')->nullable(true);
+            $table->tinyInteger('size')->nullable(true);
 
-            $table->integer('quantity');
-            $table->integer('unit');
-            $table->integer('pack_price');
-            $table->integer('price');
-            $table->integer('tax');
-            $table->integer('available');
+            $table->string('num_sizes')->nullable(true);
+            $table->string('composition')->nullable(true);
+            $table->string('age')->nullable(true);
+            $table->string('color')->nullable(true);
+
+            $table->integer('quantity')->nullable(true);
+            $table->integer('unit')->nullable(true);
+            $table->integer('pack_price')->nullable(true);
+            $table->integer('price')->default(0);
+            $table->integer('tax')->nullable(true);
+            $table->integer('available')->nullable(true);
             $table->boolean('status')->default(true)->index();
             $table->timestamps();
         });
