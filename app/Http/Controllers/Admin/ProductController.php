@@ -26,16 +26,25 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
             'cat' => 'required|numeric|min:1',
-            'price' => 'nullable|numeric',
+            'price' => 'required|numeric',
             'quantity' => 'nullable|numeric|min:1',
             'status' => 'nullable|numeric|max:1',
-            'vendor_code' => 'string|max:255',
-            'barcode' => 'string|max:255',
+            'vendor_code' => 'nullable|string|max:255',
+            'barcode' => 'nullable|string|max:255',
             'collection' => 'nullable|string|max:255',
-            'sex' => 'numeric|min:1',
+            'sex' => 'nullable|numeric|min:1',
             'meta_title' => 'nullable|string|max:255',
             'meta_desc' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
+
+            'as_new' => 'nullable|numeric|max:1',
+            'as_new_start_date' => 'nullable|date',
+            'as_new_end_date' => 'nullable|date',
+
+            'sale' => 'nullable|numeric|max:1',
+            'sale_start_date' => 'nullable|date',
+            'sale_end_date' => 'nullable|date',
+
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
@@ -47,8 +56,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id', 'desc')
-            ->paginate(config('services.pagination'));
+        $products = Product::orderBy('id', 'desc');
+        if (isset($_GET['search'])) {
+            $products = $products->where('name', 'LIKE', '%' . e($_GET['search']) . '%')
+                ->orWhere('desc', 'LIKE', '%' . e($_GET['search']) . '%');
+        }
+        $products = $products->paginate(config('services.pagination'));
+
         return view('admin.products.index', ['products' => $products]);
     }
 
@@ -85,19 +99,35 @@ class ProductController extends Controller
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
         $product->sex = $request->get('sex');
+        $product->quantity = $request->get('quantity');
 
         $product->meta_title = $request->get('meta_title');
         $product->meta_desc = $request->get('meta_desc');
         $product->meta_keywords = $request->get('meta_keywords');
 
-        if ($request->file('images')->isValid()) {
-            dd($request->get('images'));
-        }
-//            $product->img = $request->img->path();
+        $product->as_new = $request->get('as_new')?1:0;
+        $product->as_new_start_date = $request->get('as_new_start_date');
+        $product->as_new_end_date = $request->get('as_new_end_date');
 
+        $product->sale = $request->get('sale')?:0;
+        $product->sale_start_date = $request->get('sale_start_date');
+        $product->sale_end_date = $request->get('sale_end_date');
+
+//        if ($request->file('images')->isValid()) {
+            dd($request->get('images'));
+//        }
+//            $product->img = $request->img->path();
         $product->save();
 
-        return redirect()->route('admin.products.index')->with('success', 'Information has been created');
+        if ($request->get('save-2double')) {
+            $categories = config('services.product_categories');
+            $sex = config('services.product_sex');
+            return view('admin.products.create', compact('product', 'categories', 'sex'));
+        } elseif ($request->get('save-2new')) {
+            return redirect()->route('admin.products.create')->with('success', 'Запись успешно добавлена');
+        } else {
+            return redirect()->route('admin.products.index')->with('success', 'Запись успешно добавлена');
+        }
     }
 
     /**
@@ -135,6 +165,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, $this->validate_data());
 
         $product = Product::find($id);
@@ -147,15 +178,49 @@ class ProductController extends Controller
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
         $product->sex = $request->get('sex');
+        $product->quantity = $request->get('quantity');
 
         $product->meta_title = $request->get('meta_title');
         $product->meta_desc = $request->get('meta_desc');
         $product->meta_keywords = $request->get('meta_keywords');
+
+        $product->as_new = $request->get('as_new')?:0;
+        $product->as_new_start_date = $request->get('as_new_start_date');
+        $product->as_new_end_date = $request->get('as_new_end_date');
+
+        $product->sale = $request->get('sale')?:0;
+        $product->sale_start_date = $request->get('sale_start_date');
+        $product->sale_end_date = $request->get('sale_end_date');
+
         $product->save();
 
-//        dd($request->get('status'));
+        foreach($request->file('images') as $image) {
+            $filename = $image->store('images');
+            dd($filename);
+        }
 
-        return redirect()->route('admin.products.index')->with('success', 'Данные успешно сохранены');
+//        $validator = Validator::make(
+//            $request->get('images'), [
+//            'images.*' => 'required|mimes:jpg,jpeg,png,bmp|max:20000'
+//        ],[
+//                'images.*.required' => 'Please upload an image',
+//                'images.*.mimes' => 'Only jpeg,png and bmp images are allowed',
+//                'images.*.max' => 'Sorry! Maximum allowed size for an image is 20MB',
+//            ]
+//        );
+
+//        dd($request->all());
+
+        if ($request->has('save-2double')) {
+            $categories = config('services.product_categories');
+            $sex = config('services.product_sex');
+            $product->id = null;
+            return view('admin.products.create', compact('product', 'categories', 'sex'));
+        } elseif ($request->has('save-2new')) {
+            return redirect()->route('admin.products.create')->with('success', 'Запись успешно изменена');
+        } else {
+            return redirect()->route('admin.products.index')->with('success', 'Запись успешно изменена');
+        }
     }
 
     /**

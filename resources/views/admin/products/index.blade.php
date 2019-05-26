@@ -10,13 +10,16 @@
                     <h3 class="box-title">Список товаров</h3>
 
                     <div class="box-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                        <form action="{{route('admin.products.index')}}" method="get">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input value="{{isset($_GET['search'])?$_GET['search']:''}}" type="text" name="search" class="form-control pull-right"
+                                       placeholder="Поиск">
 
-                            <div class="input-group-btn">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -46,13 +49,15 @@
                                 <td>{{$product['cat']}}</td>
                                 <td>{{$product['quantity']}}</td>
                                 <td>
-                                    <a class="btn btn-default" href="{{route('admin.products.edit', $product)}}">
-                                        <i class="fa fa-edit"></i> Изменить
-                                    </a>
+
                                     <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-default" href="{{route('admin.products.destroy', $product)}}">
+                                        <a class="btn btn-default" href="{{route('admin.products.edit', $product)}}">
+                                            <i class="fa fa-edit"></i> Изменить
+                                        </a>
+                                        <button type="submit" class="btn btn-default"
+                                                href="{{route('admin.products.destroy', $product)}}">
                                             <i class="fa fa-remove"></i> Удалить
                                         </button>
                                     </form>

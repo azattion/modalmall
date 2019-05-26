@@ -24,18 +24,30 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
-                            <th>User</th>
+                            <th>Название</th>
                             <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>Статус</th>
+                            <th>Включение в меню</th>
                         </tr>
                         @foreach($categories as $category)
                             <tr>
                                 <td>{{$category['id']}}</td>
-                                <td>John Doe</td>
+                                <td>{{$category->name}}</td>
                                 <td>11-7-2014</td>
-                                <td><span class="label label-success">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                <td>
+                                    @if($category['status'])
+                                        <span class="label label-success">Активный</span>
+                                    @else
+                                        <span class="label label-default">Невидим</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($category['inc_menu'])
+                                        <span class="label label-success">Включен</span>
+                                    @else
+                                        <span class="label label-default">Невидим</span>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </table>

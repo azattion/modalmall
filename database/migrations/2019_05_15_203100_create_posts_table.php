@@ -18,9 +18,13 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->date('date');
             $table->text('text');
-            $table->string('desc');
+            $table->string('desc')->nullable(true);
             $table->string('keywords')->nullable(true);
             $table->string('img')->nullable(true);
+
+            $table->string('meta_title')->nullable(true);
+            $table->string('meta_keywords')->nullable(true);
+            $table->string('meta_desc')->nullable(true);
             $table->timestamps();
         });
     }

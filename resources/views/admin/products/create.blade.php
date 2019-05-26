@@ -11,8 +11,9 @@
                     <h3 class="box-title">{{$product->id?"Изменить":"Добавить"}} товар</h3>
                 </div>
                 <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form" method="post"
+                {{--                {{dd($product)}}--}}
+                        <!-- form start -->
+                <form role="form" method="post" enctype="multipart/form-data"
                       action="{{$product->id ? route('admin.products.update', $product->id) : route('admin.products.store')}}">
                     {{ csrf_field() }}
                     @if($product->id) @method('PUT') @endif
@@ -43,7 +44,7 @@
                                 <div class="form-group @error('vendor_code') has-error @enderror">
                                     <label for="vendor_code">Код</label>
                                     <input type="text" name="vendor_code" class="form-control" id="vendor_code"
-                                           placeholder="Введите Код"
+                                           placeholder="Введите код"
                                            value="{{ old('vendor_code', $product->vendor_code) }}">
                                 </div>
                             </div>
@@ -70,7 +71,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group @error('quantity') has-error @enderror">
                                     <label for="quantity">Количество</label>
-                                    <input type="number" name="quantity" class="form-control" id="quantity"
+                                    <input type="number" min="0" name="quantity" class="form-control" id="quantity"
                                            placeholder="Введите количество"
                                            value="{{ old('quantity', $product->quantity) }}">
                                 </div>
@@ -81,7 +82,7 @@
                                 <div class="form-group @error('price') has-error @enderror">
                                     <label for="price">Стоимость</label>
                                     <div class="input-group">
-                                        <input type="number" name="price" class="form-control" id="price"
+                                        <input type="number" min="0" name="price" class="form-control" id="price"
                                                placeholder="Введите стоимость" autocomplete="off"
                                                value="{{ old('price', $product->price) }}">
                                         <span class="input-group-addon">RUB</span>
@@ -96,7 +97,8 @@
                                     <select name="cat" class="form-control" id="cat">
                                         <option value="0">Выберите..</option>
                                         @foreach($categories as $key => $category)
-                                            <option value="{{$key}}">{{$category}}</option>
+                                            <option @if(old('cat', $product->cat)==$key) selected
+                                                    @endif value="{{$key}}">{{$category}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -107,7 +109,8 @@
                                     <select name="sex" class="form-control" id="sex">
                                         <option value="0">Выберите..</option>
                                         @foreach($sex as $key => $s)
-                                            <option value="{{$key}}">{{$s}}</option>
+                                            <option @if(old('sex', $product->sex)==$key) selected
+                                                    @endif value="{{$key}}">{{$s}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -124,9 +127,85 @@
                         <div class="form-group @error('desc') has-error @enderror">
                             <label for="desc">Описание</label>
                         <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"
-                                  placeholder="Харектеристика">{{ old('desc', $product->desc) }}</textarea>
+                                  placeholder="Характеристика">{{ old('desc', $product->desc) }}</textarea>
                         </div>
 
+                        <div class="box box-default collapsed-box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Метки</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body" style="display: none;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input {{$product->as_new || old('as_new')?'checked':''}} name="as_new"
+                                               value="1"
+                                               type="checkbox">
+                                        Новинка
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group @error('as_new_start_date') has-error @enderror">
+                                            <label for="as_new_start_date">Дата начало</label>
+                                            <input type="text" name="as_new_start_date" class="form-control"
+                                                   id="as_new_start_date"
+                                                   placeholder="Введите дату" autocomplete="off"
+                                                   value="{{ old('as_new_start_date', $product->as_new_start_date) }}">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group @error('as_new_end_date') has-error @enderror">
+                                            <label for="as_new_end_date">Дата конца</label>
+                                            <input type="text" name="as_new_end_date" class="form-control"
+                                                   id="as_new_end_date"
+                                                   placeholder="Введите дату" autocomplete="off"
+                                                   value="{{ old('as_new_end_date', $product->as_new_end_date) }}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input {{$product->sale || old('sale')?'checked':''}} name="sale"
+                                               value="1"
+                                               type="checkbox">
+                                        Скидка
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group @error('sale_start_date') has-error @enderror">
+                                            <label for="sale_start_date">Дата начало</label>
+                                            <input type="text" name="sale_start_date" class="form-control"
+                                                   id="sale_start_date"
+                                                   placeholder="Введите дату" autocomplete="off"
+                                                   value="{{ old('sale_start_date', $product->sale_start_date) }}">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group @error('sale_end_date') has-error @enderror">
+                                            <label for="sale_end_date">Дата конца</label>
+                                            <input type="text" name="sale_end_date" class="form-control"
+                                                   id="sale_end_date"
+                                                   placeholder="Введите дату" autocomplete="off"
+                                                   value="{{ old('sale_end_date', $product->sale_end_date) }}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
                         <div class="box box-default collapsed-box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Поисковая оптимизация</h3>
@@ -149,7 +228,7 @@
                                 <div class="form-group @error('meta_desc') has-error @enderror">
                                     <label for="meta_desc">Описание</label>
                         <textarea name="meta_desc" class="form-control" id="meta_desc"
-                                  placeholder="Харектеристика">{{ old('meta_desc', $product->meta_desc) }}</textarea>
+                                  placeholder="Характеристика">{{ old('meta_desc', $product->meta_desc) }}</textarea>
                                 </div>
                                 <div class="form-group @error('meta_keywords') has-error @enderror">
                                     <label for="meta_keywords">Ключевые слова</label>
@@ -164,7 +243,15 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary pull-right">Сохранить</button>
+                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit" class="btn btn-default pull-left">Сохранить
+                            и дублировать
+                        </button>
+                        <button name="save-2new" value="1" type="submit" class="btn btn-default pull-left">Сохранить и
+                            новый
+                        </button>
+                        <button name="save-2list" value="1" type="submit" class="btn btn-primary pull-right">
+                            <i class="fa fa-save"></i> Сохранить
+                        </button>
                     </div>
                 </form>
             </div>
