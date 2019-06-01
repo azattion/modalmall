@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/logout', 'HomeController@logout')->name('logout');
 
 Route::get('/catalog', function () {
     return ('catalog');
@@ -35,6 +36,7 @@ Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
 Route::namespace('Admin')->group(function () {
     Route::get('/admin', 'AdminController@index')->name('admin.index');
     Route::get('/admin/profile', 'AdminController@profile')->name('admin.profile');
+    Route::get('/admin/search', 'AdminController@search')->name('admin.search');
 
     Route::post('admin/products/import', 'ProductController@import')->name('admin.products.import');
     Route::get('admin/products/multiple', 'ProductController@multiple')->name('admin.products.multiple');

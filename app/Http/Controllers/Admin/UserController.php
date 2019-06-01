@@ -26,8 +26,12 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        $users = User::paginate(config('services.pagination'));
+        $users = User::orderBy('id', 'desc');
+        if (isset($_GET['q'])) {
+            $users = $users->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('email', 'LIKE', '%' . e($_GET['q']) . '%');
+        }
+        $users = $users->paginate(config('services.pagination'));
         return view('admin.users.index', compact('users', $users));
     }
 

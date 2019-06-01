@@ -25,7 +25,11 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::paginate(config('services.pagination'));
+        $reviews = Review::orderBy('id', 'desc');
+        if (isset($_GET['q'])) {
+            $reviews = $reviews->where('text', 'LIKE', '%' . e($_GET['q']) . '%');
+        }
+        $reviews = $reviews->paginate(config('services.pagination'));
         return view('admin.reviews.index', ['reviews' => $reviews]);
     }
 
@@ -37,7 +41,7 @@ class ReviewController extends Controller
      */
     public function destroy($id)
     {
-        $post = Review::find($id);
+        $post = Review::findOrFail($id);
         $post->delete();
         return redirect() . route('admin.reviews.index')->with('success', 'Запись удалена');
 

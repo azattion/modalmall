@@ -10,13 +10,16 @@
                     <h3 class="box-title">Список категорий</h3>
 
                     <div class="box-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                        <form action="{{route('admin.categories.index')}}" method="get">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q" class="form-control pull-right"
+                                       placeholder="Поиск">
 
-                            <div class="input-group-btn">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -30,40 +33,46 @@
                             <th>Включение в меню</th>
                             <th></th>
                         </tr>
-                        @foreach($categories as $category)
-                            <tr>
-                                <td>{{$category['id']}}</td>
-                                <td>{{$category->name}}</td>
-                                <td>11-7-2014</td>
-                                <td>
-                                    @if($category['status'])
-                                        <span class="label label-success">Активный</span>
-                                    @else
-                                        <span class="label label-default">Невидим</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($category['inc_menu'])
-                                        <span class="label label-success">Включен</span>
-                                    @else
-                                        <span class="label label-default">Невидим</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <form action="{{route('admin.categories.destroy', $category['id'])}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <a class="btn btn-default" href="{{route('admin.categories.edit', $category)}}">
-                                            <i class="fa fa-edit"></i> Изменить
-                                        </a>
-                                        <button type="submit" class="btn btn-default"
-                                                href="{{route('admin.categories.destroy', $category)}}">
-                                            <i class="fa fa-remove"></i> Удалить
-                                        </button>
-                                    </form>
-                                </td>
+                        @if(count($categories))
+                            @foreach($categories as $category)
+                                <tr>
+                                    <td>{{$category['id']}}</td>
+                                    <td>{{$category->name}}</td>
+                                    <td>11-7-2014</td>
+                                    <td>
+                                        @if($category['status'])
+                                            <span class="label label-success">Активный</span>
+                                        @else
+                                            <span class="label label-default">Невидим</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($category['inc_menu'])
+                                            <span class="label label-success">Включен</span>
+                                        @else
+                                            <span class="label label-default">Невидим</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form action="{{route('admin.categories.destroy', $category['id'])}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a class="btn btn-default" href="{{route('admin.categories.edit', $category)}}">
+                                                <i class="fa fa-edit"></i> Изменить
+                                            </a>
+                                            <button type="submit" class="btn btn-default"
+                                                    href="{{route('admin.categories.destroy', $category)}}">
+                                                <i class="fa fa-remove"></i> Удалить
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr class="text-center">
+                                <td colspan="6">Не найдено</td>
                             </tr>
-                        @endforeach
+                        @endif
                     </table>
                 </div>
                 <!-- /.box-body -->

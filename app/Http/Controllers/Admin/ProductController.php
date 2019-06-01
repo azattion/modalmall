@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Product;
+use App\Admin\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -57,9 +57,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('id', 'desc');
-        if (isset($_GET['search'])) {
-            $products = $products->where('name', 'LIKE', '%' . e($_GET['search']) . '%')
-                ->orWhere('desc', 'LIKE', '%' . e($_GET['search']) . '%');
+        if (isset($_GET['q'])) {
+            $products = $products->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
         }
         $products = $products->paginate(config('services.pagination'));
 
@@ -138,7 +138,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         return view('admin.products.show', ['product' => $product]);
     }
 
@@ -150,7 +150,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $categories = config('services.product_categories');
         $sex = config('services.product_sex');
         return view('admin.products.create', compact('product', 'categories', 'sex'));
@@ -168,7 +168,7 @@ class ProductController extends Controller
 
         $this->validate($request, $this->validate_data());
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $product->name = $request->get('name');
         $product->desc = $request->get('desc');
         $product->cat = $request->get('cat');
@@ -199,16 +199,6 @@ class ProductController extends Controller
             dd($filename);
         }
 
-//        $validator = Validator::make(
-//            $request->get('images'), [
-//            'images.*' => 'required|mimes:jpg,jpeg,png,bmp|max:20000'
-//        ],[
-//                'images.*.required' => 'Please upload an image',
-//                'images.*.mimes' => 'Only jpeg,png and bmp images are allowed',
-//                'images.*.max' => 'Sorry! Maximum allowed size for an image is 20MB',
-//            ]
-//        );
-
 //        dd($request->all());
 
         if ($request->has('save-2double')) {
@@ -231,7 +221,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $product->delete();
         return redirect() . route('admin.products.index')->with('success', 'Запись удалена');
     }

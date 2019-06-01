@@ -30,15 +30,21 @@
                         <div class="form-group @error('title') has-error @enderror">
                             <label for="title">Заголовок</label>
                             <input type="text" name="title" class="form-control" id="title"
-                                   placeholder="Введите название"
+                                   placeholder="Введите название" autocomplete="off"
                                    value="{{ old('title', $post->title) }}">
                         </div>
-                        <div class="form-group @error('date') has-error @enderror">
-                            <label for="date">Дата</label>
-                            <input autocomplete="off" type="text" name="date" class="datepicker form-control" id="date"
-                                   placeholder="Введите дату"
-                                   value="{{ old('date', $post->date) }}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group @error('date') has-error @enderror">
+                                    <label for="date">Дата</label>
+                                    <input autocomplete="off" type="text" name="date" class="datepicker form-control"
+                                           id="date"
+                                           placeholder="Введите дату"
+                                           value="{{ old('date', $post->date) }}">
+                                </div>
+                            </div>
                         </div>
+
                         <div class="checkbox">
                             <label>
                                 <input {{$post->status || old('status')?'checked':''}} name="status" value="1"

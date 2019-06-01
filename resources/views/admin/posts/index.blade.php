@@ -10,13 +10,16 @@
                 <h3 class="box-title">Список публикаций</h3>
 
                 <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                    <form action="{{route('admin.posts.index')}}" method="get">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q" class="form-control pull-right"
+                                   placeholder="Поиск">
 
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -29,33 +32,39 @@
                         <th>Статус</th>
                         <th></th>
                     </tr>
-                    @foreach($posts as $post)
-                    <tr>
-                        <td>{{$post['id']}}</td>
-                        <td>{{$post['title']}}</td>
-                        <td>{{$post['date']}}</td>
-                        <td>
-                            @if($post['status'])
-                                <span class="label label-success">Активный</span>
-                            @else
-                                <span class="label label-default">Невидимый</span>
-                            @endif
-                        </td>
-                        <td>
-                            <form action="{{route('admin.posts.destroy', $post['id'])}}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <a class="btn btn-default" href="{{route('admin.posts.edit', $post)}}">
-                                    <i class="fa fa-edit"></i> Изменить
-                                </a>
-                                <button type="submit" class="btn btn-default"
-                                        href="{{route('admin.posts.destroy', $post)}}">
-                                    <i class="fa fa-remove"></i> Удалить
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @if(count($posts))
+                        @foreach($posts as $post)
+                        <tr>
+                            <td>{{$post['id']}}</td>
+                            <td>{{$post['title']}}</td>
+                            <td>{{$post['date']}}</td>
+                            <td>
+                                @if($post['status'])
+                                    <span class="label label-success">Активный</span>
+                                @else
+                                    <span class="label label-default">Невидимый</span>
+                                @endif
+                            </td>
+                            <td>
+                                <form action="{{route('admin.posts.destroy', $post['id'])}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a class="btn btn-default" href="{{route('admin.posts.edit', $post)}}">
+                                        <i class="fa fa-edit"></i> Изменить
+                                    </a>
+                                    <button type="submit" class="btn btn-default"
+                                            href="{{route('admin.posts.destroy', $post)}}">
+                                        <i class="fa fa-remove"></i> Удалить
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @else
+                        <tr class="text-center">
+                            <td colspan="5">Не найдено</td>
+                        </tr>
+                    @endif
                 </table>
             </div>
             <!-- /.box-body -->

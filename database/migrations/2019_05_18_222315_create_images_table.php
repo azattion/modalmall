@@ -22,7 +22,7 @@ class CreateImagesTable extends Migration
             $table->integer('height', false, true)->default(0);
             $table->integer('width', false, true)->default(0);
             $table->boolean('status')->default(true);
-            $table->string('author')->nullable(true);
+            $table->string('uid')->nullable(true);
             $table->string('desc')->nullable(true);
             $table->timestamps();
         });

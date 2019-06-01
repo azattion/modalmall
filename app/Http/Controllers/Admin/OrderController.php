@@ -27,7 +27,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate(config('services.pagination'));;
+        $orders = Order::orderBy('id', 'desc');
+        if (isset($_GET['q'])) {
+            $orders = $orders->where('phone', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('address', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('email', 'LIKE', '%' . e($_GET['q']) . '%');
+        }
+        $orders = $orders->paginate(config('services.pagination'));
         return view('admin.orders.index', ['orders' => $orders]);
     }
 
@@ -94,7 +100,7 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        $order = Order::find($id);
+        $order = Order::findOrFail($id);
         $order->delete();
         return redirect() . route('admin.order.index')->with('success', 'Запись удалена');
     }

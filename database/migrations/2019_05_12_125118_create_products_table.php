@@ -37,6 +37,8 @@ class CreateProductsTable extends Migration
             $table->integer('tax')->nullable(true);
             $table->integer('available')->nullable(true);
             $table->boolean('status')->default(true)->index();
+            $table->integer('uid')->default(0);
+
             $table->timestamps();
         });
     }

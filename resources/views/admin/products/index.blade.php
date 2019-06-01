@@ -12,7 +12,7 @@
                     <div class="box-tools">
                         <form action="{{route('admin.products.index')}}" method="get">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input value="{{isset($_GET['search'])?$_GET['search']:''}}" type="text" name="search" class="form-control pull-right"
+                                <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q" class="form-control pull-right"
                                        placeholder="Поиск">
 
                                 <div class="input-group-btn">
@@ -34,35 +34,41 @@
                             <th>Количество</th>
                             <th></th>
                         </tr>
-                        @foreach($products as $product)
-                            <tr>
-                                <td>{{$product['id']}}</td>
-                                <td>{{$product['name']}}</td>
-                                <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
-                                <td>
-                                    @if($product['status'])
-                                        <span class="label label-success">Активный</span>
-                                    @else
-                                        <span class="label label-default">Невидимый</span>
-                                    @endif
-                                </td>
-                                <td>{{$product['cat']}}</td>
-                                <td>{{$product['quantity']}}</td>
-                                <td>
-                                    <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <a class="btn btn-default" href="{{route('admin.products.edit', $product)}}">
-                                            <i class="fa fa-edit"></i> Изменить
-                                        </a>
-                                        <button type="submit" class="btn btn-default"
-                                                href="{{route('admin.products.destroy', $product)}}">
-                                            <i class="fa fa-remove"></i> Удалить
-                                        </button>
-                                    </form>
-                                </td>
+                        @if(count($products))
+                            @foreach($products as $product)
+                                <tr>
+                                    <td>{{$product['id']}}</td>
+                                    <td>{{$product['name']}}</td>
+                                    <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
+                                    <td>
+                                        @if($product['status'])
+                                            <span class="label label-success">Активный</span>
+                                        @else
+                                            <span class="label label-default">Невидимый</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$product['cat']}}</td>
+                                    <td>{{$product['quantity']}}</td>
+                                    <td>
+                                        <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a class="btn btn-default" href="{{route('admin.products.edit', $product)}}">
+                                                <i class="fa fa-edit"></i> Изменить
+                                            </a>
+                                            <button type="submit" class="btn btn-default"
+                                                    href="{{route('admin.products.destroy', $product)}}">
+                                                <i class="fa fa-remove"></i> Удалить
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr class="text-center">
+                                <td colspan="6">Не найдено</td>
                             </tr>
-                        @endforeach
+                        @endif
                     </table>
                 </div>
                 <div class="box-footer clearfix">

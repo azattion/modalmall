@@ -48,7 +48,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(config('services.pagination'));
+        $posts = Post::orderBy('id', 'desc');
+        if (isset($_GET['q'])) {
+            $posts = $posts->where('title', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('text', 'LIKE', '%' . e($_GET['q']) . '%');
+        }
+        $posts = $posts->paginate(config('services.pagination'));
         return view('admin.posts.index', compact('posts', $posts));
     }
 
@@ -104,7 +110,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         return view('admin.posts.show', ['post' => $post]);
     }
 
@@ -116,7 +122,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         return view('admin.posts.create', ['post' => $post]);
     }
 
@@ -131,7 +137,7 @@ class PostController extends Controller
     {
         $this->validate($request, $this->validate_data());
 
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->title = $request->get('title');
         $post->desc = $request->get('desc');
         $post->text = $request->get('text');
@@ -146,6 +152,7 @@ class PostController extends Controller
         $images = [];
         foreach ($request->file('images') as $image) {
             list($width, $height, $type, $attr) = getimagesize($image->path());
+//            dd($attr);
             $images[] = [
                 'ext' => $image->extension(),
                 'path' => $image->path(),
@@ -157,9 +164,10 @@ class PostController extends Controller
                 'height' => $height,
             ];
         }
-        dd($images);
+
         $post->save();
-//        $new_image = Image::create($images);
+        $new_image = Image::create($images);
+        dd($new_image);
 
 //        if ($request->get('save-2double')) {
 //            return view('admin.posts.create', compact('post'));
@@ -178,7 +186,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $post->delete();
         return redirect() . route('admin.posts.index')->with('success', 'Запись удалена');
 

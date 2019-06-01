@@ -155,7 +155,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group @error('as_new_start_date') has-error @enderror">
                                             <label for="as_new_start_date">Дата начало</label>
-                                            <input type="text" name="as_new_start_date" class="form-control"
+                                            <input type="text" name="as_new_start_date" class="datepicker form-control"
                                                    id="as_new_start_date"
                                                    placeholder="Введите дату" autocomplete="off"
                                                    value="{{ old('as_new_start_date', $product->as_new_start_date) }}">
@@ -165,7 +165,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group @error('as_new_end_date') has-error @enderror">
                                             <label for="as_new_end_date">Дата конца</label>
-                                            <input type="text" name="as_new_end_date" class="form-control"
+                                            <input type="text" name="as_new_end_date" class="datepicker form-control"
                                                    id="as_new_end_date"
                                                    placeholder="Введите дату" autocomplete="off"
                                                    value="{{ old('as_new_end_date', $product->as_new_end_date) }}">
@@ -185,7 +185,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group @error('sale_start_date') has-error @enderror">
                                             <label for="sale_start_date">Дата начало</label>
-                                            <input type="text" name="sale_start_date" class="form-control"
+                                            <input type="text" name="sale_start_date" class="datepicker form-control"
                                                    id="sale_start_date"
                                                    placeholder="Введите дату" autocomplete="off"
                                                    value="{{ old('sale_start_date', $product->sale_start_date) }}">
@@ -195,7 +195,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group @error('sale_end_date') has-error @enderror">
                                             <label for="sale_end_date">Дата конца</label>
-                                            <input type="text" name="sale_end_date" class="form-control"
+                                            <input type="text" name="sale_end_date" class="datepicker form-control"
                                                    id="sale_end_date"
                                                    placeholder="Введите дату" autocomplete="off"
                                                    value="{{ old('sale_end_date', $product->sale_end_date) }}">
@@ -258,4 +258,16 @@
             <!-- /.box -->
         </div>
     </div>
+@endsection
+
+@section('script')
+    <link rel="stylesheet" href="/public/css/admin/bootstrap-datepicker.min.css">
+    <script src="/public/js/admin/bootstrap-datepicker.min.js"></script>
+    <script>
+        //Date picker
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+        })
+    </script>
 @endsection

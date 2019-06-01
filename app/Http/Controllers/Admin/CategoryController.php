@@ -44,7 +44,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(config('services.pagination'));
+        $categories = Category::orderBy('id', 'desc');
+        if (isset($_GET['q'])) {
+            $categories = $categories->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
+        }
+        $categories = $categories->paginate(config('services.pagination'));
         return view('admin.categories.index', ['categories' => $categories]);
     }
 
