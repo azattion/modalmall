@@ -21,7 +21,6 @@ class CreateProductsTable extends Migration
             $table->string('barcode')->nullable(true);
             $table->string('collection')->nullable(true);
             $table->tinyInteger('sex')->nullable(true);
-//            $table->string('img');
 
             $table->text('desc')->nullable(true);
             $table->tinyInteger('size')->nullable(true);

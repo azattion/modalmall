@@ -21,7 +21,6 @@ class CreatePostsTable extends Migration
             $table->boolean('status')->default(1);
             $table->string('desc')->nullable(true);
             $table->string('keywords')->nullable(true);
-            $table->string('img')->nullable(true);
 
             $table->string('meta_title')->nullable(true);
             $table->string('meta_keywords')->nullable(true);

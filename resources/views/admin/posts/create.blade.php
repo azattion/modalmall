@@ -47,7 +47,7 @@
                             </label>
                         </div>
                         <div class="form-group @error('images') has-error @enderror">
-                            <label for="images">Фотографии</label>
+                            <label for="images">Фотография</label>
                             <input accept="image/*" type="file" name="images[]" id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
                         </div>

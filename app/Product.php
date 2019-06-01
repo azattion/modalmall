@@ -14,4 +14,6 @@ class Product extends Model
     {
         return $this->hasMany('App\Review', 'prod_id');
     }
+
+
 }

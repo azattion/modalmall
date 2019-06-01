@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Post;
+use App\Admin\Post;
+use App\Admin\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -25,7 +27,7 @@ class PostController extends Controller
             'meta_desc' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
 
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 
@@ -57,14 +59,14 @@ class PostController extends Controller
      */
     public function create()
     {
-        $post= new Post;
+        $post = new Post;
         return view('admin.posts.create', compact('post'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -76,7 +78,7 @@ class PostController extends Controller
         $post->desc = $request->get('desc');
         $post->text = $request->get('text');
         $post->date = $request->get('date');
-        $post->status = $request->get('status')?1:0;
+        $post->status = $request->get('status') ? 1 : 0;
         $post->keywords = $request->get('keywords');
 
         $post->meta_title = $request->get('meta_title');
@@ -97,7 +99,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -109,21 +111,20 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $post = Post::find($id);
         return view('admin.posts.create', ['post' => $post]);
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -135,28 +136,44 @@ class PostController extends Controller
         $post->desc = $request->get('desc');
         $post->text = $request->get('text');
         $post->date = $request->get('date');
-        $post->status = $request->get('status')?1:0;
+        $post->status = $request->get('status') ? 1 : 0;
         $post->keywords = $request->get('keywords');
 
         $post->meta_title = $request->get('meta_title');
         $post->meta_keywords = $request->get('meta_keywords');
         $post->meta_desc = $request->get('meta_desc');
 
-        $post->save();
-
-        if ($request->get('save-2double')) {
-            return view('admin.posts.create', compact('post'));
-        } elseif ($request->get('save-2new')) {
-            return redirect()->route('admin.posts.create')->with('success', 'Запись успешно добавлена');
-        } else {
-            return redirect()->route('admin.posts.index')->with('success', 'Запись успешно добавлена');
+        $images = [];
+        foreach ($request->file('images') as $image) {
+            list($width, $height, $type, $attr) = getimagesize($image->path());
+            $images[] = [
+                'ext' => $image->extension(),
+                'path' => $image->path(),
+                'status' => 1,
+                'author' => Auth::id(),
+                'caption' => $image->getClientOriginalName(),
+                'name' => $image->store('images/' . (rand(0, 100) % 100)),
+                'width' => $width,
+                'height' => $height,
+            ];
         }
+        dd($images);
+        $post->save();
+//        $new_image = Image::create($images);
+
+//        if ($request->get('save-2double')) {
+//            return view('admin.posts.create', compact('post'));
+//        } elseif ($request->get('save-2new')) {
+//            return redirect()->route('admin.posts.create')->with('success', 'Запись успешно добавлена');
+//        } else {
+//            return redirect()->route('admin.posts.index')->with('success', 'Запись успешно добавлена');
+//        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
