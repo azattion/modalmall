@@ -22,6 +22,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/catalog', function () {
     return ('catalog');
 });
+    //->middleware('check_user_role:' . \App\UserRole::ROLE_FINANCE);;
 
 Route::get('/catalog/{cat}', function ($cat) {
     return view('category', ['cat' => $cat]);
@@ -43,4 +44,5 @@ Route::namespace('Admin')->group(function () {
     Route::resource('admin/users', 'UserController', ['as' => 'admin']);
     Route::resource('admin/categories', 'CategoryController', ['as' => 'admin']);
     Route::resource('admin/orders', 'OrderController', ['as' => 'admin']);
+    Route::resource('admin/reviews', 'ReviewController', ['as' => 'admin']);
 });

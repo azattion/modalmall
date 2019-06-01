@@ -24,18 +24,36 @@
                 <table class="table table-hover">
                     <tr>
                         <th>ID</th>
-                        <th>User</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Reason</th>
+                        <th>Заголовок</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th></th>
                     </tr>
                     @foreach($posts as $post)
                     <tr>
                         <td>{{$post['id']}}</td>
-                        <td>John Doe</td>
-                        <td>11-7-2014</td>
-                        <td><span class="label label-success">Approved</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                        <td>{{$post['title']}}</td>
+                        <td>{{$post['date']}}</td>
+                        <td>
+                            @if($post['status'])
+                                <span class="label label-success">Активный</span>
+                            @else
+                                <span class="label label-default">Невидимый</span>
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{route('admin.posts.destroy', $post['id'])}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <a class="btn btn-default" href="{{route('admin.posts.edit', $post)}}">
+                                    <i class="fa fa-edit"></i> Изменить
+                                </a>
+                                <button type="submit" class="btn btn-default"
+                                        href="{{route('admin.posts.destroy', $post)}}">
+                                    <i class="fa fa-remove"></i> Удалить
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </table>

@@ -50,11 +50,11 @@
                                 <div class="form-group @error('pid') has-error @enderror">
                                     <label for="pid">Категория</label>
                                     <select name="pid" class="form-control" id="pid">
-                                        <option value="1">Главная</option>
-                                        {{--@foreach($categories as $key => $category)--}}
-                                            {{--<option @if(old('pid', $category->pid)==$key) selected--}}
-                                                    {{--@endif value="{{$key}}">{{$category}}</option>--}}
-                                        {{--@endforeach--}}
+                                        <option value="0">Главная</option>
+                                        @foreach($categories as $cat)
+                                            <option @if(old('pid', $category->pid)==$cat->id) selected
+                                                    @endif value="{{$cat->id}}">{{$cat['name']}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

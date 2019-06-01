@@ -8,7 +8,7 @@
         <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{$post->id?"Изменить":"Добавить"}} товар</h3>
+                    <h3 class="box-title">{{$post->id?"Изменить":"Добавить"}} публикацию</h3>
                 </div>
                 <!-- /.box-header -->
                 {{--                {{dd($post)}}--}}
@@ -27,10 +27,17 @@
                                 </ul>
                             </div>
                         @endif
-                        <div class="form-group @error('name') has-error @enderror">
-                            <label for="name">Заголовок</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Введите название"
-                                   value="{{ old('name', $post->name) }}">
+                        <div class="form-group @error('title') has-error @enderror">
+                            <label for="title">Заголовок</label>
+                            <input type="text" name="title" class="form-control" id="title"
+                                   placeholder="Введите название"
+                                   value="{{ old('title', $post->title) }}">
+                        </div>
+                        <div class="form-group @error('date') has-error @enderror">
+                            <label for="date">Дата</label>
+                            <input autocomplete="off" type="text" name="date" class="datepicker form-control" id="date"
+                                   placeholder="Введите дату"
+                                   value="{{ old('date', $post->date) }}">
                         </div>
                         <div class="checkbox">
                             <label>
@@ -98,7 +105,8 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit" class="btn btn-default pull-left">Сохранить
+                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit"
+                                class="btn btn-default pull-left">Сохранить
                             и дублировать
                         </button>
                         <button name="save-2new" value="1" type="submit" class="btn btn-default pull-left">Сохранить и
@@ -113,4 +121,16 @@
             <!-- /.box -->
         </div>
     </div>
+@endsection
+
+@section('script')
+    <link rel="stylesheet" href="/public/css/admin/bootstrap-datepicker.min.css">
+    <script src="/public/js/admin/bootstrap-datepicker.min.js"></script>
+    <script>
+        //Date picker
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+        })
+    </script>
 @endsection

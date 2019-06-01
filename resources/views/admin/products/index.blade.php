@@ -49,7 +49,6 @@
                                 <td>{{$product['cat']}}</td>
                                 <td>{{$product['quantity']}}</td>
                                 <td>
-
                                     <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">
                                         @csrf
                                         @method('DELETE')

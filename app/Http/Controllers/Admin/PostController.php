@@ -9,6 +9,27 @@ use App\Http\Controllers\Controller;
 class PostController extends Controller
 {
     /**
+     * @return array
+     */
+    private function validate_data()
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'desc' => 'nullable|string',
+            'text' => 'required|string',
+            'keywords' => 'nullable|string',
+            'status' => 'nullable|boolean',
+            'date' => 'required|date',
+
+            'meta_title' => 'nullable|string|max:255',
+            'meta_desc' => 'nullable|string|max:255',
+            'meta_keywords' => 'nullable|string|max:255',
+
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ];
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -48,7 +69,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, $this->validate_data());
+
+        $post = new Post();
+        $post->title = $request->get('title');
+        $post->desc = $request->get('desc');
+        $post->text = $request->get('text');
+        $post->date = $request->get('date');
+        $post->status = $request->get('status')?1:0;
+        $post->keywords = $request->get('keywords');
+
+        $post->meta_title = $request->get('meta_title');
+        $post->meta_keywords = $request->get('meta_keywords');
+        $post->meta_desc = $request->get('meta_desc');
+
+        $post->save();
+
+        if ($request->get('save-2double')) {
+            return view('admin.posts.create', compact('post'));
+        } elseif ($request->get('save-2new')) {
+            return redirect()->route('admin.posts.create')->with('success', 'Запись успешно добавлена');
+        } else {
+            return redirect()->route('admin.posts.index')->with('success', 'Запись успешно добавлена');
+        }
     }
 
     /**
@@ -59,7 +102,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        return view('admin.posts.show', ['post' => $post]);
     }
 
     /**
@@ -70,7 +114,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return view('admin.posts.create', ['post' => $post]);
+
     }
 
     /**
@@ -82,7 +128,29 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, $this->validate_data());
+
+        $post = Post::find($id);
+        $post->title = $request->get('title');
+        $post->desc = $request->get('desc');
+        $post->text = $request->get('text');
+        $post->date = $request->get('date');
+        $post->status = $request->get('status')?1:0;
+        $post->keywords = $request->get('keywords');
+
+        $post->meta_title = $request->get('meta_title');
+        $post->meta_keywords = $request->get('meta_keywords');
+        $post->meta_desc = $request->get('meta_desc');
+
+        $post->save();
+
+        if ($request->get('save-2double')) {
+            return view('admin.posts.create', compact('post'));
+        } elseif ($request->get('save-2new')) {
+            return redirect()->route('admin.posts.create')->with('success', 'Запись успешно добавлена');
+        } else {
+            return redirect()->route('admin.posts.index')->with('success', 'Запись успешно добавлена');
+        }
     }
 
     /**
@@ -93,6 +161,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+        return redirect() . route('admin.posts.index')->with('success', 'Запись удалена');
+
     }
 }

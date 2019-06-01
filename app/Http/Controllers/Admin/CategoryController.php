@@ -56,7 +56,7 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category;
-        $categories = config('services.product_categories');
+        $categories = Category::all();
         return view('admin.categories.create', ['category' => $category, 'categories' => $categories]);
     }
 
@@ -88,8 +88,8 @@ class CategoryController extends Controller
         $category->save();
 
         if ($request->get('save-2double')) {
-            $categories = config('services.product_categories');
-            return view('admin.categories.create', compact('product', 'categories', 'sex'));
+            $categories = Category::all();
+            return view('admin.categories.create', compact('category', 'categories', 'sex'));
         } elseif ($request->get('save-2new')) {
             return redirect()->route('admin.categories.create')->with('success', 'Запись успешно добавлена');
         } else {
@@ -105,7 +105,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        $categories = Category::all();
+        return view('admin.categories.show', compact('category', 'categories'));
     }
 
     /**
@@ -116,7 +118,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        $categories = Category::all();
+        return view('admin.categories.create', compact('category', 'categories'));
     }
 
     /**
@@ -128,7 +132,29 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, $this->validate_data());
+
+        $category = Category::find($id);
+        $category->name = $request->get('name');
+        $category->desc = $request->get('desc');
+        $category->pid = $request->get('pid');
+        $category->status = $request->get('status') ? 1 : 0;
+        $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
+
+        $category->meta_title = $request->get('meta_title');
+        $category->meta_desc = $request->get('meta_desc');
+        $category->meta_keywords = $request->get('meta_keywords');
+        $category->save();
+
+        if ($request->has('save-2double')) {
+            $categories = Category::all();
+            $category->id = null;
+            return view('admin.categories.create', compact('category', 'categories'));
+        } elseif ($request->has('save-2new')) {
+            return redirect()->route('admin.categories.create')->with('success', 'Запись успешно изменена');
+        } else {
+            return redirect()->route('admin.categories.index')->with('success', 'Запись успешно изменена');
+        }
     }
 
     /**
@@ -139,6 +165,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+        return redirect() . route('admin.categories.index')->with('success', 'Запись удалена');
     }
 }
