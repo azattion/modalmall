@@ -11,7 +11,7 @@
                     <h3 class="box-title">{{$category->id?"Изменить":"Добавить"}} категорию</h3>
                 </div>
                 <!-- /.box-header -->
-                        <!-- form start -->
+                <!-- form start -->
                 <form role="form" method="post" enctype="multipart/form-data"
                       action="{{$category->id ? route('admin.categories.update', $category->id) : route('admin.categories.store')}}">
                     {{ csrf_field() }}
@@ -52,7 +52,7 @@
                                     <select name="pid" class="form-control" id="pid">
                                         <option value="0">Главная</option>
                                         @foreach($categories as $cat)
-                                            <option @if(old('pid', $category->pid)==$cat->id) selected
+                                            <option @if(old('pid', $category->pid) == $cat->id) selected
                                                     @endif value="{{$cat->id}}">{{$cat['name']}}</option>
                                         @endforeach
                                     </select>
@@ -65,6 +65,15 @@
                             <label for="image">Фотография</label>
                             <input accept="image/*" type="file" name="image" id="image">
                             <p class="help-block">Максимальный размер 3 Мб</p>
+                            @if(count($images))
+                                <div class="row">
+                                    @foreach($images as $image)
+                                        <div class="col-sm-2">
+                                            <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
 
                         <div class="form-group @error('desc') has-error @enderror">
@@ -109,7 +118,8 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit" class="btn btn-default pull-left">Сохранить
+                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit"
+                                class="btn btn-default pull-left">Сохранить
                             и дублировать
                         </button>
                         <button name="save-2new" value="1" type="submit" class="btn btn-default pull-left">Сохранить и

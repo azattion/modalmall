@@ -364,12 +364,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('admin.orders.index')}}">
-                        <i class="fa fa-cart-plus"></i>
-                        <span>Заказы</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{route('admin.posts.index')}}">
                         <i class="fa fa-newspaper-o"></i>
                         <span>Публикации</span>
@@ -379,6 +373,12 @@
                     <a href="{{route('admin.users.index')}}">
                         <i class="fa fa-users"></i>
                         <span>Клиенты</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('admin.orders.index')}}">
+                        <i class="fa fa-cart-plus"></i>
+                        <span>Заказы</span>
                     </a>
                 </li>
                 <li>

@@ -21,7 +21,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 
 Route::get('/catalog', function () {
-    return ('catalog');
+    return view('catalog');
 });
     //->middleware('check_user_role:' . \App\UserRole::ROLE_FINANCE);;
 

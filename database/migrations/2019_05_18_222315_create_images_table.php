@@ -21,10 +21,12 @@ class CreateImagesTable extends Migration
             $table->string('path');
             $table->integer('height', false, true)->default(0);
             $table->integer('width', false, true)->default(0);
+            $table->integer('size')->default(0);
             $table->boolean('status')->default(true);
             $table->string('uid')->nullable(true);
             $table->string('desc')->nullable(true);
             $table->tinyInteger('type')->default(0);
+            $table->tinyInteger('pid')->default(0);
             $table->integer('order')->default(0);
             $table->timestamps();
         });

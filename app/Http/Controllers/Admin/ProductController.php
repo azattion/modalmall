@@ -2,8 +2,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin\Product;
+use App\Admin\Image as ImageModel;
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\UploadedFile;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
@@ -28,6 +35,8 @@ class ProductController extends Controller
             'cat' => 'required|numeric|min:1',
             'price' => 'required|numeric',
             'quantity' => 'nullable|numeric|min:1',
+            'color' => 'nullable|string',
+
             'status' => 'nullable|numeric|max:1',
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',
@@ -74,9 +83,15 @@ class ProductController extends Controller
     public function create()
     {
         $product = new Product;
-        $categories = config('services.product_categories');
+        $images = [];
+        $categories = Category::all();
         $sex = config('services.product_sex');
-        return view('admin.products.create', compact('product', 'categories', 'sex'));
+        return view('admin.products.create', [
+            'product' => $product,
+            'categories' => $categories,
+            'sex' => $sex,
+            'images' => $images
+        ]);
     }
 
     /**
@@ -100,29 +115,39 @@ class ProductController extends Controller
         $product->collection = $request->get('collection');
         $product->sex = $request->get('sex');
         $product->quantity = $request->get('quantity');
+        $product->color = $request->get('color');
 
         $product->meta_title = $request->get('meta_title');
         $product->meta_desc = $request->get('meta_desc');
         $product->meta_keywords = $request->get('meta_keywords');
 
-        $product->as_new = $request->get('as_new')?1:0;
+        $product->as_new = $request->get('as_new') ? 1 : 0;
         $product->as_new_start_date = $request->get('as_new_start_date');
         $product->as_new_end_date = $request->get('as_new_end_date');
 
-        $product->sale = $request->get('sale')?:0;
+        $product->sale = $request->get('sale') ?: 0;
         $product->sale_start_date = $request->get('sale_start_date');
         $product->sale_end_date = $request->get('sale_end_date');
-
-//        if ($request->file('images')->isValid()) {
-            dd($request->get('images'));
-//        }
-//            $product->img = $request->img->path();
         $product->save();
 
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                if ($image->isValid()) {
+                    $this->upload_image($image, $product->id);
+                }
+            }
+        }
+
         if ($request->get('save-2double')) {
-            $categories = config('services.product_categories');
+            $categories = Category::all();
             $sex = config('services.product_sex');
-            return view('admin.products.create', compact('product', 'categories', 'sex'));
+            $images = [];
+            return view('admin.products.create', [
+                'product' => $product,
+                'categories' => $categories,
+                'sex' => $sex,
+                'images' => $images
+            ]);
         } elseif ($request->get('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно добавлена');
         } else {
@@ -151,9 +176,17 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = config('services.product_categories');
+        $categories = Category::all();
         $sex = config('services.product_sex');
-        return view('admin.products.create', compact('product', 'categories', 'sex'));
+        $images = ImageModel::where('type', config('services.images_type')['product'])
+            ->where('pid', $id)->get();
+
+        return view('admin.products.create', [
+            'product' => $product,
+            'categories' => $categories,
+            'sex' => $sex,
+            'images' => $images
+        ]);
     }
 
     /**
@@ -179,33 +212,40 @@ class ProductController extends Controller
         $product->collection = $request->get('collection');
         $product->sex = $request->get('sex');
         $product->quantity = $request->get('quantity');
+        $product->color = $request->get('color');
 
         $product->meta_title = $request->get('meta_title');
         $product->meta_desc = $request->get('meta_desc');
         $product->meta_keywords = $request->get('meta_keywords');
 
-        $product->as_new = $request->get('as_new')?:0;
+        $product->as_new = $request->get('as_new') ?: 0;
         $product->as_new_start_date = $request->get('as_new_start_date');
         $product->as_new_end_date = $request->get('as_new_end_date');
 
-        $product->sale = $request->get('sale')?:0;
+        $product->sale = $request->get('sale') ?: 0;
         $product->sale_start_date = $request->get('sale_start_date');
         $product->sale_end_date = $request->get('sale_end_date');
-
         $product->save();
 
-        foreach($request->file('images') as $image) {
-            $filename = $image->store('images');
-            dd($filename);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                if ($image->isValid()) {
+                    $this->upload_image($image, $product->id);
+                }
+            }
         }
 
-//        dd($request->all());
-
         if ($request->has('save-2double')) {
-            $categories = config('services.product_categories');
+            $categories = Category::all();
             $sex = config('services.product_sex');
             $product->id = null;
-            return view('admin.products.create', compact('product', 'categories', 'sex'));
+            $images = [];
+            return view('admin.products.create', [
+                'product' => $product,
+                'categories' => $categories,
+                'sex' => $sex,
+                'images' => $images
+            ]);
         } elseif ($request->has('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно изменена');
         } else {
@@ -268,5 +308,49 @@ class ProductController extends Controller
         Product::insert($insert_data);
 
         return redirect()->route('admin.products.index')->with('success', 'Данные успешно сохранены');
+    }
+
+    /**
+     * @param $image
+     * @param int $pid
+     */
+    private function upload_image(UploadedFile $image, $pid = 0)
+    {
+        list($width, $height, $type, $attr) = getimagesize($image->path());
+        $destination_path = '/public/images/' . (rand(0, 100) % 100) . '/';
+        $uploaded = $image->store($destination_path);
+        if (!$uploaded) return;
+        $file_info = pathinfo($uploaded);
+        $image_data = [
+            'ext' => $image->extension(),
+            'path' => str_replace('public', '', $file_info['dirname']),
+            'status' => 1,
+            'uid' => Auth::id(),
+            'caption' => $image->getClientOriginalName(),
+            'name' => $file_info['filename'],
+            'width' => $width,
+            'height' => $height,
+            'size' => $image->getClientSize(),
+            'type' => config('services.images_type')['product'],
+            'pid' => $pid,
+        ];
+
+        ImageModel::create($image_data);
+
+        $resize = Image::make($image);
+        $resize->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put("{$destination_path}/lg/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
+
+        $resize->resize(500, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put("{$destination_path}/md/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
+
+        $resize->resize(200, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put("{$destination_path}/sm/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
     }
 }

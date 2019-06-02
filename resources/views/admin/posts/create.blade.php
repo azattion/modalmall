@@ -54,8 +54,17 @@
                         </div>
                         <div class="form-group @error('images') has-error @enderror">
                             <label for="images">Фотография</label>
-                            <input accept="image/*" type="file" name="images[]" id="images">
+                            <input accept="image/*" type="file" name="images[]" multiple id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
+                            @if(count($images))
+                                <div class="row">
+                                    @foreach($images as $image)
+                                        <div class="col-sm-2">
+                                            <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                         <div class="form-group @error('keywords') has-error @enderror">
                             <label for="keywords">Ключевые слова</label>

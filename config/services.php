@@ -54,8 +54,9 @@ return [
     ],
     'pagination' => 50,
 
-    'images_type' => [
-        'product' => 1,
-        'post' => 2,
+    'images_type'  => [
+        'product'  => 1,
+        'post'     => 2,
+        'category' => 3,
     ]
 ];

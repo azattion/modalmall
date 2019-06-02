@@ -96,9 +96,9 @@
                                     <label for="cat">Категория</label>
                                     <select name="cat" class="form-control" id="cat">
                                         <option value="0">Выберите..</option>
-                                        @foreach($categories as $key => $category)
-                                            <option @if(old('cat', $product->cat)==$key) selected
-                                                    @endif value="{{$key}}">{{$category}}</option>
+                                        @foreach($categories as $cat)
+                                            <option @if(old('cat', $product->cat)==$product->cat) selected
+                                                    @endif value="{{$cat->id}}">{{$cat['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -120,8 +120,17 @@
 
                         <div class="form-group @error('images') has-error @enderror">
                             <label for="images">Фотографии</label>
-                            <input accept="image/*" type="file" name="images[]" id="images">
+                            <input accept="image/*" type="file" name="images[]" multiple id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
+                            @if(count($images))
+                                <div class="row">
+                                    @foreach($images as $image)
+                                        <div class="col-sm-2">
+                                            <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
 
                         <div class="form-group @error('desc') has-error @enderror">

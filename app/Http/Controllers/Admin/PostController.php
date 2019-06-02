@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin\Post;
-use App\Admin\Image;
+use App\Admin\Image as ImageModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -66,7 +69,8 @@ class PostController extends Controller
     public function create()
     {
         $post = new Post;
-        return view('admin.posts.create', compact('post'));
+        $images = [];
+        return view('admin.posts.create', ['post' => $post, 'images' => $images]);
     }
 
     /**
@@ -90,8 +94,15 @@ class PostController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_keywords = $request->get('meta_keywords');
         $post->meta_desc = $request->get('meta_desc');
-
         $post->save();
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                if ($image->isValid()) {
+                    $this->upload_image($image, $post->id);
+                }
+            }
+        }
 
         if ($request->get('save-2double')) {
             return view('admin.posts.create', compact('post'));
@@ -123,8 +134,9 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-//        phpinfo();
-        return view('admin.posts.create', ['post' => $post]);
+        $images = ImageModel::where('type', config('services.images_type')['post'])
+            ->where('pid', $id)->get();
+        return view('admin.posts.create', ['post' => $post, 'images' => $images]);
     }
 
     /**
@@ -149,25 +161,15 @@ class PostController extends Controller
         $post->meta_title = $request->get('meta_title');
         $post->meta_keywords = $request->get('meta_keywords');
         $post->meta_desc = $request->get('meta_desc');
-
-        foreach ($request->file('images') as $image) {
-            list($width, $height, $type, $attr) = getimagesize($image->path());
-            $uploaded = $image->store((rand(0, 100) % 100));
-            $images = [
-                'ext' => $image->extension(),
-                'path' => $image->path(),
-                'status' => 1,
-                'uid' => Auth::id(),
-                'caption' => $image->getClientOriginalName(),
-                'name' => $uploaded,
-                'width' => $width,
-                'height' => $height,
-                'type'   => config('services.images_type')['post'],
-            ];
-            Image::create($images);
-        }
         $post->save();
 
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                if ($image->isValid()) {
+                    $this->upload_image($image, $post->id);
+                }
+            }
+        }
 
         if ($request->get('save-2double')) {
             return view('admin.posts.create', compact('post'));
@@ -189,6 +191,49 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('admin.posts.index')->with('success', 'Запись удалена');
+    }
 
+    /**
+     * @param $image
+     * @param int $pid
+     */
+    private function upload_image(UploadedFile $image, $pid = 0)
+    {
+        list($width, $height, $type, $attr) = getimagesize($image->path());
+        $destination_path = '/public/images/' . (rand(0, 100) % 100) . '/';
+        $uploaded = $image->store($destination_path);
+        if (!$uploaded) return;
+        $file_info = pathinfo($uploaded);
+        $image_data = [
+            'ext' => $image->extension(),
+            'path' => str_replace('public', '', $file_info['dirname']),
+            'status' => 1,
+            'uid' => Auth::id(),
+            'caption' => $image->getClientOriginalName(),
+            'name' => $file_info['filename'],
+            'width' => $width,
+            'height' => $height,
+            'size' => $image->getClientSize(),
+            'type' => config('services.images_type')['post'],
+            'pid' => $pid,
+        ];
+
+        ImageModel::create($image_data);
+
+        $resize = Image::make($image);
+        $resize->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put("{$destination_path}/lg/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
+
+        $resize->resize(500, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put("{$destination_path}/md/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
+
+        $resize->resize(200, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::put("{$destination_path}/sm/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
     }
 }
