@@ -39,6 +39,17 @@ class CreateProductsTable extends Migration
             $table->boolean('status')->default(true)->index();
             $table->integer('uid')->default(0);
 
+            $table->boolean('as_new')->default(false);
+            $table->date('as_new_start_date')->nullable();
+            $table->date('as_new_end_date')->nullable();
+            $table->boolean('sale')->default(false);
+            $table->date('sale_start_date')->nullable();
+            $table->date('sale_end_date')->nullable();
+
+            $table->string('meta_title')->nullable();
+            $table->string('meta_desc')->nullable();
+            $table->string('meta_keywords')->nullable();
+
             $table->timestamps();
         });
     }

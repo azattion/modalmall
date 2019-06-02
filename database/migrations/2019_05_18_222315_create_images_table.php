@@ -17,8 +17,8 @@ class CreateImagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('caption')->nullable(true);
             $table->string('name')->default('');
-            $table->string('ext', 5);
-            $table->string('path');
+            $table->string('ext', 5)->default('');
+            $table->string('path')->default('');
             $table->integer('height', false, true)->default(0);
             $table->integer('width', false, true)->default(0);
             $table->boolean('status')->default(true);

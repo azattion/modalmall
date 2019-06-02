@@ -188,7 +188,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->delete();
-        return redirect() . route('admin.posts.index')->with('success', 'Запись удалена');
+        return redirect()->route('admin.posts.index')->with('success', 'Запись удалена');
 
     }
 }
