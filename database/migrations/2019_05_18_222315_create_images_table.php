@@ -16,14 +16,16 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('caption')->nullable(true);
-            $table->string('name')->default('');
-            $table->string('ext', 5)->default('');
-            $table->string('path')->default('');
+            $table->string('name');
+            $table->string('ext', 5);
+            $table->string('path');
             $table->integer('height', false, true)->default(0);
             $table->integer('width', false, true)->default(0);
             $table->boolean('status')->default(true);
             $table->string('uid')->nullable(true);
             $table->string('desc')->nullable(true);
+            $table->tinyInteger('type')->default(0);
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

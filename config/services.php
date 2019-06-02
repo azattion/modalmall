@@ -52,5 +52,10 @@ return [
         1 => 'Мужское',
         2 => 'Женское'
     ],
-    'pagination' => 50
+    'pagination' => 50,
+
+    'images_type' => [
+        'product' => 1,
+        'post' => 2,
+    ]
 ];

@@ -11,5 +11,6 @@ class Image extends Model
      *
      * @var array
      */
-    protected $guarded = ['ext', 'path', 'status', 'author', 'name', 'width', 'height'];
+//    protected $guarded = ['ext', 'path', 'status', 'uid', 'name', 'width', 'height'];
+    protected $guarded = [];
 }

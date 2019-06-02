@@ -123,6 +123,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+//        phpinfo();
         return view('admin.posts.create', ['post' => $post]);
     }
 
@@ -149,33 +150,32 @@ class PostController extends Controller
         $post->meta_keywords = $request->get('meta_keywords');
         $post->meta_desc = $request->get('meta_desc');
 
-        $images = [];
         foreach ($request->file('images') as $image) {
             list($width, $height, $type, $attr) = getimagesize($image->path());
-//            dd($attr);
-            $images[] = [
+            $uploaded = $image->store((rand(0, 100) % 100));
+            $images = [
                 'ext' => $image->extension(),
                 'path' => $image->path(),
                 'status' => 1,
-                'author' => Auth::id(),
+                'uid' => Auth::id(),
                 'caption' => $image->getClientOriginalName(),
-                'name' => $image->store('images/' . (rand(0, 100) % 100)),
+                'name' => $uploaded,
                 'width' => $width,
                 'height' => $height,
+                'type'   => config('services.images_type')['post'],
             ];
+            Image::create($images);
         }
-
         $post->save();
-        $new_image = Image::create($images);
-        dd($new_image);
 
-//        if ($request->get('save-2double')) {
-//            return view('admin.posts.create', compact('post'));
-//        } elseif ($request->get('save-2new')) {
-//            return redirect()->route('admin.posts.create')->with('success', 'Запись успешно добавлена');
-//        } else {
-//            return redirect()->route('admin.posts.index')->with('success', 'Запись успешно добавлена');
-//        }
+
+        if ($request->get('save-2double')) {
+            return view('admin.posts.create', compact('post'));
+        } elseif ($request->get('save-2new')) {
+            return redirect()->route('admin.posts.create')->with('success', 'Запись успешно добавлена');
+        } else {
+            return redirect()->route('admin.posts.index')->with('success', 'Запись успешно добавлена');
+        }
     }
 
     /**
