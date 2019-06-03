@@ -44,4 +44,12 @@ class ProductController extends Controller
     public function cabinet(){
         return view('site.user.cabinet');
     }
+
+    public function rss(){
+        return view('site.user.cabinet');
+    }
+
+    public function sitemap(){
+        return view('site.user.cabinet');
+    }
 }
