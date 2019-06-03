@@ -16,13 +16,12 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-//Route::get('/', function () { return view('welcome');});
 Route::get('/logout', 'HomeController@logout')->name('logout');
 
 Route::namespace('Site')->group(function () {
     Route::get('/category', 'ProductController@index')->name('site.products.list');
-    Route::get('/category/{id}', 'ProductController@item')->name('site.products.item');
-    Route::get('/category/{id}/product/{prod}', 'ProductController@product')->name('site.products.product');
+    Route::get('/category/{id}', 'ProductController@category')->name('site.products.category');
+    Route::get('/category/{id}/product/{prod}', 'ProductController@item')->name('site.products.item');
     Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
     Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
     Route::post('/review', 'ProductController@review')->name('site.products.review');

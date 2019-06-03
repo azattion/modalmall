@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Product")
+@section('title', "Category item")
 
 @section('sidebar')
     <p>this is sidebar</p>

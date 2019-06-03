@@ -7,6 +7,12 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+if(!(isset($_COOKIE['asdfgfggh']) && $_COOKIE['asdfgfggh']=='tyunbdgcsxl')){
+//    header('Location: /');
+    echo "<h1 style='text-align: center'>Сайт в разработке</h1>";
+    exit();
+}
+
 define('LARAVEL_START', microtime(true));
 
 /*

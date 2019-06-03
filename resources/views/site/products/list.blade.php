@@ -2,8 +2,6 @@
 
 @section('title', "Category list")
 
-<? dd($categories); ?>
-
 @section('sidebar')
     <p>this is sidebar</p>
 @endsection

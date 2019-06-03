@@ -7,16 +7,16 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/public/css/admin/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/admin/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/public/css/admin/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/admin/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="/public/css/admin/ionicons.min.css">
+    <link rel="stylesheet" href="/css/admin/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/public/css/admin/AdminLTE.min.css">
+    <link rel="stylesheet" href="/css/admin/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="/public/css/admin/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/admin/_all-skins.min.css">
     <!-- Morris chart -->
     {{--<link rel="stylesheet" href="bower_components/morris.js/morris.css">--}}
             <!-- jvectormap -->
@@ -26,7 +26,7 @@
             <!-- Daterange picker -->
     {{--<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">--}}
             <!-- bootstrap wysihtml5 - text editor -->
-    <link href="/public/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet"/>
+    <link href="/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet"/>
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -269,13 +269,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/public/img/avatar5.png" class="user-image" alt="User Image">
+                            <img src="/img/avatar5.png" class="user-image" alt="User Image">
                             <span class="hidden-xs">{{auth()->user()['name']}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="/public/img/avatar5.png" class="img-circle" alt="User Image">
+                                <img src="/img/avatar5.png" class="img-circle" alt="User Image">
                                 <p>
                                     {{auth()->user()['name']}}
                                     <small>Member since Nov. 2012</small>
@@ -322,7 +322,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="/public/img/avatar5.png" class="img-circle" alt="User Image">
+                    <img src="/img/avatar5.png" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>{{auth()->user()['name']}}</p>
@@ -694,15 +694,15 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
-<script src="/public/js/admin/jquery.min.js"></script>
+<script src="/js/admin/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="/public/js/admin/jquery-ui.min.js"></script>
+<script src="/js/admin/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
-<script src="/public/js/admin/bootstrap.min.js"></script>
+<script src="/js/admin/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 {{--<script src="bower_components/raphael/raphael.min.js"></script>--}}
 {{--<script src="bower_components/morris.js/morris.min.js"></script>--}}
@@ -725,12 +725,12 @@
 {{--<!-- FastClick -->--}}
 {{--<script src="bower_components/fastclick/lib/fastclick.js"></script>--}}
 <!-- AdminLTE App -->
-<script src="/public/js/admin/adminlte.min.js"></script>
+<script src="/js/admin/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/public/js/admin/dashboard.js"></script>
+<script src="/js/admin/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/public/js/admin/demo.js"></script>
-<script src="/public/js/admin/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="/js/admin/demo.js"></script>
+<script src="/js/admin/bootstrap3-wysihtml5.all.min.js"></script>
 <script>
     $(function () {
         $('.wysihtml5').wysihtml5();

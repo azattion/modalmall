@@ -15,17 +15,17 @@ class ProductController extends Controller
         return view('site.products.list', ['categories' => $categories]);
     }
 
-    public function item($id)
+    public function category($id)
     {
         $category = Category::findOrFail($id);
-        return view('site.products.item', ['category' => $category]);
+        return view('site.products.category', ['category' => $category]);
     }
 
     public function product($id, $prod)
     {
         $category = Category::findOrFail($id);
         $product = Product::findOrFail($prod);
-        return view('site.products.product',
+        return view('site.products.item',
             ['category' => $category, 'product' => $product]);
     }
 
