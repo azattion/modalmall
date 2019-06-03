@@ -11,26 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+//Route::get('/', function () { return view('welcome');});
 Route::get('/logout', 'HomeController@logout')->name('logout');
 
-Route::get('/catalog', function () {
-    return view('catalog');
-});
-    //->middleware('check_user_role:' . \App\UserRole::ROLE_FINANCE);;
-
-Route::get('/catalog/{cat}', function ($cat) {
-    return view('category', ['cat' => $cat]);
-});
-
-Route::get('/catalog/{cat}/item/{id}', function ($cat, $id) {
-    return view("item", ['cat' => $cat, 'id' => $id]);
+Route::namespace('Site')->group(function () {
+    Route::get('/category', 'ProductController@index')->name('site.products.list');
+    Route::get('/category/{id}', 'ProductController@item')->name('site.products.item');
+    Route::get('/category/{id}/product/{prod}', 'ProductController@product')->name('site.products.product');
+    Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
+    Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
+    Route::post('/review', 'ProductController@review')->name('site.products.review');
 });
 
 Route::namespace('Admin')->group(function () {

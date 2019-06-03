@@ -49,8 +49,14 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('pid') has-error @enderror">
                                     <label for="pid">Категория</label>
-                                    <select name="pid" class="form-control" id="pid">
-                                        <option value="0">Главная</option>
+                                    <select name="pid" class="form-control" id="pid" size="15">
+                                        <option value="0">Корень</option>
+                                        <?
+//                                        $nested_categories = [];
+//                                        foreach ($categories as $cat) {
+//                                            $nested_categories[$cat['pid']][$cat['id']] = $cat['name'];
+//                                        }
+                                        ?>
                                         @foreach($categories as $cat)
                                             <option @if(old('pid', $category->pid) == $cat->id) selected
                                                     @endif value="{{$cat->id}}">{{$cat['name']}}</option>
@@ -69,7 +75,10 @@
                                 <div class="row">
                                     @foreach($images as $image)
                                         <div class="col-sm-2">
-                                            <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                            <a target="_blank"
+                                               href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
+                                                        class="img-responsive"
+                                                        src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
                                         </div>
                                     @endforeach
                                 </div>

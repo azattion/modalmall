@@ -176,6 +176,7 @@ class CategoryController extends Controller
         $category->pid = $request->get('pid');
         $category->status = $request->get('status') ? 1 : 0;
         $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
+        $category->uid = auth()->id();
 
         $category->meta_title = $request->get('meta_title');
         $category->meta_desc = $request->get('meta_desc');
@@ -249,6 +250,7 @@ class CategoryController extends Controller
         $category->pid = $request->get('pid');
         $category->status = $request->get('status') ? 1 : 0;
         $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
+        $category->uid = auth()->id();
 
         $category->meta_title = $request->get('meta_title');
         $category->meta_desc = $request->get('meta_desc');

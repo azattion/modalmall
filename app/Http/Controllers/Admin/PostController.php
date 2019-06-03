@@ -90,6 +90,7 @@ class PostController extends Controller
         $post->date = $request->get('date');
         $post->status = $request->get('status') ? 1 : 0;
         $post->keywords = $request->get('keywords');
+        $post->uid = auth()->id();
 
         $post->meta_title = $request->get('meta_title');
         $post->meta_keywords = $request->get('meta_keywords');
@@ -157,11 +158,13 @@ class PostController extends Controller
         $post->date = $request->get('date');
         $post->status = $request->get('status') ? 1 : 0;
         $post->keywords = $request->get('keywords');
+        $post->uid = auth()->id();
 
         $post->meta_title = $request->get('meta_title');
         $post->meta_keywords = $request->get('meta_keywords');
         $post->meta_desc = $request->get('meta_desc');
         $post->save();
+
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
