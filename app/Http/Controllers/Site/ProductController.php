@@ -40,4 +40,8 @@ class ProductController extends Controller
     public function review(){
         return view('site.products.review');
     }
+
+    public function cabinet(){
+        return view('site.user.cabinet');
+    }
 }

@@ -25,6 +25,7 @@ Route::namespace('Site')->group(function () {
     Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
     Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
     Route::post('/review', 'ProductController@review')->name('site.products.review');
+    Route::post('/cabinet', 'ProductController@cabinet')->name('site.user.cabinet');
 });
 
 Route::namespace('Admin')->group(function () {
