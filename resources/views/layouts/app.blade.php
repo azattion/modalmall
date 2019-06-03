@@ -5,6 +5,7 @@
     <title>ModalMall - @yield('title')</title>
     {{--<script src="/store/public/js/manifest.js"></script>--}}
     {{--<script src="/store/public/js/vendor.js"></script>--}}
+    {{--TODO - Добавить актупльные данные--}}
     <script src="/js/app.js"></script>
     <link rel="stylesheet" href="/css/app.css">
     <meta name="keywords" content="your, tags"/>
@@ -73,7 +74,25 @@
         {{--This is the master sidebar.--}}
     {{--@show--}}
     <div class="container">
-        @yield('content')
+        <div class="row">
+            <div class="col-md-12">
+                <header>
+                    <h1 class="text-center">ModalMall</h1>
+                </header>
+            </div>
+            <div class="col-md-8">
+                @yield('content')
+            </div>
+            <div class="col-md-4">
+                @yield('sidebar')
+            </div>
+            <div class="col-md-12">
+                <footer class="text-center">
+                    its footer<br/>
+                    © ModalMall {{date('Y')}}
+                </footer>
+            </div>
+        </div>
     </div>
     <script>
         if ('serviceWorker' in navigator) {
