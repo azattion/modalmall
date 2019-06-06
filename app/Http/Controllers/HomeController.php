@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin\Image;
+use App\Admin\Product;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,11 +27,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $categories = Category::orderBy('name')->where('pid', 0)->get();
+//        $images = Image::orderBy('name')->where('type', 3)->get();
+//        $images_key = [];
+//        foreach($images as $image){
+//            $images_key[$image['pid']] = $image;
+//        }
+        $products = Product::orderBy('name')->get();
+        return view('home', ['categories' => $categories, 'products' => $products]);
     }
 
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect()->route('home');
     }

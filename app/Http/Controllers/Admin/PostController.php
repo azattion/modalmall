@@ -174,6 +174,17 @@ class PostController extends Controller
             }
         }
 
+        if($request->has('image-del')){
+            foreach ($request->get('image-del') as $id) {
+                $image = ImageModel::findOrFail($id);
+                Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/lg/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/md/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/sm/{$image['name']}.{$image['ext']}");
+                $image->delete();
+            }
+        }
+
         if ($request->get('save-2double')) {
             return view('admin.posts.create', compact('post'));
         } elseif ($request->get('save-2new')) {

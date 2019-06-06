@@ -15,4 +15,12 @@ class Product extends Model
         return $this->hasMany('App\Review', 'prod_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany('App\Admin\Image', 'pid');
+    }
+
 }

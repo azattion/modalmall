@@ -259,6 +259,16 @@ class ProductController extends Controller
                 }
             }
         }
+        if($request->has('image-del')){
+            foreach ($request->get('image-del') as $id) {
+                $image = ImageModel::findOrFail($id);
+                Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/lg/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/md/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/sm/{$image['name']}.{$image['ext']}");
+                $image->delete();
+            }
+        }
 
         if ($request->has('save-2double')) {
             $categories = Category::all();
