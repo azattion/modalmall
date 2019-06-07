@@ -22,12 +22,16 @@ Route::namespace('Site')->group(function () {
     Route::get('/category', 'ProductController@index')->name('site.products.list');
     Route::get('/category/{id}', 'ProductController@category')->name('site.products.category');
     Route::get('/category/{id}/product/{prod}', 'ProductController@product')->name('site.products.product');
+
     Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
+    Route::post('/cart-add', 'ProductController@cart_add')->name('site.products.cart-add');
     Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
     Route::post('/review', 'ProductController@review')->name('site.products.review');
     Route::get('/cabinet', 'ProductController@cabinet')->name('site.user.cabinet');
     Route::get('/rss.xml', 'ProductController@rss')->name('site.rss');
     Route::get('/sitemap.xml', 'ProductController@sitemap')->name('site.sitemap');
+
+    Route::get('/post/{id}', 'PostController@item')->name('site.posts.item');
 });
 
 Route::namespace('Admin')->group(function () {

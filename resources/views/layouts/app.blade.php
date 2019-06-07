@@ -122,11 +122,6 @@
             </nav>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <img class="img-fluid" src="/img/slider.png" alt="Спецпредложения и новинки">
-        </div>
-    </div>
     <div class="col-md-12">
         @yield('content')
     </div>

@@ -1,11 +1,19 @@
 @extends('layouts.app')
 
-@section('title', "Category item")
-
-@section('sidebar')
-    <p>this is sidebar</p>
-@endsection
+@section('title', "Category item - {$category['name']}")
 
 @section('content')
-    <p>this is content</p>
+    <div class="col-md-12">
+        <h3 class="text-center">{{$category['name']}}</h3>
+        <div class="row">
+            @foreach($products as $product)
+                <div class="col-md-3">
+                    <a href="{{route('site.products.product', ['id' => $product['cat'], 'prod' => $product['id']])}}">
+                        <img class="img-fluid"
+                             src="/storage{{$product['images'][0]['path']}}/{{$product['images'][0]['name']}}.{{$product['images'][0]['ext']}}">
+                        {{$product['name']}}</a>
+                </div>
+            @endforeach
+        </div>
+    </div>
 @endsection

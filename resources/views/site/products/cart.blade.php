@@ -2,10 +2,13 @@
 
 @section('title', "Cart")
 
-@section('sidebar')
-    <p>this is sidebar</p>
-@endsection
+
 
 @section('content')
-    <p>this is content</p>
+    {{dd($cart)}}
+    @foreach($cart as $products)
+        @foreach($products as $key => $product)
+            <div>{{$key}} => {{$product}}</div>
+        @endforeach
+    @endforeach
 @endsection
