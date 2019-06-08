@@ -30,6 +30,7 @@ Route::namespace('Site')->group(function () {
     Route::post('/order', 'ProductController@order')->name('site.products.order');
     Route::get('/search', 'ProductController@search')->name('site.products.search');
     Route::post('/review', 'ProductController@review')->name('site.products.review');
+    Route::get('/cabinet/order', 'ProductController@orders')->name('site.user.orders');
     Route::get('/cabinet', 'ProductController@cabinet')->name('site.user.cabinet');
     Route::get('/rss.xml', 'ProductController@rss')->name('site.rss');
     Route::get('/sitemap.xml', 'ProductController@sitemap')->name('site.sitemap');

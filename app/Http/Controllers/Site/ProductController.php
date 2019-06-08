@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Admin\Product;
 use App\Category;
+use App\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,7 +28,7 @@ class ProductController extends Controller
     {
         $word = $request->get('q');
         $products = [];
-        if($word) {
+        if ($word) {
             $products = Product::orderBy('id', 'desc')->where('name', 'LIKE', "%{$word}%")->get();
         }
         return view('site.products.search',
@@ -44,8 +45,8 @@ class ProductController extends Controller
     public function cart_add(Request $request)
     {
         $this->validate($request, [
-                'id' => 'required|numeric|min:1',
-                'qt' => 'required|numeric|min:1'
+            'id' => 'required|numeric|min:1',
+            'qt' => 'required|numeric|min:1'
         ]);
 
 //        $request->session()->forget('cart');
@@ -56,7 +57,7 @@ class ProductController extends Controller
         $isEmpty = false;
 
         if (count($cart)) {
-            if(isset($cart[$id])){
+            if (isset($cart[$id])) {
                 $cart[$id] += $qt;
             } else {
                 $cart[$id] = $qt;
@@ -74,7 +75,7 @@ class ProductController extends Controller
     {
         $cart = $request->session()->get('cart', []);
 
-        if(isset($cart[$id])){
+        if (isset($cart[$id])) {
             unset($cart[$id]);
         }
         session(['cart' => $cart]);
@@ -85,6 +86,31 @@ class ProductController extends Controller
     {
         $cart = $request->session()->get('cart', []);
         return view('site.products.cart', ['cart' => $cart]);
+    }
+
+    public function order(Request $request)
+    {
+        $this->validate($request, [
+            'address' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:255',
+        ]);
+        $order = new Order;
+        $order->email = $request->get('email');
+        $order->phone = $request->get('phone');
+        $order->address = $request->get('address');
+        $order->uid = auth()->id();
+        $order->save();
+
+        $request->session()->forget('cart');
+
+        return redirect()->route('site.user.orders')->with('success', 'Ваш заказ успешно отправлен');
+    }
+
+    public function orders()
+    {
+        $orders = Order::orderBy('id', 'desc')->where('uid', auth()->id())->paginate(config('services.pagination'));
+        return view('site.products.orders', ['orders' => $orders]);
     }
 
     public function favorite()
