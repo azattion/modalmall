@@ -23,45 +23,67 @@ class ProductController extends Controller
             ['category' => $category, 'products' => $products]);
     }
 
-    public function product($id, $prod)
+    public function search(Request $request)
     {
-        $category = Category::findOrFail($id);
-        $product = Product::findOrFail($prod);
+        $word = $request->get('q');
+        $products = [];
+        if($word) {
+            $products = Product::orderBy('id', 'desc')->where('name', 'LIKE', "%{$word}%")->get();
+        }
+        return view('site.products.search',
+            ['category' => [], 'products' => $products]);
+    }
+
+    public function product($id)
+    {
+        $product = Product::findOrFail($id);
         return view('site.products.item',
-            ['category' => $category, 'product' => $product]);
+            ['product' => $product]);
     }
 
     public function cart_add(Request $request)
     {
         $this->validate($request, [
-            'id' => 'required|numeric|min:1',
-            'qt' => 'required|numeric|min:1']
-        );
+                'id' => 'required|numeric|min:1',
+                'qt' => 'required|numeric|min:1'
+        ]);
 
-        $request->session()->forget('user.cart');
+//        $request->session()->forget('cart');
         $qt = $request->get('qt');
-        $product_id = $request->get('id');
+        $id = $request->get('id');
 
-        $cart = session('user.cart');
-        if ($cart && count($cart)) {
-            foreach ($cart as $key => $products) {
-                if (in_array($product_id, $products)) {
-                    $cart[$key][$product_id] += $qt;
-                    break;
-                }
+        $cart = $request->session()->get('cart', []);
+        $isEmpty = false;
+
+        if (count($cart)) {
+            if(isset($cart[$id])){
+                $cart[$id] += $qt;
+            } else {
+                $cart[$id] = $qt;
             }
-        } else {
-//            $cart[][$product_id] = $qt;
-            $request->session()->push('user.cart', [$product_id => $qt]);
+            session(['cart' => $cart]);
+            $isEmpty = true;
         }
 //        dd($cart);
 
-        return redirect()->back()->with('success', 'Данные успешно обновлены');
+        !$isEmpty && session(['cart' => [$id => $qt]]);;
+        return redirect()->route('site.products.cart')->with('success', 'Данные успешно обновлены');
+    }
+
+    public function cart_del(Request $request, $id)
+    {
+        $cart = $request->session()->get('cart', []);
+
+        if(isset($cart[$id])){
+            unset($cart[$id]);
+        }
+        session(['cart' => $cart]);
+        return redirect()->route('site.products.cart')->with('success', 'Данные успешно обновлены');
     }
 
     public function cart(Request $request)
     {
-        $cart = session('user.cart');
+        $cart = $request->session()->get('cart', []);
         return view('site.products.cart', ['cart' => $cart]);
     }
 

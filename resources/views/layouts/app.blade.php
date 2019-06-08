@@ -82,8 +82,15 @@
             <a href="{{route('home')}}"><img style="width: 250px" src="/img/logo.png" alt=""></a>
         </div>
         <div class="col-md-3">
-            <form>
-                <input type="text" placeholder="Введите слово..">
+            <form action="{{route('site.products.search')}}" method="get">
+                <div class="form-row">
+                    <div class="col-md-10">
+                        <input name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text" placeholder="Введите слово..">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">+</button>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-md-6">
@@ -106,6 +113,22 @@
             </ul>
         </div>
     </div>
+    @if ($message = Session::get('success'))
+        <div class="pad margin no-print">
+            <div class="alert alert-success" style="margin-bottom: 0!important;">
+                <h4><i class="fa fa-info"></i> Оповещения</h4>
+                {{$message}}
+            </div>
+        </div>
+    @endif
+    @if ($message = Session::get('error'))
+        <div class="pad margin no-print">
+            <div class="alert alert-danger">
+                <h4><i class="icon fa fa-ban"></i> Предупреждение</h4>
+                {{$message}}
+            </div>
+        </div>
+    @endif
     {{--</header>--}}
     <div class="row">
         <div class="col-md-12">
@@ -126,7 +149,7 @@
         @yield('content')
     </div>
     {{--<div class="col-md-12">--}}
-        {{--@yield('sidebar')--}}
+    {{--@yield('sidebar')--}}
     {{--</div>--}}
     <footer>
         <div class="row">

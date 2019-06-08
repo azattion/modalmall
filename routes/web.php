@@ -19,13 +19,16 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 
 Route::namespace('Site')->group(function () {
-    Route::get('/category', 'ProductController@index')->name('site.products.list');
-    Route::get('/category/{id}', 'ProductController@category')->name('site.products.category');
-    Route::get('/category/{id}/product/{prod}', 'ProductController@product')->name('site.products.product');
+    Route::get('/catalog', 'ProductController@index')->name('site.products.list');
+    Route::get('/catalog/{id}', 'ProductController@category')->name('site.products.category');
+    Route::get('/catalog/product/{id}', 'ProductController@product')->name('site.products.product');
 
     Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
     Route::post('/cart-add', 'ProductController@cart_add')->name('site.products.cart-add');
+    Route::get('/cart-del/{id}', 'ProductController@cart_del')->name('site.products.cart-del');
     Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
+    Route::post('/order', 'ProductController@order')->name('site.products.order');
+    Route::get('/search', 'ProductController@search')->name('site.products.search');
     Route::post('/review', 'ProductController@review')->name('site.products.review');
     Route::get('/cabinet', 'ProductController@cabinet')->name('site.user.cabinet');
     Route::get('/rss.xml', 'ProductController@rss')->name('site.rss');
