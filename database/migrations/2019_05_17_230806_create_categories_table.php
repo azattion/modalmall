@@ -19,7 +19,6 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->boolean('status')->default(1);
             $table->boolean('inc_menu')->default(1);
-            $table->string('img')->nullable(true);
             $table->text('desc')->nullable(true);
             $table->string('meta_title')->nullable(true);
             $table->string('meta_keywords')->nullable(true);

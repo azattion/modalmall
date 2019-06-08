@@ -17,3 +17,4 @@
     @endif
     {!! $post['text'] !!}
 @endsection
+
