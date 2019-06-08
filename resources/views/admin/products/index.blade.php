@@ -37,7 +37,7 @@
                         @if(count($products))
                             @foreach($products as $product)
                                 <tr>
-                                    <td>{{$product['id']}}</td>
+                                    <td><a target="_blank" href="{{route('site.products.product', $product['id'])}}">{{$product['id']}}</a></td>
                                     <td>{{$product['name']}}</td>
                                     <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
                                     <td>

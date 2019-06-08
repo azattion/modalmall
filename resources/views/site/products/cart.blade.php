@@ -22,8 +22,8 @@
                         <a target="_blank" href="{{route('site.products.product', $key)}}"> Товар {{$key}}</a>
                     </div>
                     <div class="col-md-1">
-                        <input type="hidden" name="id" value="{{$key}}">
-                        <input class="form-control" value="{{$qt}}" type="number" min="1"
+                        <input type="hidden" name="id[]" value="{{$key}}">
+                        <input name="qt[{{$key}}]" class="form-control" value="{{$qt}}" type="number" min="1"
                                step="1">
                     </div>
                     <div class="col-md-2"><a href="{{route('site.products.cart-del', $key)}}"

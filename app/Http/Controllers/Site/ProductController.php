@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Site;
 
 use App\Admin\Product;
+use App\Admin\Review;
 use App\Category;
 use App\Order;
+use App\OrderItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -94,6 +96,8 @@ class ProductController extends Controller
             'address' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:255',
+            'id.*' => 'required|numeric|max:255',
+            'qt.*' => 'required|numeric|max:255',
         ]);
         $order = new Order;
         $order->email = $request->get('email');
@@ -103,6 +107,22 @@ class ProductController extends Controller
         $order->save();
 
         $request->session()->forget('cart');
+
+        $qt = $request->get('qt');
+        $prod_id = $request->get('id');
+        if ($request->has('id')) {
+            foreach ($prod_id as $id) {
+                $orderItem = [
+                    'pid' => $id,
+                    'uid' => auth()->id(),
+                    'oid' => $order->id,
+                    'qt' => isset($qt[$id]) ? $qt[$id] : 1,
+                ];
+
+                OrderItem::create($orderItem);
+            }
+        }
+
 
         return redirect()->route('site.user.orders')->with('success', 'Ваш заказ успешно отправлен');
     }
@@ -118,9 +138,22 @@ class ProductController extends Controller
         return view('site.products.favorite');
     }
 
-    public function review()
+    public function review(Request $request)
     {
-        return view('site.products.review');
+        $this->validate($request, [
+            'star' => 'required|numeric|min:1|max:5',
+            'text' => 'required|string|min:1|max:255',
+            'pid' => 'required|numeric|min:1'
+        ]);
+
+        $review = new Review();
+        $review->text = $request->get('text');
+        $review->uid = auth()->id();
+        $review->prod_id = $request->get('pid');
+        $review->star = $request->get('star');
+        $review->save();
+
+        return redirect()->back()->with('success', 'Ваш отзыв успешно добавлен');
     }
 
     public function cabinet()

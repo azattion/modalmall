@@ -36,5 +36,22 @@
         <div class="col-md-12">
             {!! $product['desc'] !!}
         </div>
+        <div class="col-md-12">
+            <h5>Отзывы</h5>
+            @foreach($product->reviews as $review)
+                <div>{{$review['star']}} => {{$review['text']}}</div>
+            @endforeach
+            <form action="{{route('site.products.review')}}" method="post">
+                {{csrf_field()}}
+                <input type="hidden" name="pid" value="{{$product['id']}}">
+                <input required type="range" name="star" min="1" max="5">
+                <textarea placeholder="Введите отзыв" required name="text" class="form-control">
+                    {{old('text')}}
+                </textarea>
+                <button type="submit" class="btn btn-primary">
+                    Добавить
+                </button>
+            </form>
+        </div>
     </div>
 @endsection
