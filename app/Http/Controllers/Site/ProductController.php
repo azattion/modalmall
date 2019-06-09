@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Admin\Product;
 use App\Admin\Review;
 use App\Category;
+use App\Favorite;
 use App\Order;
 use App\OrderItem;
 use Illuminate\Http\Request;
@@ -154,6 +155,20 @@ class ProductController extends Controller
         $review->save();
 
         return redirect()->back()->with('success', 'Ваш отзыв успешно добавлен');
+    }
+
+    public function favorite_add(Request $request){
+
+        $this->validate($request, [
+            'pid' => 'required|numeric|min:1'
+        ]);
+
+        $favorite = new Favorite();
+        $favorite->uid = auth()->id();
+        $favorite->prod_id = $request->get('pid');
+        $favorite->save();
+
+        return redirect()->back()->with('success', 'Товар успешно добавлен в избранное');
     }
 
     public function cabinet()

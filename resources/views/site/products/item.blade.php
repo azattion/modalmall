@@ -31,6 +31,13 @@
                 <input type="hidden" name="id" value="{{$product['id']}}">
                 <button type="submit" class="btn btn-primary">В корзину</button>
             </form>
+            <form action="{{route('site.products.favorite-add')}}" method="post">
+                {{csrf_field()}}
+                <input type="hidden" name="pid" value="{{$product['id']}}">
+                <button type="submit" class="btn btn-primary">
+                    В избранное
+                </button>
+            </form>
 
         </div>
         <div class="col-md-12">

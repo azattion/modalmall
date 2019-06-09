@@ -1,11 +1,17 @@
 @extends('layouts.app')
 
-@section('title', "Cart")
-
-@section('sidebar')
-    <p>this is sidebar</p>
-@endsection
+@section('title', "Favorite page")
 
 @section('content')
-    <p>this is content</p>
+    @foreach($favorites as $favorite)
+        <div class="row">
+            <div class="col-md-2">
+                <a target="_blank" href="{{route('site.products.product', $favorite['prod_id'])}}">
+                    Товар {{$favorite['prod_id']}}</a>
+            </div>
+            <div class="col-md-2"><a href="{{route('site.products.favorite-del', $favorite['prod_id'])}}"
+                                     class="btn btn-primary">Удалить</a>
+            </div>
+        </div>
+    @endforeach
 @endsection
