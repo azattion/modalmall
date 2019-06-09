@@ -48,13 +48,20 @@ class FavoriteController extends Controller
             'pid' => 'required|numeric|min:1'
         ]);
 
-        $favorite = new Favorite();
-        $favorite->uid = auth()->id();
-        $favorite->prod_id = $request->get('pid');
-        $favorite->save();
+        $hasProduct = Favorite::where('uid', auth()->id())
+            ->where('prod_id', $request->get('pid'))->get();
+        $message = 'Товар уже добавлено в избранное';
+        $status = 'error';
 
-        return redirect()->back()->with('success', 'Товар успешно добавлен в избранное');
-
+        if (count($hasProduct) == 0) {
+            $favorite = new Favorite();
+            $favorite->uid = auth()->id();
+            $favorite->prod_id = $request->get('pid');
+            $favorite->save();
+            $message = 'Товар успешно добавлен в избранное';
+            $status = 'success';
+        }
+        return redirect()->back()->with($status, $message);
     }
 
     /**
@@ -102,7 +109,7 @@ class FavoriteController extends Controller
         $favorite = Favorite::findOrFail($id);
         if ($favorite['uid'] == auth()->id()) {
             $favorite->delete();
-            return redirect()->back()->with('success', 'Избранный товар успешно удален');
+            return redirect()->back()->with('success', 'Товар успешно удален из избранных');
         }
         return redirect()->back();
     }

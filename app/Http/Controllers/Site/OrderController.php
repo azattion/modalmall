@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
+use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderItem;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::orderBy('id', 'desc')->where('uid', auth()->id())->paginate(config('services.pagination'));
-        return view('site.products.orders', ['orders' => $orders]);
+        return view('site.orders.index', ['orders' => $orders]);
     }
 
     /**
@@ -75,7 +76,7 @@ class OrderController extends Controller
         }
 
 
-        return redirect()->route('site.user.orders')->with('success', 'Ваш заказ успешно отправлен');
+        return redirect()->route('user.cabinet')->with('success', 'Ваш заказ успешно отправлен');
 
     }
 

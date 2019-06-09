@@ -82,7 +82,7 @@
             <a href="{{route('home')}}"><img style="width: 250px" src="/img/logo.png" alt=""></a>
         </div>
         <div class="col-md-3">
-            <form action="{{route('site.products.search')}}" method="get">
+            <form action="{{route('products.search')}}" method="get">
                 <div class="form-row">
                     <div class="col-md-10">
                         <input name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text" placeholder="Введите слово..">
@@ -95,10 +95,10 @@
         </div>
         <div class="col-md-6">
             <ul class="list-inline">
-                <li class="list-inline-item"><a href="/cabinet"><img style="width: 60px;" src="/img/cabinet.png"
+                <li class="list-inline-item"><a href="{{route('user.cabinet')}}"><img style="width: 60px;" src="/img/cabinet.png"
                                                                      alt="Личный кабинет"></a><br/>Личный кабинет
                 </li>
-                <li class="list-inline-item"><a href="/cart"><img style="width: 60px;" src="/img/cart.png"
+                <li class="list-inline-item"><a href="{{route('user.cart.index')}}"><img style="width: 60px;" src="/img/cart.png"
                                                                   alt="Корзина"></a><br/>Корзина
                 </li>
                 <li class="list-inline-item"><a href="/delivery"><img style="width: 60px;" src="/img/delivery.png"

@@ -6,7 +6,7 @@
     @foreach($favorites as $favorite)
         <div class="row">
             <div class="col-md-2">
-                <a target="_blank" href="{{route('site.products.product', $favorite['prod_id'])}}">
+                <a target="_blank" href="{{route('products.show', $favorite['prod_id'])}}">
                     Товар {{$favorite['prod_id']}}</a>
             </div>
             <div class="col-md-2">

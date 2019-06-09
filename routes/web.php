@@ -13,14 +13,16 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/logout', 'HomeController@logout')->name('logout');
 
 Route::namespace('Site')->group(function () {
-    Route::get('/catalog', 'ProductController@index')->name('products.list');
+
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/logout', 'HomeController@logout')->name('logout');
+
+//    Route::get('/catalog', 'ProductController@index')->name('products.list');
+    Route::get('/catalog/search', 'ProductController@search')->name('products.search');
     Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
-    Route::get('/catalog/product/{id}', 'ProductController@item')->name('products.product');
-    Route::get('/search', 'ProductController@search')->name('products.search');
+    Route::get('/catalog/product/{id}', 'ProductController@show')->name('products.show');
 
 //    Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
 //    Route::post('/cart-add', 'ProductController@cart_add')->name('site.products.cart-add');
@@ -31,8 +33,8 @@ Route::namespace('Site')->group(function () {
     Route::resource('cabinet/cart', 'CartController', ['as' => 'user']);
     Route::resource('cabinet/review', 'ReviewController', ['as' => 'user']);
     Route::resource('cabinet/favorite', 'FavoriteController', ['as' => 'user']);
-
     Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet');
+
     Route::get('/rss.xml', 'HomeController@rss')->name('rss');
     Route::get('/sitemap.xml', 'HomeController@sitemap')->name('sitemap');
 

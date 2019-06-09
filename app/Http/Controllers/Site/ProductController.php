@@ -38,10 +38,10 @@ class ProductController extends Controller
             ['category' => [], 'products' => $products]);
     }
 
-    public function item($id)
+    public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('site.products.item',
+        return view('site.products.show',
             ['product' => $product]);
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Site;
 
-use App\Admin\Image;
+use App\Http\Controllers\Controller;
 use App\Admin\Product;
 use App\Category;
 use Illuminate\Http\Request;

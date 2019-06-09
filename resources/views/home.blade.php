@@ -12,7 +12,7 @@
             </div>
             @foreach($categories as $category)
                 <div class="col-md-3">
-                    <a href="{{route('site.products.category', $category['id'])}}">
+                    <a href="{{route('products.category', $category['id'])}}">
                         <img class="img-fluid"
                              src="/storage{{$category['images'][0]['path']}}/{{$category['images'][0]['name']}}.{{$category['images'][0]['ext']}}">
                         <div class=""><img style="width: 40px;" src="/img/kids.png">{{$category['name']}}</div>
@@ -24,7 +24,7 @@
                 <div class="row">
                     @foreach($products as $product)
                         <div class="col-md-3">
-                            <a href="{{route('site.products.product', ['id' => $product['id']])}}">
+                            <a href="{{route('products.show', ['id' => $product['id']])}}">
                                 <img class="img-fluid"
                                  src="/storage{{$product['images'][0]['path']}}/{{$product['images'][0]['name']}}.{{$product['images'][0]['ext']}}">
                             {{$product['name']}}</a>

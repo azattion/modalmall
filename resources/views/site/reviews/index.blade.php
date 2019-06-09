@@ -9,7 +9,7 @@
                 {{$review['created_at']}}
             </div>
             <div class="col-md-2">
-                <a target="_blank" href="{{route('site.products.product', $review['prod_id'])}}">
+                <a target="_blank" href="{{route('products.show', $review['prod_id'])}}">
                     Товар {{$review['prod_id']}}</a>
             </div>
             <div class="col-md-4">

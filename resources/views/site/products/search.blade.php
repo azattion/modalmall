@@ -8,7 +8,7 @@
         <div class="row">
             @foreach($products as $product)
                 <div class="col-md-3">
-                    <a href="{{route('site.products.product', ['id' => $product['id']])}}">
+                    <a href="{{route('products.show', $product['id'])}}">
                         <img class="img-fluid"
                              src="/storage{{$product['images'][0]['path']}}/{{$product['images'][0]['name']}}.{{$product['images'][0]['ext']}}">
                         {{$product['name']}}</a>

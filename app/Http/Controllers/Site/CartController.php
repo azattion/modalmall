@@ -19,8 +19,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = $request->session()->get('cart', []);
-        return view('site.products.cart', ['cart' => $cart]);
+        $cart = session()->get('cart', []);
+        return view('site.cart.index', ['cart' => $cart]);
     }
 
     /**
@@ -65,7 +65,7 @@ class CartController extends Controller
 //        dd($cart);
 
         !$isEmpty && session(['cart' => [$id => $qt]]);;
-        return redirect()->route('site.products.cart')->with('success', 'Данные успешно обновлены');
+        return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
 
     }
 

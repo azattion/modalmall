@@ -37,7 +37,7 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,20 +48,29 @@ class ReviewController extends Controller
             'pid' => 'required|numeric|min:1'
         ]);
 
-        $review = new Review();
-        $review->text = $request->get('text');
-        $review->uid = auth()->id();
-        $review->prod_id = $request->get('pid');
-        $review->star = $request->get('star');
-        $review->save();
+        $userReview = Review::where('prod_id', $request->get('pid'))->where('uid', auth()->id())->get();
 
-        return redirect()->back()->with('success', 'Ваш отзыв успешно добавлен');
+        $message = 'Упс! Ваш отзыв уже был добавлен';
+        $status = 'error';
+
+        if (count($userReview) == 0) {
+            $review = new Review();
+            $review->text = $request->get('text');
+            $review->uid = auth()->id();
+            $review->prod_id = $request->get('pid');
+            $review->star = $request->get('star');
+            $review->save();
+            $message = 'Ваш отзыв успешно добавлен';
+            $status = 'success';
+        }
+
+        return redirect()->back()->with($status, $message);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -72,7 +81,7 @@ class ReviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -83,8 +92,8 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -95,7 +104,7 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

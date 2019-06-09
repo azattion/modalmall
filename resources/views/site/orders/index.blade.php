@@ -28,7 +28,7 @@
                 </div>
                 @foreach($order->items as $item)
                     <div class="col-md-12">
-                        {{$item['pid']}}
+                        {{$item['pid']}} => {{$item['qt']}}
                     </div>
                 @endforeach
             @endforeach
