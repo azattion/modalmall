@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->string('num_sizes')->nullable(true);
             $table->string('composition')->nullable(true);
             $table->string('age')->nullable(true);
-            $table->string('color')->nullable(true);
+            $table->integer('color')->default(0);
 
             $table->integer('quantity')->nullable(true);
             $table->integer('unit')->nullable(true);
@@ -49,8 +49,9 @@ class CreateProductsTable extends Migration
             $table->string('meta_title')->nullable();
             $table->string('meta_desc')->nullable();
             $table->string('meta_keywords')->nullable();
-
+            $table->index(['uid', 'cat']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

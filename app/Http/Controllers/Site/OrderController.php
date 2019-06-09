@@ -61,9 +61,9 @@ class OrderController extends Controller
         $request->session()->forget('cart');
 
         $qt = $request->get('qt');
-        $prod_id = $request->get('id');
+        $pid = $request->get('id');
         if ($request->has('id')) {
-            foreach ($prod_id as $id) {
+            foreach ($pid as $id) {
                 $orderItem = [
                     'pid' => $id,
                     'uid' => auth()->id(),

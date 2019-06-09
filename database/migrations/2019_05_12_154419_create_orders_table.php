@@ -21,6 +21,8 @@ class CreateOrdersTable extends Migration
             $table->string('address')->nullable(true);
             $table->integer('status')->default(0);
             $table->timestamps();
+            $table->index('uid');
+            $table->softDeletes();
         });
     }
 

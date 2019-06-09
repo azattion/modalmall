@@ -25,7 +25,9 @@ class CreatePostsTable extends Migration
             $table->string('meta_title')->nullable(true);
             $table->string('meta_keywords')->nullable(true);
             $table->string('meta_desc')->nullable(true);
+            $table->index('uid');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

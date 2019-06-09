@@ -28,6 +28,7 @@ class CreateImagesTable extends Migration
             $table->tinyInteger('type')->default(0);
             $table->tinyInteger('pid')->default(0);
             $table->integer('order')->default(0);
+            $table->index(['pid', 'uid']);
             $table->timestamps();
         });
     }

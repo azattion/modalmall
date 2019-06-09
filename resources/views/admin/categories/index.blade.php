@@ -36,7 +36,7 @@
                         @if(count($categories))
                             @foreach($categories as $category)
                                 <tr>
-                                    <td><a target="_blank" href="{{route('site.products.category', $category['id'])}}">{{$category['id']}}</a></td>
+                                    <td><a target="_blank" href="{{route('products.category', $category['id'])}}">{{$category['id']}}</a></td>
                                     <td>{{$category->name}}</td>
                                     <td>11-7-2014</td>
                                     <td>

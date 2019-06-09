@@ -11,7 +11,7 @@ class Review extends Model
      */
     public function product()
     {
-        return $this->hasOne('App\Product', 'prod_id');
+        return $this->hasOne('App\Product', 'pid');
     }
 
     /**

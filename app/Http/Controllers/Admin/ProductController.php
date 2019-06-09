@@ -109,12 +109,10 @@ class ProductController extends Controller
     {
         $product = new Product;
         $images = [];
-        $categories = Category::all();
-        $sex = config('services.product_sex');
+        $categories = Category::where('status', 1)->get();
         return view('admin.products.create', [
             'product' => $product,
             'categories' => $categories,
-            'sex' => $sex,
             'images' => $images
         ]);
     }
@@ -164,13 +162,11 @@ class ProductController extends Controller
         }
 
         if ($request->get('save-2double')) {
-            $categories = Category::all();
-            $sex = config('services.product_sex');
+            $categories = Category::where('status', 1)->get();
             $images = [];
             return view('admin.products.create', [
                 'product' => $product,
                 'categories' => $categories,
-                'sex' => $sex,
                 'images' => $images
             ]);
         } elseif ($request->get('save-2new')) {
@@ -201,7 +197,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
         $sex = config('services.product_sex');
         $images = ImageModel::where('type', config('services.images_type')['product'])
             ->where('pid', $id)->get();
@@ -271,14 +267,12 @@ class ProductController extends Controller
         }
 
         if ($request->has('save-2double')) {
-            $categories = Category::all();
-            $sex = config('services.product_sex');
+            $categories = Category::where('status', 1)->get();
             $product->id = null;
             $images = [];
             return view('admin.products.create', [
                 'product' => $product,
                 'categories' => $categories,
-                'sex' => $sex,
                 'images' => $images
             ]);
         } elseif ($request->has('save-2new')) {

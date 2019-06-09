@@ -48,7 +48,7 @@ class ReviewController extends Controller
             'pid' => 'required|numeric|min:1'
         ]);
 
-        $userReview = Review::where('prod_id', $request->get('pid'))->where('uid', auth()->id())->get();
+        $userReview = Review::where('pid', $request->get('pid'))->where('uid', auth()->id())->get();
 
         $message = 'Упс! Ваш отзыв уже был добавлен';
         $status = 'error';
@@ -57,7 +57,7 @@ class ReviewController extends Controller
             $review = new Review();
             $review->text = $request->get('text');
             $review->uid = auth()->id();
-            $review->prod_id = $request->get('pid');
+            $review->pid = $request->get('pid');
             $review->star = $request->get('star');
             $review->save();
             $message = 'Ваш отзыв успешно добавлен';

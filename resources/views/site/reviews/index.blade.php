@@ -9,8 +9,8 @@
                 {{$review['created_at']}}
             </div>
             <div class="col-md-2">
-                <a target="_blank" href="{{route('products.show', $review['prod_id'])}}">
-                    Товар {{$review['prod_id']}}</a>
+                <a target="_blank" href="{{route('products.show', $review['pid'])}}">
+                    Товар {{$review['pid']}}</a>
             </div>
             <div class="col-md-4">
                 {{$review['text']}}

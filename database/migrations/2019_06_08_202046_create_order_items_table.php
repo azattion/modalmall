@@ -19,6 +19,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('oid')->default(0);
             $table->integer('uid')->default(0);
             $table->integer('qt')->default(0);
+            $table->index(['pid', 'oid', 'uid']);
             $table->timestamps();
         });
     }

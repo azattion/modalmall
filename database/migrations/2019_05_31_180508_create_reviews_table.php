@@ -17,9 +17,12 @@ class CreateReviewsTable extends Migration
             $table->bigIncrements('id');
             $table->longText('text');
             $table->integer('uid')->default(0);
-            $table->integer('prod_id')->default(0);
+            $table->integer('pid')->default(0);
             $table->integer('star')->default(0);
+            $table->boolean('status')->default(true);
+            $table->index(['uid', 'pid']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

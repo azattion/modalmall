@@ -49,14 +49,14 @@ class FavoriteController extends Controller
         ]);
 
         $hasProduct = Favorite::where('uid', auth()->id())
-            ->where('prod_id', $request->get('pid'))->get();
+            ->where('pid', $request->get('pid'))->get();
         $message = 'Товар уже добавлено в избранное';
         $status = 'error';
 
         if (count($hasProduct) == 0) {
             $favorite = new Favorite();
             $favorite->uid = auth()->id();
-            $favorite->prod_id = $request->get('pid');
+            $favorite->pid = $request->get('pid');
             $favorite->save();
             $message = 'Товар успешно добавлен в избранное';
             $status = 'success';

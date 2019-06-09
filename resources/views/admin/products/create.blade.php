@@ -92,6 +92,21 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
+                                <div class="form-group @error('color') has-error @enderror">
+                                    <label for="color">Цвет</label>
+                                    <select name="color" class="form-control" id="color">
+                                        <option value="0">Выберите..</option>
+                                        <?php $colors = config('services.colors'); ?>
+                                        @foreach($colors as $key => $color)
+                                            <option @if(old('color', $product->color)==$key) selected
+                                                    @endif value="{{$key}}">{{$color}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="form-group @error('cat') has-error @enderror">
                                     <label for="cat">Категория</label>
                                     <select name="cat" class="form-control" id="cat">
@@ -108,6 +123,7 @@
                                     <label for="sex">Пол</label>
                                     <select name="sex" class="form-control" id="sex">
                                         <option value="0">Выберите..</option>
+                                        <?php $sex = config('services.product_sex'); ?>
                                         @foreach($sex as $key => $s)
                                             <option @if(old('sex', $product->sex)==$key) selected
                                                     @endif value="{{$key}}">{{$s}}</option>
@@ -126,8 +142,13 @@
                                 <div class="row">
                                     @foreach($images as $image)
                                         <div class="col-sm-2">
-                                            <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
-                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}" name="image-del[{{$image['id']}}]"> Удалить</label></div>
+                                            <a target="_blank"
+                                               href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
+                                                        class="img-responsive"
+                                                        src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}"
+                                                                                name="image-del[{{$image['id']}}]">
+                                                    Удалить</label></div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -253,7 +274,8 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit" class="btn btn-default pull-left">Сохранить
+                        <button style="margin-right: 10px;" name="save-2double" value="1" type="submit"
+                                class="btn btn-default pull-left">Сохранить
                             и дублировать
                         </button>
                         <button name="save-2new" value="1" type="submit" class="btn btn-default pull-left">Сохранить и

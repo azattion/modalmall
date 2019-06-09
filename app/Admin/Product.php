@@ -18,18 +18,18 @@ class Product extends Model
      */
     public function reviews()
     {
-        return $this->hasMany('App\Admin\Review', 'prod_id');
+        return $this->hasMany('App\Admin\Review', 'pid');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function favorite(){
-        return $this->hasOne('App\Favorite', 'prod_id');
+        return $this->hasOne('App\Favorite', 'pid');
     }
 
     public function isFavorite(){
-        return $this->hasOne('App\Favorite', 'prod_id');
+        return $this->hasOne('App\Favorite', 'pid');
     }
 
     /**
