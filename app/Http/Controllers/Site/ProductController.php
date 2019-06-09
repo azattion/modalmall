@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Admin\Product;
-use App\Admin\Review;
+use App\Product;
 use App\Category;
-use App\Favorite;
-use App\Order;
-use App\OrderItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Admin\Post;
-use App\Admin\Review;
-use App\Admin\Product;
+use App\Post;
+use App\Review;
+use App\Product;
 use App\User;
 use App\Http\Controllers\Controller;
 

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Admin\Product;
-use App\Admin\Image as ImageModel;
+use App\Product;
+use App\Image as ImageModel;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Admin;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
     public function images(){
-        return $this->hasMany('App\Admin\Image', 'pid');
+        return $this->hasMany('App\Image', 'pid');
     }
 }
