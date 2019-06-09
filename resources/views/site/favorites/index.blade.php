@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Favorite page")
+@section('title', "Favorite products page")
 
 @section('content')
     @foreach($favorites as $favorite)
@@ -9,8 +9,13 @@
                 <a target="_blank" href="{{route('site.products.product', $favorite['prod_id'])}}">
                     Товар {{$favorite['prod_id']}}</a>
             </div>
-            <div class="col-md-2"><a href="{{route('site.products.favorite-del', $favorite['prod_id'])}}"
-                                     class="btn btn-primary">Удалить</a>
+            <div class="col-md-2">
+                <form method="post" action="{{route('user.favorite.destroy', $favorite['id'])}}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-primary">Удалить</button>
+                </form>
+
             </div>
         </div>
     @endforeach

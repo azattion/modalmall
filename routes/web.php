@@ -11,33 +11,32 @@
 |
 */
 
-
-
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 
 Route::namespace('Site')->group(function () {
-    Route::get('/catalog', 'ProductController@index')->name('site.products.list');
-    Route::get('/catalog/{id}', 'ProductController@category')->name('site.products.category');
-    Route::get('/catalog/product/{id}', 'ProductController@product')->name('site.products.product');
+    Route::get('/catalog', 'ProductController@index')->name('products.list');
+    Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
+    Route::get('/catalog/product/{id}', 'ProductController@item')->name('products.product');
+    Route::get('/search', 'ProductController@search')->name('products.search');
 
-    Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
-    Route::post('/cart-add', 'ProductController@cart_add')->name('site.products.cart-add');
-    Route::get('/cart-del/{id}', 'ProductController@cart_del')->name('site.products.cart-del');
-    Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
-    Route::post('/order', 'ProductController@order')->name('site.products.order');
-    Route::get('/search', 'ProductController@search')->name('site.products.search');
-    Route::post('/review', 'ProductController@review')->name('site.products.review');
-    Route::post('/favorite', 'ProductController@favorite_add')->name('site.products.favorite-add');
-    Route::get('/favorite', 'ProductController@favorite')->name('site.products.favorite');
-    Route::get('/cabinet/order', 'ProductController@orders')->name('site.user.orders');
-    Route::get('/cabinet', 'ProductController@cabinet')->name('site.user.cabinet');
-    Route::get('/rss.xml', 'ProductController@rss')->name('site.rss');
-    Route::get('/sitemap.xml', 'ProductController@sitemap')->name('site.sitemap');
+//    Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
+//    Route::post('/cart-add', 'ProductController@cart_add')->name('site.products.cart-add');
+//    Route::get('/cart-del/{id}', 'ProductController@cart_del')->name('site.products.cart-del');
+//    Route::get('/cabinet/order', 'ProductController@orders')->name('user.orders');
 
-    Route::get('/post/{id}', 'PostController@item')->name('site.posts.item');
+    Route::resource('cabinet/order', 'OrderController', ['as' => 'user']);
+    Route::resource('cabinet/cart', 'CartController', ['as' => 'user']);
+    Route::resource('cabinet/review', 'ReviewController', ['as' => 'user']);
+    Route::resource('cabinet/favorite', 'FavoriteController', ['as' => 'user']);
+
+    Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet');
+    Route::get('/rss.xml', 'HomeController@rss')->name('rss');
+    Route::get('/sitemap.xml', 'HomeController@sitemap')->name('sitemap');
+
+    Route::get('/post/{id}', 'PostController@item')->name('posts.item');
 });
 
 Route::namespace('Admin')->group(function () {

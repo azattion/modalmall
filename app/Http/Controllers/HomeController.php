@@ -37,6 +37,21 @@ class HomeController extends Controller
         return view('home', ['categories' => $categories, 'products' => $products]);
     }
 
+    public function cabinet()
+    {
+        return view('site.user.cabinet');
+    }
+
+    public function rss()
+    {
+        return view('site.user.cabinet');
+    }
+
+    public function sitemap()
+    {
+        return view('site.user.cabinet');
+    }
+
 
     public function logout()
     {

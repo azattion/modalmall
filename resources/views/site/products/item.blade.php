@@ -26,13 +26,13 @@
             <p>Размеры {{$product['size']}}</p>
             <p>Цвета {{$product['color']}}</p>
             <form method="post" action="{{route('site.products.cart-add')}}">
-                {{csrf_field()}}
+                @csrf
                 <input type="number" name="qt" min="1" value="1">
                 <input type="hidden" name="id" value="{{$product['id']}}">
                 <button type="submit" class="btn btn-primary">В корзину</button>
             </form>
-            <form action="{{route('site.products.favorite-add')}}" method="post">
-                {{csrf_field()}}
+            <form action="{{route('user.favorite.store')}}" method="post">
+                @csrf
                 <input type="hidden" name="pid" value="{{$product['id']}}">
                 <button type="submit" class="btn btn-primary">
                     В избранное
@@ -43,18 +43,16 @@
         <div class="col-md-12">
             {!! $product['desc'] !!}
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <h5>Отзывы</h5>
             @foreach($product->reviews as $review)
                 <div>{{$review['star']}} => {{$review['text']}}</div>
             @endforeach
-            <form action="{{route('site.products.review')}}" method="post">
-                {{csrf_field()}}
+            <form action="{{route('user.review.store')}}" method="post">
+                @csrf
                 <input type="hidden" name="pid" value="{{$product['id']}}">
                 <input required type="range" name="star" min="1" max="5">
-                <textarea placeholder="Введите отзыв" required name="text" class="form-control">
-                    {{old('text')}}
-                </textarea>
+                <textarea placeholder="Введите отзыв" required name="text" class="form-control">{{old('text')}}</textarea>
                 <button type="submit" class="btn btn-primary">
                     Добавить
                 </button>
