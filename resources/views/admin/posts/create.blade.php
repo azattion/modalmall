@@ -56,9 +56,9 @@
                             <label for="images">Фотография</label>
                             <input accept="image/*" type="file" name="images[]" multiple id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
-                            @if(count($images))
+                            @if(count($post->images))
                                 <div class="row">
-                                    @foreach($images as $image)
+                                    @foreach($post->images as $image)
                                         <div class="col-sm-2">
                                             <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
                                             <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}" name="image-del[{{$image['id']}}]"> Удалить</label></div>

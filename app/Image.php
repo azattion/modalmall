@@ -13,4 +13,9 @@ class Image extends Model
      */
 //    protected $guarded = ['ext', 'path', 'status', 'uid', 'name', 'width', 'height'];
     protected $guarded = [];
+
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
 }

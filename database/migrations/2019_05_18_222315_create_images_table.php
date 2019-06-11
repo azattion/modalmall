@@ -25,10 +25,10 @@ class CreateImagesTable extends Migration
             $table->boolean('status')->default(true);
             $table->string('uid')->nullable(true);
             $table->string('desc')->nullable(true);
-            $table->tinyInteger('type')->default(0);
-            $table->tinyInteger('pid')->default(0);
+            $table->string('imageable_type')->default(0);
+            $table->integer('imageable_id')->default(0);
             $table->integer('order')->default(0);
-            $table->index(['pid', 'uid']);
+            $table->index(['imageable_id', 'uid']);
             $table->timestamps();
         });
     }

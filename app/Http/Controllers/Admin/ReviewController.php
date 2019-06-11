@@ -25,7 +25,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::orderBy('id', 'desc');
+        $reviews = Review::orderBy('id', 'desc')->publish();
         if (isset($_GET['q'])) {
             $reviews = $reviews->where('text', 'LIKE', '%' . e($_GET['q']) . '%');
         }

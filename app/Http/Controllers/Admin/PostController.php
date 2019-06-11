@@ -135,9 +135,9 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        $images = ImageModel::where('type', config('services.images_type')['post'])
-            ->where('pid', $id)->get();
-        return view('admin.posts.create', ['post' => $post, 'images' => $images]);
+//        $images = ImageModel::where('type', config('services.images_type')['post'])
+//            ->where('pid', $id)->get();
+        return view('admin.posts.create', ['post' => $post]);
     }
 
     /**
@@ -228,8 +228,8 @@ class PostController extends Controller
             'width' => $width,
             'height' => $height,
             'size' => $image->getClientSize(),
-            'type' => config('services.images_type')['post'],
-            'pid' => $pid,
+            'imageable_type' => 'App\Post',
+            'imageable_id' => $pid,
         ];
 
         ImageModel::create($image_data);

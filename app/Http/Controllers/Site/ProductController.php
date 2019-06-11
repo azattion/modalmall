@@ -11,14 +11,24 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
         return view('site.products.list', ['categories' => $categories]);
     }
 
     public function category($id)
     {
+        $sort = 'id';
+        $order = 'desc';
+        if(isset($_GET['sort']) && in_array($_GET['sort'], array('price', 'top'))){
+           $sort = 'price';
+        }
+        if(isset($_GET['order']) && in_array($_GET['order'], array('desc', 'asc'))){
+            $order = $_GET['order'];
+        }
+
         $category = Category::findOrFail($id);
-        $products = Product::orderBy('id', 'desc')->where('cat', $id)->get();
+        $products = Product::orderBy($sort, $order)->where('cat', $id)->get();
+
         return view('site.products.category',
             ['category' => $category, 'products' => $products]);
     }

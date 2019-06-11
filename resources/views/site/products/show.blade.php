@@ -24,7 +24,9 @@
             <p>Коллекция {{$product['collection']}}</p>
             <p>Количество {{$product['quantity']}}</p>
             <p>Размеры {{$product['size']}}</p>
-            <p>Цвета {{$product['color']}}</p>
+            @if($product['color'])
+                <p><?php $colors = config('services.colors');?> Цвета {{$colors[$product['color']]}}</p>
+            @endif
             <form method="post" action="{{route('user.cart.store')}}">
                 @csrf
                 <input type="number" name="qt" min="1" value="1">

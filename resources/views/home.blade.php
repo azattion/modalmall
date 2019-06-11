@@ -26,8 +26,15 @@
                         <div class="col-md-3">
                             <a href="{{route('products.show', ['id' => $product['id']])}}">
                                 <img class="img-fluid"
-                                 src="/storage{{$product['images'][0]['path']}}/{{$product['images'][0]['name']}}.{{$product['images'][0]['ext']}}">
-                            {{$product['name']}}</a>
+                                     src="/storage{{$product['images'][0]['path']}}/{{$product['images'][0]['name']}}.{{$product['images'][0]['ext']}}">
+                                @if($product['as_new'])
+                                    <span class="badge badge-primary">Новинка</span>
+                                @endif
+                                @if($product['sale'])
+                                    <span class="badge badge-primary">Скидка</span>
+                                @endif
+                                {{$product['name']}}
+                            </a>
                         </div>
                     @endforeach
                 </div>

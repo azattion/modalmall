@@ -198,15 +198,13 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $categories = Category::where('status', 1)->get();
-        $sex = config('services.product_sex');
-        $images = ImageModel::where('type', config('services.images_type')['product'])
-            ->where('pid', $id)->get();
+//        $sex = config('services.product_sex');
+//        $images = ImageModel::where('type', config('services.images_type')['product'])
+//            ->where('pid', $id)->get();
 
         return view('admin.products.create', [
             'product' => $product,
-            'categories' => $categories,
-            'sex' => $sex,
-            'images' => $images
+            'categories' => $categories
         ]);
     }
 
@@ -360,8 +358,8 @@ class ProductController extends Controller
             'width' => $width,
             'height' => $height,
             'size' => $image->getClientSize(),
-            'type' => config('services.images_type')['product'],
-            'pid' => $pid,
+            'imageable_type' => 'App\Product',
+            'imageable_id' => $pid,
         ];
 
         ImageModel::create($image_data);

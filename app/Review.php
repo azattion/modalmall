@@ -14,6 +14,10 @@ class Review extends Model
         return $this->hasOne('App\Product', 'pid');
     }
 
+    public function scopePublish($query){
+        return $query->where('status', 1);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

@@ -323,8 +323,8 @@ class CategoryController extends Controller
             'width' => $width,
             'height' => $height,
             'size' => $image->getClientSize(),
-            'type' => config('services.images_type')['category'],
-            'pid' => $pid,
+            'imageable_type' => 'App\Category',
+            'imageable_id' => $pid,
         ];
 
         ImageModel::create($image_data);

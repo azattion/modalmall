@@ -11,6 +11,6 @@ class Category extends Model
      */
     public function images()
     {
-        return $this->hasMany('App\Image', 'pid');
+        return $this->hasMany('App\Image', 'imageable_id');
     }
 }

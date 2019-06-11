@@ -112,7 +112,7 @@
                                     <select name="cat" class="form-control" id="cat">
                                         <option value="0">Выберите..</option>
                                         @foreach($categories as $cat)
-                                            <option @if(old('cat', $product->cat)==$product->cat) selected
+                                            <option @if(old('cat', $product->cat)==$cat->id) selected
                                                     @endif value="{{$cat->id}}">{{$cat['name']}}</option>
                                         @endforeach
                                     </select>
@@ -138,9 +138,9 @@
                             <label for="images">Фотографии</label>
                             <input accept="image/*" type="file" name="images[]" multiple id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
-                            @if(count($images))
+                            @if(count($product->images))
                                 <div class="row">
-                                    @foreach($images as $image)
+                                    @foreach($product->images as $image)
                                         <div class="col-sm-2">
                                             <a target="_blank"
                                                href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img

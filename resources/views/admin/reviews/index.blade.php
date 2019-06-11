@@ -27,7 +27,8 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
-                            <th>Заголовок</th>
+                            <th>Продукт</th>
+                            <th>Текст</th>
                             <th>Дата</th>
                             <th>Статус</th>
                             <th></th>
@@ -36,8 +37,9 @@
                             @foreach($reviews as $review)
                                 <tr>
                                     <td>{{$review['id']}}</td>
-                                    <td>{{$review['title']}}</td>
-                                    <td>{{$review['date']}}</td>
+                                    <td>{{$review['pid']}}</td>
+                                    <td>{{$review['text']}}</td>
+                                    <td>{{$review['created_at']}}</td>
                                     <td>
                                         @if($review['status'])
                                             <span class="label label-success">Активный</span>
