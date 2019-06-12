@@ -2,6 +2,33 @@
 
 @section('title', 'Категории товаров')
 
+<?
+function sectionslist2($categories_tree, $pid=0)
+{// WE - уровень вложенности
+    static $level = 0;
+    $txt = '';
+    $level++;
+    if ($level == 1) $txt .= "";
+    foreach ($categories_tree[$pid] as $k => $v) {
+        if ($v["id"]) {
+            $space = '--';
+            $spaces = "";
+            if ($level > 1) for ($k = 0; $k < $level; $k++) $spaces .= $space;
+            $txt .= "<tr>";
+            $txt .= "<td>{$v['id']}</td><td>";
+            $txt .= $spaces;
+            $txt .= " {$v['name']}</td><td>{$v['created_at']}</td><td>{$v['status']}</td><td>{$v['inc_menu']}</td>";
+            $txt .= "<td><form method='post'><a href='/admin/categories/{$v['id']}/edit' class='btn btn-default'><i class='fa fa-edit'></i> Изменить</a><button type='submit' class='btn btn-default'><i class='fa fa-remove'></i> Удалить</button></form></td>";
+            $txt .= "</tr>";
+            if (isset($categories_tree[$v["id"]])) $txt .= sectionslist2($categories_tree, $v["id"]);
+        }
+    }
+    if ($level == 1) $txt .= "";
+    $level--;
+    return $txt;
+}
+?>
+
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -12,7 +39,8 @@
                     <div class="box-tools">
                         <form action="{{route('admin.categories.index')}}" method="get">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q" class="form-control pull-right"
+                                <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q"
+                                       class="form-control pull-right"
                                        placeholder="Поиск">
 
                                 <div class="input-group-btn">
@@ -24,6 +52,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
+
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
@@ -33,12 +62,30 @@
                             <th>Включение в меню</th>
                             <th></th>
                         </tr>
-                        @if(count($categories))
+                        {!! sectionslist2($categories_tree, 0) !!}
+                        @if(0 && count($categories))
                             @foreach($categories as $category)
                                 <tr>
-                                    <td><a target="_blank" href="{{route('products.category', $category['id'])}}">{{$category['id']}}</a></td>
+                                    <td>
+                                        <form action="{{route('admin.categories.destroy', $category['id'])}}"
+                                              method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a class="btn btn-default"
+                                               href="{{route('admin.categories.edit', $category)}}">
+                                                <i class="fa fa-edit"></i> Изменить
+                                            </a>
+                                            <button type="submit" class="btn btn-default"
+                                                    href="{{route('admin.categories.destroy', $category)}}">
+                                                <i class="fa fa-remove"></i> Удалить
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td><a target="_blank"
+                                           href="{{route('products.category', $category['id'])}}">{{$category['id']}}</a>
+                                    </td>
                                     <td>{{$category->name}}</td>
-                                    <td>11-7-2014</td>
+                                    <td>{{$category['created_at']}}</td>
                                     <td>
                                         @if($category['status'])
                                             <span class="label label-success">Активный</span>
@@ -53,19 +100,7 @@
                                             <span class="label label-default">Невидим</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <form action="{{route('admin.categories.destroy', $category['id'])}}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <a class="btn btn-default" href="{{route('admin.categories.edit', $category)}}">
-                                                <i class="fa fa-edit"></i> Изменить
-                                            </a>
-                                            <button type="submit" class="btn btn-default"
-                                                    href="{{route('admin.categories.destroy', $category)}}">
-                                                <i class="fa fa-remove"></i> Удалить
-                                            </button>
-                                        </form>
-                                    </td>
+
                                 </tr>
                             @endforeach
                         @else

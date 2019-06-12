@@ -10,6 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+
 /*
  * Детское
 
@@ -103,6 +104,7 @@ class CategoryController extends Controller
      *
      * @return void
      */
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -134,13 +136,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc');
+        $categories = Category::orderBy('pid');
         if (isset($_GET['q'])) {
             $categories = $categories->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
                 ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
         }
+        $categories_tree = $categories->tree();
         $categories = $categories->paginate(config('services.pagination'));
-        return view('admin.categories.index', ['categories' => $categories]);
+        return view('admin.categories.index', ['categories' => $categories, 'categories_tree' => $categories_tree]);
     }
 
     /**
@@ -151,7 +154,7 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category;
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
         $images = [];
         return view('admin.categories.create', [
             'category' => $category,
@@ -190,7 +193,7 @@ class CategoryController extends Controller
         }
 
         if ($request->get('save-2double')) {
-            $categories = Category::all();
+            $categories = Category::where('status', 1)->get();
             $images = [];
             return view('admin.categories.create', compact('category', 'categories', 'sex', 'images'));
         } elseif ($request->get('save-2new')) {
@@ -208,7 +211,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         $categories = Category::all();
         return view('admin.categories.show', compact('category', 'categories'));
     }
@@ -221,15 +224,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-        $categories = Category::all();
-        $images = ImageModel::where('type', config('services.images_type')['category'])
-            ->where('pid', $id)->get();
+        $category = Category::findOrFail($id);
+        $categories = Category::where('status', 1)->get();
 
         return view('admin.categories.create', [
             'category' => $category,
-            'categories' => $categories,
-            'images' => $images
+            'categories' => $categories
         ]);
     }
 
@@ -244,7 +244,7 @@ class CategoryController extends Controller
     {
         $this->validate($request, $this->validate_data());
 
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         $category->name = $request->get('name');
         $category->desc = $request->get('desc');
         $category->pid = $request->get('pid');
@@ -262,7 +262,7 @@ class CategoryController extends Controller
                 $this->upload_image($request->file('image'), $category->id);
             }
         }
-        if($request->has('image-del')){
+        if ($request->has('image-del')) {
             foreach ($request->get('image-del') as $id) {
                 $image = ImageModel::findOrFail($id);
                 Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");
@@ -301,6 +301,7 @@ class CategoryController extends Controller
         $category->delete();
         return redirect() . route('admin.categories.index')->with('success', 'Запись удалена');
     }
+
 
     /**
      * @param $image

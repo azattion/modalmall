@@ -14,7 +14,7 @@
                 <!-- form start -->
                 <form role="form" method="post" enctype="multipart/form-data"
                       action="{{$category->id ? route('admin.categories.update', $category->id) : route('admin.categories.store')}}">
-                    {{ csrf_field() }}
+                    @csrf
                     @if($category->id) @method('PUT') @endif
                     <div class="box-body">
                         @if ($errors->any())
@@ -33,14 +33,14 @@
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input {{$category->status || old('status')?'checked':''}} name="status" value="1"
+                                <input {{old('status', $category->status)?'checked':''}} name="status" value="1"
                                        type="checkbox">
                                 Активный
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input {{$category->inc_menu || old('inc_menu')?'checked':''}} name="inc_menu" value="1"
+                                <input {{old('inc_menu', $category->inc_menu)?'checked':''}} name="inc_menu" value="1"
                                        type="checkbox">
                                 Включить в меню
                             </label>
@@ -48,15 +48,9 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group @error('pid') has-error @enderror">
-                                    <label for="pid">Категория</label>
-                                    <select name="pid" class="form-control" id="pid" size="15">
-                                        <option value="0">Корень</option>
-                                        <?
-//                                        $nested_categories = [];
-//                                        foreach ($categories as $cat) {
-//                                            $nested_categories[$cat['pid']][$cat['id']] = $cat['name'];
-//                                        }
-                                        ?>
+                                    <label for="pid">Родительская категория</label>
+                                    <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid" size="15">
+                                        <option @if(old('pid', $category->pid)==0) selected @endif value="0">Корень</option>
                                         @foreach($categories as $cat)
                                             <option @if(old('pid', $category->pid) == $cat->id) selected
                                                     @endif value="{{$cat->id}}">{{$cat['name']}}</option>
@@ -65,15 +59,13 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="form-group @error('image') has-error @enderror">
                             <label for="image">Фотография</label>
                             <input accept="image/*" type="file" name="image" id="image">
                             <p class="help-block">Максимальный размер 3 Мб</p>
-                            @if(count($images))
+                            @if($category->images)
                                 <div class="row">
-                                    @foreach($images as $image)
+                                    @foreach($category->images as $image)
                                         <div class="col-sm-2">
                                             <a target="_blank"
                                                href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
