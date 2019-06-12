@@ -27,7 +27,9 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
+                            <th>Клиент</th>
                             <th>Продукт</th>
+                            <th>Оценка</th>
                             <th>Текст</th>
                             <th>Дата</th>
                             <th>Статус</th>
@@ -37,7 +39,9 @@
                             @foreach($reviews as $review)
                                 <tr>
                                     <td>{{$review['id']}}</td>
-                                    <td>{{$review['pid']}}</td>
+                                    <td>{{$review->user['name']}}</td>
+                                    <td>{{$review->product['name']}}</td>
+                                    <td>{{$review['star']}}</td>
                                     <td>{{$review['text']}}</td>
                                     <td>{{$review['created_at']}}</td>
                                     <td>
@@ -48,11 +52,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form action="{{route('admin.reviews.destroy', $review['id'])}}" method="review">
+                                        <form action="{{route('admin.reviews.destroy', $review['id'])}}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-default"
-                                                    href="{{route('admin.reviews.destroy', $review)}}">
+                                            <button type="submit" class="btn btn-link">
                                                 <i class="fa fa-remove"></i> Удалить
                                             </button>
                                         </form>
@@ -61,7 +64,7 @@
                             @endforeach
                         @else
                             <tr class="text-center">
-                                <td colspan="4">Не найдено</td>
+                                <td colspan="8">Не найдено</td>
                             </tr>
                         @endif
                     </table>

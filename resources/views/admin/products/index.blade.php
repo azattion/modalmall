@@ -66,7 +66,7 @@
                             @endforeach
                         @else
                             <tr class="text-center">
-                                <td colspan="6">Не найдено</td>
+                                <td colspan="7">Не найдено</td>
                             </tr>
                         @endif
                     </table>

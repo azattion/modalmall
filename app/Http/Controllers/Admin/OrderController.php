@@ -44,7 +44,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return redirect().route('admin.posts.index');
+        return redirect().route('admin.orders.index');
     }
 
     /**
@@ -55,7 +55,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect().route('admin.posts.index');
+        return redirect().route('admin.order.index');
     }
 
     /**
@@ -66,7 +66,8 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return redirect().route('admin.posts.index');
+        $order = Order::findOrFail($id);
+        return view('admin.orders.show', ['order' => $order]);
     }
 
     /**
@@ -77,7 +78,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        return redirect().route('admin.posts.index');
+        return redirect().route('admin.order.index');
     }
 
     /**
@@ -89,7 +90,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return redirect().route('admin.posts.index');
+        return redirect().route('admin.order.index');
     }
 
     /**

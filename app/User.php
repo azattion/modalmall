@@ -39,6 +39,18 @@ class User extends Authenticatable
 //        'roles' => 'array',
     ];
 
+    public function reviews(){
+        return $this->hasMany('App\User', 'uid');
+    }
+
+    public function orders(){
+        return $this->hasMany('App\Order', 'uid');
+    }
+
+    public function favorites(){
+        return $this->hasMany('App\Favorite', 'uid');
+    }
+
 //    /***
 //     * @param string $role
 //     * @return $this

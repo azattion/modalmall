@@ -9,4 +9,8 @@ class Order extends Model
     public function items(){
         return $this->hasMany('App\OrderItem', 'oid');
     }
+
+    public function user(){
+        return $this->belongsTo('App\User', 'uid');
+    }
 }

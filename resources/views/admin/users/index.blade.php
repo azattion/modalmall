@@ -26,11 +26,11 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>#</th>
+                            <th>Имя</th>
+                            <th>Эл. почта</th>
+                            <th>Статус</th>
+                            <th>Дата созд</th>
                         </tr>
                         @if(count($users))
                             @foreach($users as $user)
@@ -38,8 +38,14 @@
                                     <td>{{$user['id']}}</td>
                                     <td>{{$user['name']}}</td>
                                     <td>{{$user['email']}}</td>
-                                    <td><span class="label label-success">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                    <td>
+                                        @if($user['status'])
+                                            <span class="label label-success">Активный</span>
+                                        @else
+                                            <span class="label label-default">Невидимый</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$user['created_at']}}</td>
                                 </tr>
                             @endforeach
                         @else

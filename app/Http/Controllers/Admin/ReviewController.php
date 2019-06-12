@@ -36,14 +36,14 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $post = Review::findOrFail($id);
         $post->delete();
-        return redirect() . route('admin.reviews.index')->with('success', 'Запись удалена');
+        return redirect()->route('admin.reviews.index')->with('success', 'Запись удалена');
 
     }
 }

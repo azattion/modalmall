@@ -8,7 +8,7 @@ class Product extends Model
 {
 
     public function category(){
-        return $this->hasOne('App\Category', 'id', 'cat');
+        return $this->belongsTo('App\Category', 'cat');
     }
 
     public function reviews()
@@ -23,11 +23,6 @@ class Product extends Model
     public function isFavorite(){
         return $this->hasOne('App\Favorite', 'pid');
     }
-
-//    public function images()
-//    {
-//        return $this->hasMany('App\Image', 'imageable_id');
-//    }
 
     public function images()
     {
