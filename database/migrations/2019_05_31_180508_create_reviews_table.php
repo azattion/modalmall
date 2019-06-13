@@ -16,11 +16,10 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText('text');
-            $table->integer('uid')->default(0);
-            $table->integer('pid')->default(0);
+            $table->integer('uid')->default(0)->index();
+            $table->integer('pid')->default(0)->index();
             $table->integer('star')->default(0);
             $table->boolean('status')->default(true);
-            $table->index(['uid', 'pid']);
             $table->timestamps();
             $table->softDeletes();
         });

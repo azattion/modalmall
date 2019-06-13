@@ -34,7 +34,7 @@
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input {{$product->status || old('status')?'checked':''}} name="status" value="1"
+                                <input {{old('status', $product->status)?'checked':''}} name="status" value="1"
                                        type="checkbox">
                                 Активный
                             </label>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="form-group @error('price') has-error @enderror">
                                     <label for="price">Стоимость</label>
                                     <div class="input-group">
@@ -91,14 +91,41 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group @error('composition') has-error @enderror">
+                                    <label for="composition">Состав</label>
+                                    <input type="text" name="composition" class="form-control" id="composition"
+                                           placeholder="Введите состов продукта" autocomplete="off"
+                                           value="{{ old('composition', $product->composition) }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group @error('color') has-error @enderror">
-                                    <label for="color">Цвет</label>
-                                    <select name="color" class="form-control" id="color">
+                                <div class="form-group @error('unit') has-error @enderror">
+                                    <label for="unit">Единица измерения</label>
+                                    <label for="unit">Цвет</label>
+                                    <select name="unit" class="form-control" id="unit">
                                         <option value="0">Выберите..</option>
-                                        <?php $colors = config('services.colors'); ?>
+                                        <?php $units = config('services.units'); ?>
+                                        @foreach($units as $key => $unit)
+                                            <option @if(($product->unit == old('unit', $product->unit))) selected
+                                                    @endif value="{{$key}}">{{$unit}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group @error('colors') has-error @enderror">
+                                    <label for="colors">Цвет</label>
+                                    <select name="colors[]" multiple class="form-control" id="colors">
+                                        {{--<option value="0">Выберите..</option>--}}
+                                        <?php $colors = config('services.colors');
+                                        $color_selected = $product->colors ? explode("|", trim($product->colors, '|')) : [];?>
                                         @foreach($colors as $key => $color)
-                                            <option @if(old('color', $product->color)==$key) selected
+                                            <option @if(in_array($key, old('colors', $color_selected))) selected
                                                     @endif value="{{$key}}">{{$color}}</option>
                                         @endforeach
                                     </select>
@@ -107,26 +134,58 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group @error('cat') has-error @enderror">
-                                    <label for="cat">Категория</label>
-                                    <select name="cat" class="form-control" id="cat">
-                                        <option value="0">Выберите..</option>
+                                <div class="form-group @error('sizes') has-error @enderror">
+                                    <label for="sizes">Размеры</label>
+                                    <select name="sizes[]" multiple class="select2 form-control" id="sizes">
+                                        {{--<option value="0">Выберите..</option>--}}
+                                        <?php $sizes = config('services.sizes');
+                                        $size_selected = $product->sizes ? explode("|", trim($product->sizes, '|')) : [];?>
+                                        @foreach($sizes as $key => $size)
+                                            <option @if(in_array($key, old('colors', $size_selected))) selected
+                                                    @endif value="{{$key}}">{{$size}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group @error('cats') has-error @enderror">
+                                    <label for="cats">Категория</label>
+                                    <select name="cats[]" multiple class="form-control" id="cats">
+                                        {{--<option value="0">Выберите..</option>--}}
+                                        <?php $category_selected = $product->cats ? explode("|", trim($product->cats, '|')) : [];?>
                                         @foreach($categories as $cat)
-                                            <option @if(old('cat', $product->cat)==$cat->id) selected
+                                            <option @if(in_array($cat->id, old('cats', $category_selected))) selected
                                                     @endif value="{{$cat->id}}">{{$cat['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group @error('sex') has-error @enderror">
-                                    <label for="sex">Пол</label>
-                                    <select name="sex" class="form-control" id="sex">
+                                <div class="form-group @error('brand') has-error @enderror">
+                                    <label for="brand">Бренды</label>
+                                    <select name="brand" class="form-control" id="brand">
                                         <option value="0">Выберите..</option>
-                                        <?php $sex = config('services.product_sex'); ?>
-                                        @foreach($sex as $key => $s)
-                                            <option @if(old('sex', $product->sex)==$key) selected
-                                                    @endif value="{{$key}}">{{$s}}</option>
+                                        <?php $brands = config('services.brands'); ?>
+                                        @foreach($brands as $key => $cat)
+                                            <option @if(old('brand', $product->brand)==$key) selected
+                                                    @endif value="{{$key}}">{{$cat}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group @error('producer') has-error @enderror">
+                                    <label for="producer">Страна производитель</label>
+                                    <select name="producer" class="form-control" id="producer">
+                                        <option value="0">Выберите..</option>
+                                        <?php $producers = config('services.producers'); ?>
+                                        @foreach($producers as $key=>$producer)
+                                            <option @if(old('producer', $product->producer)==$key) selected
+                                                    @endif value="{{$key}}">{{$producer}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -176,9 +235,9 @@
                             <div class="box-body" style="display: none;">
                                 <div class="checkbox">
                                     <label>
-                                        <input {{$product->as_new || old('as_new')?'checked':''}} name="as_new"
-                                               value="1"
-                                               type="checkbox">
+                                        {{--<input {{$product->as_new || old('as_new')?'checked':''}} name="as_new"--}}
+                                        {{--value="1"--}}
+                                        {{--type="checkbox">--}}
                                         Новинка
                                     </label>
                                 </div>
@@ -206,9 +265,9 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input {{$product->sale || old('sale')?'checked':''}} name="sale"
-                                               value="1"
-                                               type="checkbox">
+                                        {{--<input {{$product->sale || old('sale')?'checked':''}} name="sale"--}}
+                                        {{--value="1"--}}
+                                        {{--type="checkbox">--}}
                                         Скидка
                                     </label>
                                 </div>
@@ -294,12 +353,17 @@
 
 @section('script')
     <link rel="stylesheet" href="/public/css/admin/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="/public/js/admin/select2.full.min.jss">
     <script src="/public/js/admin/bootstrap-datepicker.min.js"></script>
+    <script src="/public/js/admin/select2.full.min.js"></script>
     <script>
         //Date picker
         $('.datepicker').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd',
         })
+        $(document).ready(function(){
+            $('.select2').select2();
+        });
     </script>
 @endsection

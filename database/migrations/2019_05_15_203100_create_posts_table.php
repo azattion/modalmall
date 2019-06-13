@@ -21,11 +21,10 @@ class CreatePostsTable extends Migration
             $table->boolean('status')->default(1);
             $table->string('desc')->nullable(true);
             $table->string('keywords')->nullable(true);
-            $table->integer('uid')->default(0);
+            $table->integer('uid')->default(0)->index();
             $table->string('meta_title')->nullable(true);
             $table->string('meta_keywords')->nullable(true);
             $table->string('meta_desc')->nullable(true);
-            $table->index('uid');
             $table->timestamps();
             $table->softDeletes();
         });

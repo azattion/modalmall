@@ -57,16 +57,20 @@ class ProductController extends Controller
         return [
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
-            'cat' => 'required|numeric|min:1',
+            'cats.*' => 'required|numeric|min:1',
             'price' => 'required|numeric',
             'quantity' => 'nullable|numeric|min:1',
-            'color' => 'nullable|string',
+            'colors.*' => 'nullable|numeric',
+            'sizes.*' => 'nullable|numeric',
+            'brand' => 'nullable|numeric',
+            'composition' => 'nullable|string',
+            'unit' => 'nullable|string',
 
             'status' => 'nullable|numeric|max:1',
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',
             'collection' => 'nullable|string|max:255',
-            'sex' => 'nullable|numeric|min:1',
+//            'sex' => 'nullable|numeric|min:1',
             'meta_title' => 'nullable|string|max:255',
             'meta_desc' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
@@ -130,15 +134,20 @@ class ProductController extends Controller
         $product = new Product;
         $product->name = $request->get('name');
         $product->desc = $request->get('desc');
-        $product->cat = $request->get('cat');
+        $product->cats = "|" . implode("|", $request->get('cats')) . "|";
         $product->price = $request->get('price');
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
-        $product->sex = $request->get('sex');
+//        $product->sex = $request->get('sex');
         $product->quantity = $request->get('quantity');
-        $product->color = $request->get('color');
+        $product->colors = "|" . implode("|", $request->get('colors')) . "|";
+        $product->sizes = "|" . implode("|", $request->get('sizes')) . "|";
+        $product->brand = $request->get('brand');
+        $product->composition = $request->get('composition');
+        $product->producer = $request->get('producer');
+        $product->unit = $request->get('unit');
 
         $product->meta_title = $request->get('meta_title');
         $product->meta_desc = $request->get('meta_desc');
@@ -223,15 +232,20 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->name = $request->get('name');
         $product->desc = $request->get('desc');
-        $product->cat = $request->get('cat');
+        $product->cats = "|" . implode("|", $request->get('cats')) . "|";
         $product->price = $request->get('price');
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
-        $product->sex = $request->get('sex');
+//        $product->sex = $request->get('sex');
         $product->quantity = $request->get('quantity');
-        $product->color = $request->get('color');
+        $product->colors = "|" . implode("|", $request->get('colors')) . "|";
+        $product->sizes = "|" . implode("|", $request->get('sizes')) . "|";
+        $product->brand = $request->get('brand');
+        $product->composition = $request->get('composition');
+        $product->producer = $request->get('producer');
+        $product->unit = $request->get('unit');
 
         $product->meta_title = $request->get('meta_title');
         $product->meta_desc = $request->get('meta_desc');
@@ -253,7 +267,7 @@ class ProductController extends Controller
                 }
             }
         }
-        if($request->has('image-del')){
+        if ($request->has('image-del')) {
             foreach ($request->get('image-del') as $id) {
                 $image = ImageModel::findOrFail($id);
                 Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");

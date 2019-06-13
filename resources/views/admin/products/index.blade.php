@@ -47,7 +47,7 @@
                                             <span class="label label-default">Невидимый</span>
                                         @endif
                                     </td>
-                                    <td>{{$product['cat']}}</td>
+                                    <td>{{$product['cats']}}</td>
                                     <td>{{$product['quantity']}}</td>
                                     <td>
                                         <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">

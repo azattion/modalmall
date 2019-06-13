@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('pid')->default(0);
+            $table->integer('pid')->default(0)->index();
             $table->string('name');
             $table->boolean('status')->default(1);
             $table->boolean('inc_menu')->default(1);
@@ -24,7 +24,6 @@ class CreateCategoriesTable extends Migration
             $table->string('meta_keywords')->nullable(true);
             $table->string('meta_desc')->nullable(true);
             $table->integer('uid')->default(0);
-            $table->index(['pid', 'inc_menu']);
             $table->timestamps();
         });
     }
