@@ -104,7 +104,6 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('unit') has-error @enderror">
                                     <label for="unit">Единица измерения</label>
-                                    <label for="unit">Цвет</label>
                                     <select name="unit" class="form-control" id="unit">
                                         <option value="0">Выберите..</option>
                                         <?php $units = config('services.units'); ?>
@@ -120,7 +119,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('colors') has-error @enderror">
                                     <label for="colors">Цвет</label>
-                                    <select name="colors[]" multiple class="form-control" id="colors">
+                                    <select name="colors[]" multiple class="form-control select2" id="colors">
                                         {{--<option value="0">Выберите..</option>--}}
                                         <?php $colors = config('services.colors');
                                         $color_selected = $product->colors ? explode("|", trim($product->colors, '|')) : [];?>
@@ -136,12 +135,12 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('sizes') has-error @enderror">
                                     <label for="sizes">Размеры</label>
-                                    <select name="sizes[]" multiple class="select2 form-control" id="sizes">
+                                    <select name="sizes[]" multiple class="form-control select2" id="sizes">
                                         {{--<option value="0">Выберите..</option>--}}
                                         <?php $sizes = config('services.sizes');
                                         $size_selected = $product->sizes ? explode("|", trim($product->sizes, '|')) : [];?>
                                         @foreach($sizes as $key => $size)
-                                            <option @if(in_array($key, old('colors', $size_selected))) selected
+                                            <option @if(in_array($key, old('sizes', $size_selected))) selected
                                                     @endif value="{{$key}}">{{$size}}</option>
                                         @endforeach
                                     </select>
@@ -353,7 +352,7 @@
 
 @section('script')
     <link rel="stylesheet" href="/public/css/admin/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="/public/js/admin/select2.full.min.jss">
+    <link rel="stylesheet" href="/public/css/admin/select2.min.css">
     <script src="/public/js/admin/bootstrap-datepicker.min.js"></script>
     <script src="/public/js/admin/select2.full.min.js"></script>
     <script>
@@ -361,7 +360,7 @@
         $('.datepicker').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd',
-        })
+        });
         $(document).ready(function(){
             $('.select2').select2();
         });
