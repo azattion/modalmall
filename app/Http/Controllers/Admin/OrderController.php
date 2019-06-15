@@ -27,7 +27,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('id', 'desc');
+        $orders = Order::with('user')->orderBy('id', 'desc');
         if (isset($_GET['q'])) {
             $orders = $orders->where('phone', 'LIKE', '%' . e($_GET['q']) . '%')
                 ->orWhere('address', 'LIKE', '%' . e($_GET['q']) . '%')
@@ -44,7 +44,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return redirect().route('admin.orders.index');
+        return redirect()->route('admin.orders.index');
     }
 
     /**
@@ -55,7 +55,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect().route('admin.order.index');
+        return redirect()->route('admin.order.index');
     }
 
     /**
@@ -78,7 +78,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        return redirect().route('admin.order.index');
+        return redirect()->route('admin.order.index');
     }
 
     /**
@@ -90,7 +90,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return redirect().route('admin.order.index');
+        return redirect()->route('admin.order.index');
     }
 
     /**

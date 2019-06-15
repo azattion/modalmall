@@ -13,9 +13,9 @@ class PostController extends Controller
         return view('site.posts.index');
     }
 
-    function item($id)
+    function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('site.posts.item', ['post' => $post]);
+        return view('site.posts.show', ['post' => $post]);
     }
 }

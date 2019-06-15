@@ -35,7 +35,9 @@
                     @if(count($posts))
                         @foreach($posts as $post)
                         <tr>
-                            <td>{{$post['id']}}</td>
+                            <td><a target="_blank"
+                                   href="{{route('posts.show', $post['id'])}}">{{$post['id']}}</a>
+                            </td>
                             <td>{{$post['title']}}</td>
                             <td>{{$post['date']}}</td>
                             <td>

@@ -38,7 +38,7 @@ Route::namespace('Site')->group(function () {
     Route::get('/rss.xml', 'HomeController@rss')->name('rss');
     Route::get('/sitemap.xml', 'HomeController@sitemap')->name('sitemap');
 
-    Route::get('/post/{id}', 'PostController@item')->name('posts.item');
+    Route::get('/post/{id}', 'PostController@show')->name('posts.show');
 });
 
 Route::namespace('Admin')->group(function () {
