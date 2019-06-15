@@ -119,6 +119,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
             'pid' => 'required|numeric|min:0',
+//            'level' => 'required|numeric|min:0',
             'status' => 'nullable|numeric|max:1',
 
             'meta_title' => 'nullable|string|max:255',
@@ -136,14 +137,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('pid');
+        $categories = Category::with('images')->orderBy('ordr');
         if (isset($_GET['q'])) {
             $categories = $categories->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
                 ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
         }
-        $categories_tree = $categories->tree();
-        $categories = $categories->paginate(config('services.pagination'));
-        return view('admin.categories.index', ['categories' => $categories, 'categories_tree' => $categories_tree]);
+//        $categories_tree = $categories->tree();
+        $categories = $categories->get();
+        return view('admin.categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -154,7 +155,10 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category;
-        $categories = Category::where('status', 1)->get();
+        if (isset($_GET['pid']) && intval($_GET['pid'])) {
+            $category->pid = intval($_GET['pid']);
+        }
+        $categories = Category::where('status', 1)->orderBy('ordr')->get();
         $images = [];
         return view('admin.categories.create', [
             'category' => $category,
@@ -177,6 +181,9 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->desc = $request->get('desc');
         $category->pid = $request->get('pid');
+        $parent_category = Category::find($request->get('pid'));
+        $category->level = $parent_category['level'] + 1;
+        $category->ordr = $parent_category['id'] + 1;
         $category->status = $request->get('status') ? 1 : 0;
         $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
         $category->uid = auth()->id();
@@ -186,6 +193,11 @@ class CategoryController extends Controller
         $category->meta_keywords = $request->get('meta_keywords');
         $category->save();
 
+        if (!$request->get('pid')) {
+            $category->ordr = $category->id;
+            $category->save();
+        }
+
         if ($request->hasFile('image')) {
             if ($request->file('image')->isValid()) {
                 $this->upload_image($request->file('image'), $category->id);
@@ -193,7 +205,7 @@ class CategoryController extends Controller
         }
 
         if ($request->get('save-2double')) {
-            $categories = Category::where('status', 1)->get();
+            $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $images = [];
             return view('admin.categories.create', compact('category', 'categories', 'sex', 'images'));
         } elseif ($request->get('save-2new')) {
@@ -212,7 +224,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->orderBy('ordr')->get();
         return view('admin.categories.show', compact('category', 'categories'));
     }
 
@@ -225,7 +237,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        $categories = Category::where('status', 1)->get();
+        $categories = Category::where('status', 1)->orderBy('ordr')->get();
 
         return view('admin.categories.create', [
             'category' => $category,
@@ -248,6 +260,9 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->desc = $request->get('desc');
         $category->pid = $request->get('pid');
+        $parent_category = Category::find($request->get('pid'));
+        $category->level = $parent_category['level'] + 1;
+        $category->ordr = $request->get('pid')?$parent_category['ordr']:1;
         $category->status = $request->get('status') ? 1 : 0;
         $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
         $category->uid = auth()->id();
@@ -256,6 +271,13 @@ class CategoryController extends Controller
         $category->meta_desc = $request->get('meta_desc');
         $category->meta_keywords = $request->get('meta_keywords');
         $category->save();
+
+
+        if (!$request->get('pid')) {
+            $category->ordr = $category->id;
+            $category->save();
+        }
+
 
         if ($request->hasFile('image')) {
             if ($request->file('image')->isValid()) {
@@ -274,7 +296,7 @@ class CategoryController extends Controller
         }
 
         if ($request->has('save-2double')) {
-            $categories = Category::all();
+            $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $category->id = null;
             $images = [];
             return view('admin.categories.create', [
@@ -299,7 +321,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect() . route('admin.categories.index')->with('success', 'Запись удалена');
+        return redirect()->route('admin.categories.index')->with('success', 'Запись удалена');
     }
 
 

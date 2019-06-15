@@ -17,11 +17,21 @@ class Category extends Model
         return $this->hasMany('App\Image', 'imageable_id');
     }
 
-    public function scopeTree($query){
+    public function scopeNestedtree($query)
+    {
         $tree = [];
         foreach ($query->get() as $v) {
 //            $this->list[$v["id"]] = array("id" => $v["id"], "pid" => $v["pid"], "title" => $v["title"]);
             $tree[$v["pid"]][] = $v;
+        }
+        return $tree;
+    }
+
+    public function scopeList($query)
+    {
+        $tree = [];
+        foreach ($query->get() as $v) {
+            $tree[$v["id"]] = $v;
         }
         return $tree;
     }

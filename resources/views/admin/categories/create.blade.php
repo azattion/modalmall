@@ -49,11 +49,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('pid') has-error @enderror">
                                     <label for="pid">Родительская категория</label>
-                                    <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid" size="15">
+                                    <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid" size="20">
                                         <option @if(old('pid', $category->pid)==0) selected @endif value="0">Корень</option>
                                         @foreach($categories as $cat)
                                             <option @if(old('pid', $category->pid) == $cat->id) selected
-                                                    @endif value="{{$cat->id}}">{{$cat['name']}}</option>
+                                                    @endif value="{{$cat->id}}">{{str_repeat("—", $cat['level'])}} {{$cat['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>

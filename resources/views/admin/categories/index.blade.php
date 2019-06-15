@@ -2,33 +2,6 @@
 
 @section('title', 'Категории товаров')
 
-<?
-function sectionslist2($categories_tree, $pid=0)
-{// WE - уровень вложенности
-    static $level = 0;
-    $txt = '';
-    $level++;
-    if ($level == 1) $txt .= "";
-    foreach ($categories_tree[$pid] as $k => $v) {
-        if ($v["id"]) {
-            $space = '--';
-            $spaces = "";
-            if ($level > 1) for ($k = 0; $k < $level; $k++) $spaces .= $space;
-            $txt .= "<tr>";
-            $txt .= "<td>{$v['id']}</td><td>";
-            $txt .= $spaces;
-            $txt .= " {$v['name']}</td><td>{$v['created_at']}</td><td>{$v['status']}</td><td>{$v['inc_menu']}</td>";
-            $txt .= "<td><form method='post'><a href='/admin/categories/{$v['id']}/edit' class='btn btn-default'><i class='fa fa-edit'></i> Изменить</a><button type='submit' class='btn btn-default'><i class='fa fa-remove'></i> Удалить</button></form></td>";
-            $txt .= "</tr>";
-            if (isset($categories_tree[$v["id"]])) $txt .= sectionslist2($categories_tree, $v["id"]);
-        }
-    }
-    if ($level == 1) $txt .= "";
-    $level--;
-    return $txt;
-}
-?>
-
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -56,36 +29,28 @@ function sectionslist2($categories_tree, $pid=0)
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
+                            <th></th>
                             <th>Название</th>
-                            <th>Date</th>
                             <th>Статус</th>
-                            <th>Включение в меню</th>
+                            <th>В меню</th>
                             <th></th>
                         </tr>
-                        {!! sectionslist2($categories_tree, 0) !!}
-                        @if(0 && count($categories))
+                        @if(count($categories))
                             @foreach($categories as $category)
                                 <tr>
-                                    <td>
-                                        <form action="{{route('admin.categories.destroy', $category['id'])}}"
-                                              method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <a class="btn btn-default"
-                                               href="{{route('admin.categories.edit', $category)}}">
-                                                <i class="fa fa-edit"></i> Изменить
-                                            </a>
-                                            <button type="submit" class="btn btn-default"
-                                                    href="{{route('admin.categories.destroy', $category)}}">
-                                                <i class="fa fa-remove"></i> Удалить
-                                            </button>
-                                        </form>
-                                    </td>
                                     <td><a target="_blank"
                                            href="{{route('products.category', $category['id'])}}">{{$category['id']}}</a>
                                     </td>
-                                    <td>{{$category->name}}</td>
-                                    <td>{{$category['created_at']}}</td>
+                                    <td>
+                                        @if(isset($category->images[0]))
+                                            <a target="_blank"
+                                               href="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
+                                                <img style="width: 30px"
+                                                     src="/storage{{$category->images[0]['path']}}/sm/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
+                                            </a>
+                                        @endif
+                                    </td>
+                                    <td>{{str_repeat("—", $category['level']-1)}} {{$category->name}}</td>
                                     <td>
                                         @if($category['status'])
                                             <span class="label label-success">Активный</span>
@@ -100,7 +65,24 @@ function sectionslist2($categories_tree, $pid=0)
                                             <span class="label label-default">Невидим</span>
                                         @endif
                                     </td>
-
+                                    <td>
+                                        <form action="{{route('admin.categories.destroy', $category['id'])}}"
+                                              method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a class="btn btn-default" href="{{route('admin.categories.create')}}?pid={{$category['id']}}">
+                                                <i class="fa fa-plus"></i> Создать
+                                            </a>
+                                            <a class="btn btn-default"
+                                               href="{{route('admin.categories.edit', $category)}}">
+                                                <i class="fa fa-edit"></i> Изменить
+                                            </a>
+                                            <button type="submit" class="btn btn-default"
+                                                    href="{{route('admin.categories.destroy', $category)}}">
+                                                <i class="fa fa-remove"></i> Удалить
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         @else
@@ -115,9 +97,6 @@ function sectionslist2($categories_tree, $pid=0)
                     <a style="margin-right: 5px;" href="{{route('admin.categories.create')}}" class="btn btn-default">
                         <i class="fa fa-plus"></i> Добавить
                     </a>
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        {{ $categories->links() }}
-                    </ul>
                 </div>
             </div>
             <!-- /.box -->

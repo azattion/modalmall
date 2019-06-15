@@ -27,7 +27,7 @@ class ProductController extends Controller
         }
 
         $category = Category::findOrFail($id);
-        $products = Product::orderBy($sort, $order)->where('cat', $id)->get();
+        $products = Product::orderBy($sort, $order)->where('cats', 'LIKE', "%|{$id}|%")->get();
 
         return view('site.products.category',
             ['category' => $category, 'products' => $products]);

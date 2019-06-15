@@ -103,6 +103,6 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return redirect() . route('admin.order.index')->with('success', 'Запись удалена');
+        return redirect()->route('admin.order.index')->with('success', 'Запись удалена');
     }
 }

@@ -18,13 +18,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('name')->where('pid', 0)->get();
-//        $images = Image::orderBy('name')->where('type', 3)->get();
-//        $images_key = [];
-//        foreach($images as $image){
-//            $images_key[$image['pid']] = $image;
-//        }
-        $products = Product::orderBy('name')->get();
+        $categories = Category::with('images')->orderBy('name')->where('status', 1)->where('pid', 0)->get();
+        $products = Product::with('images')->orderBy('name')->get();
         return view('home', ['categories' => $categories, 'products' => $products]);
     }
 

@@ -15,7 +15,7 @@
                         <!-- form start -->
                 <form role="form" method="post" enctype="multipart/form-data"
                       action="{{$product->id ? route('admin.products.update', $product->id) : route('admin.products.store')}}">
-                    {{ csrf_field() }}
+                    @csrf
                     @if($product->id) @method('PUT') @endif
                     <div class="box-body">
                         @if ($errors->any())
@@ -95,7 +95,7 @@
                                 <div class="form-group @error('composition') has-error @enderror">
                                     <label for="composition">Состав</label>
                                     <input type="text" name="composition" class="form-control" id="composition"
-                                           placeholder="Введите состов продукта" autocomplete="off"
+                                           placeholder="Введите состов товара" autocomplete="off"
                                            value="{{ old('composition', $product->composition) }}">
                                 </div>
                             </div>
@@ -149,14 +149,18 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group @error('cats') has-error @enderror">
-                                    <label for="cats">Категория</label>
-                                    <select name="cats[]" multiple class="form-control" id="cats">
+                                <div class="form-group @error('cat') has-error @enderror">
+                                    <label for="cat">Категория</label>
+                                    <select name="cat" class="form-control" id="cat">
                                         {{--<option value="0">Выберите..</option>--}}
-                                        <?php $category_selected = $product->cats ? explode("|", trim($product->cats, '|')) : [];?>
+                                        <?php $category_selected = [];?>
+                                        <?php if ($product->cats) {
+//                                            $category_selected = explode("|", trim($product->cats, '|'));
+                                            $category_selected = [$product->cats[count($product->cats) - 1]];
+                                        }?>
                                         @foreach($categories as $cat)
-                                            <option @if(in_array($cat->id, old('cats', $category_selected))) selected
-                                                    @endif value="{{$cat->id}}">{{$cat['name']}}</option>
+                                            <option @if(in_array($cat->id, old('cat', $category_selected))) selected
+                                                    @endif value="{{$cat->id}}">{{str_repeat("—", $cat['level']-1)}} {{$cat['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -351,17 +355,17 @@
 @endsection
 
 @section('script')
-    <link rel="stylesheet" href="/public/css/admin/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="/public/css/admin/select2.min.css">
-    <script src="/public/js/admin/bootstrap-datepicker.min.js"></script>
-    <script src="/public/js/admin/select2.full.min.js"></script>
+    {{--<link rel="stylesheet" href="/css/admin/bootstrap-datepicker.min.css">--}}
+    <link rel="stylesheet" href="/css/admin/select2.min.css">
+    <script src="/js/admin/bootstrap-datepicker.min.js"></script>
+    <script src="/js/admin/select2.full.min.js"></script>
     <script>
         //Date picker
         $('.datepicker').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd',
         });
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.select2').select2();
         });
     </script>

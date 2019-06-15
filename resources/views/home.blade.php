@@ -13,8 +13,10 @@
             @foreach($categories as $category)
                 <div class="col-md-3">
                     <a href="{{route('products.category', $category['id'])}}">
-                        <img class="img-fluid"
-                             src="/storage{{$category['images'][0]['path']}}/{{$category['images'][0]['name']}}.{{$category['images'][0]['ext']}}">
+                        @if(isset($category->images[0]))
+                            <img class="img-fluid"
+                                 src="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
+                        @endif
                         <div class=""><img style="width: 40px;" src="/img/kids.png">{{$category['name']}}</div>
                     </a>
                 </div>
@@ -25,8 +27,10 @@
                     @foreach($products as $product)
                         <div class="col-md-3">
                             <a href="{{route('products.show', ['id' => $product['id']])}}">
-                                <img class="img-fluid"
-                                     src="/storage{{$product['images'][0]['path']}}/{{$product['images'][0]['name']}}.{{$product['images'][0]['ext']}}">
+                                @if(isset($product->images[0]))
+                                    <img class="img-fluid"
+                                         src="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">
+                                @endif
                                 @if($product['as_new'])
                                     <span class="badge badge-primary">Новинка</span>
                                 @endif

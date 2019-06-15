@@ -38,7 +38,7 @@
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="pid" value="{{$product['id']}}">
-                    <button type="submit" class="btn btn-primary">
+                    <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit" class="btn btn-primary">
                         Удалить из избранных
                     </button>
                 </form>
@@ -66,7 +66,7 @@
                         <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-primary" type="submit">Удалить</button>
+                            <button onclick="return confirm('Вы действительно хотите удалить?')" class="btn btn-primary" type="submit">Удалить</button>
                         </form>
                     @endif
                 </div>

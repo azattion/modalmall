@@ -159,6 +159,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Мужское',
                     'pid' => 0,
+                    'level' => 1,
                     'status' => 1,
                     'inc_menu' => 1,
                     'uid' => 1,
@@ -167,6 +168,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Женское',
                     'pid' => 0,
+                    'level' => 1,
                     'status' => 1,
                     'inc_menu' => 1,
                     'uid' => 1,
@@ -175,6 +177,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Десткое',
                     'pid' => 0,
+                    'level' => 1,
                     'status' => 1,
                     'inc_menu' => 1,
                     'uid' => 1,
@@ -183,6 +186,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Обувь',
                     'pid' => 1,
+                    'level' => 2,
                     'status' => 1,
                     'inc_menu' => 1,
                     'uid' => 1,
@@ -191,6 +195,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Украшение',
                     'pid' => 2,
+                    'level' => 2,
                     'status' => 1,
                     'inc_menu' => 1,
                     'uid' => 1,
@@ -199,6 +204,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => 'Plus size',
                     'pid' => 0,
+                    'level' => 1,
                     'status' => 1,
                     'inc_menu' => 1,
                     'uid' => 1,

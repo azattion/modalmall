@@ -12,7 +12,8 @@
                     <div class="box-tools">
                         <form action="{{route('admin.products.index')}}" method="get">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q" class="form-control pull-right"
+                                <input value="{{isset($_GET['q'])?$_GET['q']:''}}" type="text" name="q"
+                                       class="form-control pull-right"
                                        placeholder="Поиск">
 
                                 <div class="input-group-btn">
@@ -27,19 +28,31 @@
                     <table class="table table-hover">
                         <tr>
                             <th>#</th>
+                            <th></th>
                             <th>Название</th>
                             <th>Дата</th>
                             <th>Статус</th>
-                            <th>Категория</th>
+                            <th>Бренд</th>
                             <th>Количество</th>
                             <th></th>
                         </tr>
                         @if(count($products))
+                            @php $brands = config('services.brands'); @endphp
                             @foreach($products as $product)
                                 <tr>
-                                    <td><a target="_blank" href="{{route('products.show', $product['id'])}}">{{$product['id']}}</a></td>
+                                    <td><a target="_blank"
+                                           href="{{route('products.show', $product['id'])}}">{{$product['id']}}</a></td>
+                                    <td>
+                                        @if(isset($product->images[0]))
+                                            <a target="_blank"
+                                               href="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">
+                                                <img style="width: 30px"
+                                                     src="/storage{{$product->images[0]['path']}}/sm/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>{{$product['name']}}</td>
-                                    <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
+                                    <td>{{date('d-n-Y', strtotime($product['updated_at']))}}</td>
                                     <td>
                                         @if($product['status'])
                                             <span class="label label-success">Активный</span>
@@ -47,17 +60,19 @@
                                             <span class="label label-default">Невидимый</span>
                                         @endif
                                     </td>
-                                    <td>{{$product['cats']}}</td>
+                                    <td>{{$product['brand'] ? $brands[$product['brand']] : ''}}</td>
                                     <td>{{$product['quantity']}}</td>
                                     <td>
-                                        <form action="{{route('admin.products.destroy', $product['id'])}}" method="post">
+                                        <form action="{{route('admin.products.destroy', $product['id'])}}"
+                                              method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <a class="btn btn-default" href="{{route('admin.products.edit', $product)}}">
+                                            <a class="btn btn-default"
+                                               href="{{route('admin.products.edit', $product['id'])}}">
                                                 <i class="fa fa-edit"></i> Изменить
                                             </a>
                                             <button type="submit" class="btn btn-default"
-                                                    href="{{route('admin.products.destroy', $product)}}">
+                                                    href="{{route('admin.products.destroy', $product['id'])}}">
                                                 <i class="fa fa-remove"></i> Удалить
                                             </button>
                                         </form>

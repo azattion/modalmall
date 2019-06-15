@@ -39,6 +39,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+
+    private $pid = [];
+
     /**
      * Create a new controller instance.
      *
@@ -57,7 +60,7 @@ class ProductController extends Controller
         return [
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
-            'cats.*' => 'required|numeric|min:1',
+            'cat' => 'required|numeric|min:1',
             'price' => 'required|numeric',
             'quantity' => 'nullable|numeric|min:1',
             'colors.*' => 'nullable|numeric',
@@ -94,7 +97,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id', 'desc');
+        $products = Product::with('images')->orderBy('id', 'desc');
         if (isset($_GET['q'])) {
             $products = $products->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
                 ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
@@ -113,7 +116,7 @@ class ProductController extends Controller
     {
         $product = new Product;
         $images = [];
-        $categories = Category::where('status', 1)->get();
+        $categories = Category::where('status', 1)->orderBy('ordr')->get();
         return view('admin.products.create', [
             'product' => $product,
             'categories' => $categories,
@@ -134,7 +137,14 @@ class ProductController extends Controller
         $product = new Product;
         $product->name = $request->get('name');
         $product->desc = $request->get('desc');
-        $product->cats = "|" . implode("|", $request->get('cats')) . "|";
+        $pid = [];
+        if ($request->get('cat')) {
+            $categories = Category::where('status', 1)->list();
+            $this->getParentsId($categories, $request->get('cat'));
+            $pid = $this->pid;
+            $pid[] = $request->get('cat');
+        }
+        $product->cats = "|" . implode('|', $pid) . "|";
         $product->price = $request->get('price');
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
@@ -171,7 +181,7 @@ class ProductController extends Controller
         }
 
         if ($request->get('save-2double')) {
-            $categories = Category::where('status', 1)->get();
+            $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $images = [];
             return view('admin.products.create', [
                 'product' => $product,
@@ -206,10 +216,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $categories = Category::where('status', 1)->get();
-//        $sex = config('services.product_sex');
-//        $images = ImageModel::where('type', config('services.images_type')['product'])
-//            ->where('pid', $id)->get();
+        $product->cats = explode("|", trim($product->cats, '|'));
+        $categories = Category::where('status', 1)->orderBy('ordr')->orderBy('pid')->get();
 
         return view('admin.products.create', [
             'product' => $product,
@@ -232,7 +240,16 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->name = $request->get('name');
         $product->desc = $request->get('desc');
-        $product->cats = "|" . implode("|", $request->get('cats')) . "|";
+
+        $pid = [];
+        if ($request->get('cat')) {
+            $categories = Category::where('status', 1)->list();
+            $this->getParentsId($categories, $request->get('cat'));
+            $pid = $this->pid;
+            $pid[] = $request->get('cat');
+        }
+        $product->cats = "|" . implode('|', $pid) . "|";
+
         $product->price = $request->get('price');
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
@@ -240,8 +257,8 @@ class ProductController extends Controller
         $product->collection = $request->get('collection');
 //        $product->sex = $request->get('sex');
         $product->quantity = $request->get('quantity');
-        $product->colors = "|" . implode("|", $request->get('colors')) . "|";
-        $product->sizes = "|" . implode("|", $request->get('sizes')) . "|";
+        $product->colors = $request->get('colors') ? "|" . implode("|", $request->get('colors')) . "|" : "";
+        $product->sizes = $request->get('sizes') ? "|" . implode("|", $request->get('sizes')) . "|" : "";
         $product->brand = $request->get('brand');
         $product->composition = $request->get('composition');
         $product->producer = $request->get('producer');
@@ -279,7 +296,7 @@ class ProductController extends Controller
         }
 
         if ($request->has('save-2double')) {
-            $categories = Category::where('status', 1)->get();
+            $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $product->id = null;
             $images = [];
             return view('admin.products.create', [
@@ -304,7 +321,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect() . route('admin.products.index')->with('success', 'Запись удалена');
+        return redirect()->route('admin.products.index')->with('success', 'Запись удалена');
     }
 
     /**
@@ -393,5 +410,13 @@ class ProductController extends Controller
             $constraint->aspectRatio();
         });
         Storage::put("{$destination_path}/sm/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
+    }
+
+    private function getParentsId($cat, $id)
+    {
+        if (isset($cat[$id]) && $cat[$id]['pid'] != 0) {
+            array_unshift($this->pid, $cat[$id]['pid']);
+            $this->getParentsId($cat, $cat[$id]['pid']);
+        }
     }
 }
