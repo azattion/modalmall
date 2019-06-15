@@ -156,10 +156,10 @@
                                         <?php $category_selected = [];?>
                                         <?php if ($product->cats) {
 //                                            $category_selected = explode("|", trim($product->cats, '|'));
-                                            $category_selected = [$product->cats[count($product->cats) - 1]];
+                                            $category_selected = $product->cats[count($product->cats) - 1];
                                         }?>
                                         @foreach($categories as $cat)
-                                            <option @if(in_array($cat->id, old('cat', $category_selected))) selected
+                                            <option @if($cat->id == old('cat', $category_selected)) selected
                                                     @endif value="{{$cat->id}}">{{str_repeat("—", $cat['level']-1)}} {{$cat['name']}}</option>
                                         @endforeach
                                     </select>

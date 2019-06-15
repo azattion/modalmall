@@ -62,7 +62,7 @@ class ProductController extends Controller
             'desc' => 'nullable|string',
             'cat' => 'required|numeric|min:1',
             'price' => 'required|numeric',
-            'quantity' => 'nullable|numeric|min:1',
+            'quantity' => 'nullable|numeric|min:0',
             'colors.*' => 'nullable|numeric',
             'sizes.*' => 'nullable|numeric',
             'brand' => 'nullable|numeric',

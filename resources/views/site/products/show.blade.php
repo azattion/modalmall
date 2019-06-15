@@ -29,16 +29,21 @@
             @endif
             <form method="post" action="{{route('user.cart.store')}}">
                 @csrf
-                <input type="number" name="qt" min="1" value="1">
                 <input type="hidden" name="id" value="{{$product['id']}}">
-                <button type="submit" class="btn btn-primary">В корзину</button>
+                @if($product['quantity'])
+                    <input type="number" name="qt" min="1" value="1">
+                    <button type="submit" class="btn btn-primary">В корзину</button>
+                @else
+                    <button type="submit" disabled class="btn btn-primary">Нет в наличии</button>
+                @endif
             </form>
             @if($product->favorite)
                 <form action="{{route('user.favorite.destroy', $product->favorite['id'])}}" method="post">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="pid" value="{{$product['id']}}">
-                    <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit" class="btn btn-primary">
+                    <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit"
+                            class="btn btn-primary">
                         Удалить из избранных
                     </button>
                 </form>
@@ -66,7 +71,9 @@
                         <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
                             @csrf
                             @method('DELETE')
-                            <button onclick="return confirm('Вы действительно хотите удалить?')" class="btn btn-primary" type="submit">Удалить</button>
+                            <button onclick="return confirm('Вы действительно хотите удалить?')" class="btn btn-primary"
+                                    type="submit">Удалить
+                            </button>
                         </form>
                     @endif
                 </div>
