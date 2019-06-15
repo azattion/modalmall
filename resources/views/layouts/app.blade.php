@@ -72,67 +72,55 @@
     {{--rel="stylesheet"/>--}}
 </head>
 <body>
-{{--@section('sidebar')--}}
-{{--This is the master sidebar.--}}
-{{--@show--}}
-<div class="container">
-    <div class="row">
-        {{--<header>--}}
-        <div class="col-md-3">
-            <a href="{{route('home')}}"><img style="width: 250px" src="/img/logo.png" alt=""></a>
-        </div>
-        <div class="col-md-3">
-            <form action="{{route('products.search')}}" method="get">
-                <div class="form-row">
-                    <div class="col-md-10">
-                        <input name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text" placeholder="Введите слово..">
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{route('home')}}"><img style="width: 250px" src="/img/logo.png" alt=""></a>
+            </div>
+            <div class="col-md-3">
+                <form action="{{route('products.search')}}" method="get">
+                    <div class="form-row">
+                        <div class="col-md-10">
+                            <input name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text"
+                                   placeholder="Введите слово..">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">+</button>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">+</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="{{route('user.cabinet')}}"><img style="width: 60px;" src="/img/cabinet.png"
-                                                                     alt="Личный кабинет"></a><br/>Личный кабинет
-                </li>
-                <li class="list-inline-item"><a href="{{route('user.cart.index')}}"><img style="width: 60px;" src="/img/cart.png"
-                                                                  alt="Корзина"></a><br/>Корзина
-                </li>
-                <li class="list-inline-item"><a href="/delivery"><img style="width: 60px;" src="/img/delivery.png"
-                                                                      alt="Доставка"></a><br/>Доставка
-                </li>
-                <li class="list-inline-item"><a href="/promotion"><img style="width: 60px;" src="/img/promotion.png"
-                                                                       alt="Акция"></a><br/>Акция
-                </li>
-                <li class="list-inline-item"><a href="/gift"><img style="width: 60px;" src="/img/gift.png"
-                                                                  alt="Подарок"></a><br/>Подарок
-                </li>
-            </ul>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="{{route('user.cabinet')}}"><img style="width: 60px;"
+                                                                                          src="/img/cabinet.png"
+                                                                                          alt="Личный кабинет"></a><br/>Личный
+                        кабинет
+                    </li>
+                    <li class="list-inline-item"><a href="{{route('user.cart.index')}}"><img style="width: 60px;"
+                                                                                             src="/img/cart.png"
+                                                                                             alt="Корзина"></a><br/>Корзина
+                    </li>
+                    <li class="list-inline-item"><a href="/delivery"><img style="width: 60px;" src="/img/delivery.png"
+                                                                          alt="Доставка"></a><br/>Доставка
+                    </li>
+                    <li class="list-inline-item"><a href="/promotion"><img style="width: 60px;" src="/img/promotion.png"
+                                                                           alt="Акция"></a><br/>Акция
+                    </li>
+                    <li class="list-inline-item"><a href="/gift"><img style="width: 60px;" src="/img/gift.png"
+                                                                      alt="Подарок"></a><br/>Подарок
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    @if ($message = Session::get('success'))
-        <div class="pad margin no-print">
-            <div class="alert alert-success" style="margin-bottom: 0!important;">
-                <h4><i class="fa fa-info"></i> Оповещения</h4>
-                {{$message}}
-            </div>
-        </div>
-    @endif
-    @if ($message = Session::get('error'))
-        <div class="pad margin no-print">
-            <div class="alert alert-danger">
-                <h4><i class="icon fa fa-ban"></i> Предупреждение</h4>
-                {{$message}}
-            </div>
-        </div>
-    @endif
-    {{--</header>--}}
-    <div class="row">
-        <div class="col-md-12">
-            <nav>
+</header>
+
+<nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
                 <ul class="list-inline">
                     <li class="list-inline-item"><a class="text-uppercase" href="">О нас</a></li>
                     <li class="list-inline-item"><a class="text-uppercase" href="">Десткое</a></li>
@@ -142,16 +130,38 @@
                     <li class="list-inline-item"><a class="text-uppercase" href="">Family look</a></li>
                     <li class="list-inline-item"><a class="text-uppercase" href="">Новинки</a></li>
                 </ul>
-            </nav>
+            </div>
         </div>
     </div>
-    <div class="col-md-12">
-        @yield('content')
+</nav>
+
+<section>
+    <div class="container">
+        @if ($message = Session::get('success'))
+            <div class="pad margin no-print">
+                <div class="alert alert-success" style="margin-bottom: 0!important;">
+                    <h4><i class="fa fa-info"></i> Оповещения</h4>
+                    {{$message}}
+                </div>
+            </div>
+        @endif
+        @if ($message = Session::get('error'))
+            <div class="pad margin no-print">
+                <div class="alert alert-danger">
+                    <h4><i class="icon fa fa-ban"></i> Предупреждение</h4>
+                    {{$message}}
+                </div>
+            </div>
+        @endif
+
+        <div class="col-md-12">
+            @yield('content')
+        </div>
     </div>
-    {{--<div class="col-md-12">--}}
-    {{--@yield('sidebar')--}}
-    {{--</div>--}}
-    <footer>
+</section>
+
+<footer>
+    <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <img class="img-fluid" src="/img/social-buttons.png" alt="Мы в соц сетях">
@@ -200,8 +210,8 @@
                 © ModalMall 2017 - {{date('Y')}}
             </div>
         </div>
-    </footer>
-</div>
+    </div>
+</footer>
 <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(function (reg) {
