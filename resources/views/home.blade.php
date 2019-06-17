@@ -31,37 +31,36 @@
                     </div>
                 </div>
             </div>
-            @foreach($categories as $category)
-                <div class="col-md-3">
-                    <a href="{{route('products.category', $category['id'])}}">
-                        @if(isset($category->images[0]))
-                            <img class="img-fluid"
-                                 src="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
-                        @endif
-                        <div class=""><img style="width: 40px;" src="/img/kids.png">{{$category['name']}}</div>
-                    </a>
-                </div>
-            @endforeach
-            <div class="col-md-12">
-                <h3 class="text-center">Бестселлеры</h3>
-                <div class="row">
-                    @foreach($products as $product)
-                        <div class="col-md-3">
-                            <a href="{{route('products.show', ['id' => $product['id']])}}">
-                                @if(isset($product->images[0]))
+            <div class="row">
+                @foreach($categories as $category)
+                    <div class="col-sm">
+                        <div class="category">
+                            <a href="{{route('products.category', $category['id'])}}">
+                                @if(isset($category->images[0]))
                                     <img class="img-fluid"
-                                         src="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">
+                                         src="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
+                                @else
+                                    <img class="img-fluid" src="https://cdn.browshot.com/static/images/not-found.png">
                                 @endif
-                                @if($product['as_new'])
-                                    <span class="badge badge-primary">Новинка</span>
-                                @endif
-                                @if($product['sale'])
-                                    <span class="badge badge-primary">Скидка</span>
-                                @endif
-                                {{$product['name']}}
+                                <div class="category__caption text-center">
+                                    <img style="width: 40px;" src="/img/kids.png">
+                                    <span class="category__name">{{$category['name']}}</span>
+                                </div>
                             </a>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="header-title__italic text-center">Бестселлеры</h2>
+                    <div class="row">
+                        @foreach($products as $product)
+                            <div class="col-md-3">
+                                @include('layouts.product-cart', ['product' => $product])
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

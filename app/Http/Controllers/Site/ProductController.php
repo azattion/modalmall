@@ -27,7 +27,12 @@ class ProductController extends Controller
         }
 
         $category = Category::findOrFail($id);
-        $products = Product::orderBy($sort, $order)->where('cats', 'LIKE', "%|{$id}|%")->get();
+        $products = Product::orderBy($sort, $order)->where('cats', 'LIKE', "%|{$id}|%");
+
+        if(isset($_GET['brand']) && $_GET['brand']){
+            $products = $products->orWhere('brand', $_GET['brand']);
+        }
+        $products = $products->get();
 
         return view('site.products.category',
             ['category' => $category, 'products' => $products]);

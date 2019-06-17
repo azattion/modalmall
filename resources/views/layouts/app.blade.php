@@ -70,6 +70,106 @@
     <link rel="pingback" href="http://smallbiztrends.com/xmlrpc.php"/>
     {{--<link media="only screen and (max-device-width: 480px)" href="http://wordpress.org/style/iphone.css" type="text/css"--}}
     {{--rel="stylesheet"/>--}}
+    <style>
+        @font-face {
+            font-family: 'AG_Futura';
+            font-style: normal;
+            font-weight: 400;
+            src: local('AG_Futura'), local('AG_Futura-Regular'),
+            /*url(/font/AG_Futura.woff) format('woff'),*/
+            url(/font/AG_Futura.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Aquarelle';
+            font-style: normal;
+            font-weight: 400;
+            src: local('AG_Futura'), local('Aquarelle'),
+            /*url(/font/Aquarelle.woff) format('woff'),*/
+            url(/font/Aquarelle.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'AG_Futura Bold';
+            font-style: normal;
+            font-weight: 700;
+            src: local('AG_Futura Bold'), local('AG_Futura-Bold'),
+            /*url(/font/AG_Futura_Bold.woff) format('woff'),*/
+            url(/font/AG_Futura_Bold.ttf) format('truetype');
+        }
+        .header-title__italic{
+            font-family: 'Aquarelle', arial;
+            color: #ee6688;
+            font-size: 50px;
+        }
+        body{
+            background-image: url(/img/content-bg-left.png), url(/img/content-bg-right.png);
+            background-repeat: no-repeat, no-repeat;
+            background-position: left center, right center;
+            background-size: contain;
+        }
+        header{
+            background-image: url(/img/header-bg-top-center.png), url(/img/header-bg-bottom-center.png);
+            background-repeat: no-repeat, no-repeat;
+            background-position: top center, bottom center;
+            background-size: contain;
+        }
+        nav{
+            background-color: #ee6688;
+            padding: 5px 0;
+        }
+        nav a{
+            font-family: 'AG_Futura Bold', arial;
+            font-weight: bold;
+            color: #fff;
+        }
+        .category__name{
+            background-color: #ee6688;
+            color: #fff;
+            font-weight: bold;
+        }
+        .product{
+            position: relative;
+        }
+        .product:nth-child(even):before{
+            content: ' ';
+            display: block;
+            top: -100px;
+            background: url(/img/cart-1.png);
+        }
+        .product__new{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin-bottom: -40px;
+            margin-right: -40px;
+            width: 80px;
+            z-index: 1;
+        }
+        .product__sale{
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: -40px;
+            margin-right: -40px;
+            width: 80px;
+            z-index: 1;
+        }
+        .product__cover{
+            border: 5px solid #f7b5bd;
+            border-radius: 5px;
+            position: relative;
+        }
+        .product__cost{
+            color: #000;
+            font-weight: 700;
+            font-family: 'AG_Futura Bold'
+        }
+        .product__name{
+            color: #000;
+            font-weight: 700;
+            font-family: 'AG_Futura Bold'
+        }
+
+    </style>
 </head>
 <body>
 <header>
@@ -86,29 +186,31 @@
                                    placeholder="Введите слово..">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">+</button>
+                            <button type="submit" class="btn btn-link">
+                                <img style="width: 30px" src="/img/search.png">
+                            </button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-6">
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="{{route('user.cabinet')}}"><img style="width: 60px;"
+            <div class="col-md-6 text-center">
+                <ul class="list-unstyled row" style="margin-bottom: 0">
+                    <li class="col-sm"><a href="{{route('user.cabinet')}}"><img style="width: 60px;"
                                                                                           src="/img/cabinet.png"
                                                                                           alt="Личный кабинет"></a><br/>Личный
                         кабинет
                     </li>
-                    <li class="list-inline-item"><a href="{{route('user.cart.index')}}"><img style="width: 60px;"
+                    <li class="col-sm"><a href="{{route('user.cart.index')}}"><img style="width: 60px;"
                                                                                              src="/img/cart.png"
                                                                                              alt="Корзина"></a><br/>Корзина
                     </li>
-                    <li class="list-inline-item"><a href="/delivery"><img style="width: 60px;" src="/img/delivery.png"
+                    <li class="col-sm"><a href="/delivery"><img style="width: 60px;" src="/img/delivery.png"
                                                                           alt="Доставка"></a><br/>Доставка
                     </li>
-                    <li class="list-inline-item"><a href="/promotion"><img style="width: 60px;" src="/img/promotion.png"
+                    <li class="col-sm"><a href="/promotion"><img style="width: 60px;" src="/img/promotion.png"
                                                                            alt="Акция"></a><br/>Акция
                     </li>
-                    <li class="list-inline-item"><a href="/gift"><img style="width: 60px;" src="/img/gift.png"
+                    <li class="col-sm"><a href="/gift"><img style="width: 60px;" src="/img/gift.png"
                                                                       alt="Подарок"></a><br/>Подарок
                     </li>
                 </ul>
@@ -120,15 +222,15 @@
 <nav>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a class="text-uppercase" href="">О нас</a></li>
-                    <li class="list-inline-item"><a class="text-uppercase" href="">Десткое</a></li>
-                    <li class="list-inline-item"><a class="text-uppercase" href="">Женское</a></li>
-                    <li class="list-inline-item"><a class="text-uppercase" href="">Мужское</a></li>
-                    <li class="list-inline-item"><a class="text-uppercase" href="">Plus size</a></li>
-                    <li class="list-inline-item"><a class="text-uppercase" href="">Family look</a></li>
-                    <li class="list-inline-item"><a class="text-uppercase" href="">Новинки</a></li>
+            <div class="col-md-12 text-center">
+                <ul class="list-unstyled row" style="margin-bottom: 0">
+                    <li class="col-sm"><a class="text-uppercase" href="">О нас</a></li>
+                    <li class="col-sm"><a class="text-uppercase" href="">Десткое</a></li>
+                    <li class="col-sm"><a class="text-uppercase" href="">Женское</a></li>
+                    <li class="col-sm"><a class="text-uppercase" href="">Мужское</a></li>
+                    <li class="col-sm"><a class="text-uppercase" href="">Plus size</a></li>
+                    <li class="col-sm"><a class="text-uppercase" href="">Family look</a></li>
+                    <li class="col-sm"><a class="text-uppercase" href="">Новинки</a></li>
                 </ul>
             </div>
         </div>
@@ -166,39 +268,39 @@
             <div class="col-md-3">
                 <img class="img-fluid" src="/img/social-buttons.png" alt="Мы в соц сетях">
             </div>
-            <div class="col-md-9">
-                <ul class="list-inline">
-                    <li class="list-inline-item">
+            <div class="col-md-9 text-center">
+                <ul class="list-unstyled row" style="margin-bottom: 0">
+                    <li class="col-sm">
                         <a href="">
                             <img style="width: 60px" src="/img/mobile-version.png" alt="Мобильная версия">
                             <br/>Мобильная версия
                         </a>
                     </li>
-                    <li class="list-inline-item">
+                    <li class="col-sm">
                         <a href="">
                             <img style="width: 60px" src="/img/brands.png" alt="Бренды">
                             <br/>Бренды
                         </a>
                     </li>
-                    <li class="list-inline-item">
+                    <li class="col-sm">
                         <a href="">
                             <img style="width: 60px" src="/img/service.png" alt="Сервис">
                             <br/>Сервис
                         </a>
                     </li>
-                    <li class="list-inline-item">
+                    <li class="col-sm">
                         <a href="">
                             <img style="width: 60px" src="/img/partners.png" alt="Партнеры">
                             <br/>Партнеры
                         </a>
                     </li>
-                    <li class="list-inline-item">
+                    <li class="col-sm">
                         <a href="">
                             <img style="width: 60px" src="/img/reviews.png" alt="Отзывы">
                             <br/>Отзывы
                         </a>
                     </li>
-                    <li class="list-inline-item">
+                    <li class="col-sm">
                         <a href="">
                             <img style="width: 60px" src="/img/about.png" alt="О нас">
                             <br/>О нас
