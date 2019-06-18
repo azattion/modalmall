@@ -19,23 +19,28 @@ class ProductController extends Controller
     {
         $sort = 'id';
         $order = 'desc';
-        if(isset($_GET['sort']) && in_array($_GET['sort'], array('price', 'top'))){
-           $sort = 'price';
+        if (isset($_GET['sort']) && in_array($_GET['sort'], array('price', 'top'))) {
+            $sort = 'price';
         }
-        if(isset($_GET['order']) && in_array($_GET['order'], array('desc', 'asc'))){
+        if (isset($_GET['order']) && in_array($_GET['order'], array('desc', 'asc'))) {
             $order = $_GET['order'];
         }
 
         $category = Category::findOrFail($id);
+        $categories = Category::where('status', 1)->get();
         $products = Product::orderBy($sort, $order)->where('cats', 'LIKE', "%|{$id}|%");
 
-        if(isset($_GET['brand']) && $_GET['brand']){
+        if (isset($_GET['brand']) && $_GET['brand']) {
             $products = $products->orWhere('brand', $_GET['brand']);
         }
         $products = $products->get();
 
         return view('site.products.category',
-            ['category' => $category, 'products' => $products]);
+            [
+                'category' => $category,
+                'products' => $products,
+                'categories' => $categories
+            ]);
     }
 
     public function search(Request $request)

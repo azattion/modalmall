@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ModalMall - @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{--<script src="/store/public/js/manifest.js"></script>--}}
     {{--<script src="/store/public/js/vendor.js"></script>--}}
     {{--TODO - Добавить актупльные данные--}}
@@ -76,66 +77,109 @@
             font-style: normal;
             font-weight: 400;
             src: local('AG_Futura'), local('AG_Futura-Regular'),
-            /*url(/font/AG_Futura.woff) format('woff'),*/
-            url(/font/AG_Futura.ttf) format('truetype');
+                /*url(/font/AG_Futura.woff) format('woff'),*/ url(/font/AG_Futura.ttf) format('truetype');
         }
+
         @font-face {
             font-family: 'Aquarelle';
             font-style: normal;
             font-weight: 400;
             src: local('AG_Futura'), local('Aquarelle'),
-            /*url(/font/Aquarelle.woff) format('woff'),*/
-            url(/font/Aquarelle.ttf) format('truetype');
+                /*url(/font/Aquarelle.woff) format('woff'),*/ url(/font/Aquarelle.ttf) format('truetype');
         }
+
         @font-face {
             font-family: 'AG_Futura Bold';
             font-style: normal;
             font-weight: 700;
             src: local('AG_Futura Bold'), local('AG_Futura-Bold'),
-            /*url(/font/AG_Futura_Bold.woff) format('woff'),*/
-            url(/font/AG_Futura_Bold.ttf) format('truetype');
+                /*url(/font/AG_Futura_Bold.woff) format('woff'),*/ url(/font/AG_Futura_Bold.ttf) format('truetype');
         }
-        .header-title__italic{
+
+        .header-title__italic {
             font-family: 'Aquarelle', arial;
             color: #ee6688;
             font-size: 50px;
         }
-        body{
+
+        body {
             background-image: url(/img/content-bg-left.png), url(/img/content-bg-right.png);
             background-repeat: no-repeat, no-repeat;
             background-position: left center, right center;
             background-size: contain;
         }
-        header{
+
+        header {
             background-image: url(/img/header-bg-top-center.png), url(/img/header-bg-bottom-center.png);
             background-repeat: no-repeat, no-repeat;
             background-position: top center, bottom center;
             background-size: contain;
+            padding: 10px 0;
         }
-        nav{
+
+        .header-nav__icon {
+            margin-bottom: 5px;
+        }
+
+        .header-nav__item {
+            line-height: 1;
+        }
+
+        .header-nav__link {
+            color: #000;
+        }
+
+        .main-nav__link {
+            color: #fff;
+        }
+
+        .main-nav__link:hover, .main-nav__link:focus, .main-nav__link:active {
+            color: #FABBCB;
+            text-decoration: none;
+        }
+
+        .footer-nav__link {
+            color: #000;
+            line-height: 1;
+        }
+
+        .footer-nav__item {
+            line-height: 1;
+        }
+
+        .footer-nav__icon {
+            margin-bottom: 5px;
+        }
+
+        nav {
             background-color: #ee6688;
             padding: 5px 0;
         }
-        nav a{
+
+        nav a {
             font-family: 'AG_Futura Bold', arial;
             font-weight: bold;
             color: #fff;
         }
-        .category__name{
+
+        .category__name {
             background-color: #ee6688;
             color: #fff;
             font-weight: bold;
         }
-        .product{
+
+        .product {
             position: relative;
         }
-        .product:nth-child(even):before{
+
+        .product:nth-child(even):before {
             content: ' ';
             display: block;
             top: -100px;
             background: url(/img/cart-1.png);
         }
-        .product__new{
+
+        .product__new {
             position: absolute;
             right: 0;
             bottom: 0;
@@ -144,7 +188,8 @@
             width: 80px;
             z-index: 1;
         }
-        .product__sale{
+
+        .product__sale {
             position: absolute;
             right: 0;
             top: 0;
@@ -153,22 +198,59 @@
             width: 80px;
             z-index: 1;
         }
-        .product__cover{
+
+        .product__cover {
             border: 5px solid #f7b5bd;
             border-radius: 5px;
             position: relative;
         }
-        .product__cost{
-            color: #000;
-            font-weight: 700;
-            font-family: 'AG_Futura Bold'
-        }
-        .product__name{
+
+        .product__cost {
             color: #000;
             font-weight: 700;
             font-family: 'AG_Futura Bold'
         }
 
+        .product__name {
+            color: #000;
+            font-weight: 700;
+            font-family: 'AG_Futura Bold'
+        }
+
+        footer {
+            border-top: 8px solid #f7b5bd;
+            padding: 10px 0 0;
+        }
+
+        .footer-nav {
+            margin: 8px 0;
+        }
+
+        .footer-copyright {
+            padding: 5px 15px;
+            color: #fff;
+            background: -moz-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* FF3.6+ */
+            background: -webkit-gradient(linear, 90deg, color-stop(0, FFFFFF), color-stop(28%, F7B5BD)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* IE10+ */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1301FE', endColorstr='#F4F60C', GradientType='1'); /* for IE */
+            background: linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* W3C */
+        }
+
+        .category-nav {
+            padding: 10px;
+        }
+
+        .category-nav__link {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .category-nav__link:hover, .category-nav__link:focus, .category-nav__link:active {
+            color: #FABBCB;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -178,7 +260,7 @@
             <div class="col-md-3">
                 <a href="{{route('home')}}"><img style="width: 250px" src="/img/logo.png" alt=""></a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <form action="{{route('products.search')}}" method="get">
                     <div class="form-row">
                         <div class="col-md-10">
@@ -193,25 +275,44 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-6 text-center">
-                <ul class="list-unstyled row" style="margin-bottom: 0">
-                    <li class="col-sm"><a href="{{route('user.cabinet')}}"><img style="width: 60px;"
-                                                                                          src="/img/cabinet.png"
-                                                                                          alt="Личный кабинет"></a><br/>Личный
-                        кабинет
+            <div class="col-md-5 text-center">
+                <ul class="header-nav list-unstyled row" style="margin-bottom: 0">
+                    <li class="header-nav__item col-sm">
+                        <a class="header-nav__link" href="{{route('user.cabinet')}}">
+                            <img class="header-nav__icon" style="width: 60px;"
+                                 src="/img/cabinet.png"
+                                 alt="Личный кабинет">
+                            <span>Личный кабинет</span>
+                        </a>
                     </li>
-                    <li class="col-sm"><a href="{{route('user.cart.index')}}"><img style="width: 60px;"
-                                                                                             src="/img/cart.png"
-                                                                                             alt="Корзина"></a><br/>Корзина
+                    <li class="header-nav__item col-sm">
+                        <a class="header-nav__link" href="{{route('user.cart.index')}}">
+                            <img class="header-nav__icon" style="width: 60px;"
+                                 src="/img/cart.png"
+                                 alt="Корзина">
+                            <span>Корзина</span>
+                        </a>
                     </li>
-                    <li class="col-sm"><a href="/delivery"><img style="width: 60px;" src="/img/delivery.png"
-                                                                          alt="Доставка"></a><br/>Доставка
+                    <li class="header-nav__item col-sm">
+                        <a class="header-nav__link" href="/delivery">
+                            <img class="header-nav__icon" style="width: 60px;" src="/img/delivery.png"
+                                 alt="Доставка">
+                            <span>Доставка</span>
+                        </a>
                     </li>
-                    <li class="col-sm"><a href="/promotion"><img style="width: 60px;" src="/img/promotion.png"
-                                                                           alt="Акция"></a><br/>Акция
+                    <li class="header-nav__item col-sm">
+                        <a class="header-nav__link" href="/promotion">
+                            <img class="header-nav__icon" style="width: 60px;" src="/img/promotion.png"
+                                 alt="Акция">
+                            <span>Акция</span>
+                        </a>
                     </li>
-                    <li class="col-sm"><a href="/gift"><img style="width: 60px;" src="/img/gift.png"
-                                                                      alt="Подарок"></a><br/>Подарок
+                    <li class="header-nav__item col-sm">
+                        <a class="header-nav__link" href="/gift">
+                            <img class="header-nav__icon" style="width: 60px;" src="/img/gift.png"
+                                 alt="Подарок">
+                            <span>Подарок</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -223,14 +324,23 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <ul class="list-unstyled row" style="margin-bottom: 0">
-                    <li class="col-sm"><a class="text-uppercase" href="">О нас</a></li>
-                    <li class="col-sm"><a class="text-uppercase" href="">Десткое</a></li>
-                    <li class="col-sm"><a class="text-uppercase" href="">Женское</a></li>
-                    <li class="col-sm"><a class="text-uppercase" href="">Мужское</a></li>
-                    <li class="col-sm"><a class="text-uppercase" href="">Plus size</a></li>
-                    <li class="col-sm"><a class="text-uppercase" href="">Family look</a></li>
-                    <li class="col-sm"><a class="text-uppercase" href="">Новинки</a></li>
+                <ul class="main-nav list-unstyled row" style="margin-bottom: 0">
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">О нас</a></li>
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">Десткое</a></li>
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">Женское</a></li>
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">Мужское</a></li>
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">Plus size</a>
+                    </li>
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">Family look</a>
+                    </li>
+                    <li class="main-nav__item col-sm">
+                        <a class="main-nav__link text-uppercase" href="">Новинки</a></li>
                 </ul>
             </div>
         </div>
@@ -268,48 +378,54 @@
             <div class="col-md-3">
                 <img class="img-fluid" src="/img/social-buttons.png" alt="Мы в соц сетях">
             </div>
-            <div class="col-md-9 text-center">
-                <ul class="list-unstyled row" style="margin-bottom: 0">
-                    <li class="col-sm">
-                        <a href="">
-                            <img style="width: 60px" src="/img/mobile-version.png" alt="Мобильная версия">
-                            <br/>Мобильная версия
-                        </a>
-                    </li>
-                    <li class="col-sm">
-                        <a href="">
-                            <img style="width: 60px" src="/img/brands.png" alt="Бренды">
-                            <br/>Бренды
-                        </a>
-                    </li>
-                    <li class="col-sm">
-                        <a href="">
-                            <img style="width: 60px" src="/img/service.png" alt="Сервис">
-                            <br/>Сервис
-                        </a>
-                    </li>
-                    <li class="col-sm">
-                        <a href="">
-                            <img style="width: 60px" src="/img/partners.png" alt="Партнеры">
-                            <br/>Партнеры
-                        </a>
-                    </li>
-                    <li class="col-sm">
-                        <a href="">
-                            <img style="width: 60px" src="/img/reviews.png" alt="Отзывы">
-                            <br/>Отзывы
-                        </a>
-                    </li>
-                    <li class="col-sm">
-                        <a href="">
-                            <img style="width: 60px" src="/img/about.png" alt="О нас">
-                            <br/>О нас
-                        </a>
-                    </li>
-                </ul>
-                ModalMall - интернет магазин качественных трикотажных, насочно-чулочных изделий и белья. Все права
-                зашищены. Доставка по всей России.
-                © ModalMall 2017 - {{date('Y')}}
+            <div class="col-md-9">
+                <div class="text-center">
+                    <ul class="footer-nav list-unstyled row">
+                        <li class="footer-nav__item col-sm">
+                            <a class="footer-nav__link" href="">
+                                <img class="footer-nav__icon" style="width: 60px" src="/img/mobile-version.png"
+                                     alt="Мобильная версия">
+                                <span>Мобильная версия</span>
+                            </a>
+                        </li>
+                        <li class="footer-nav__item col-sm">
+                            <a class="footer-nav__link" href="">
+                                <img class="footer-nav__icon" style="width: 60px" src="/img/brands.png" alt="Бренды">
+                                <span>Бренды</span>
+                            </a>
+                        </li>
+                        <li class="footer-nav__item col-sm">
+                            <a class="footer-nav__link" href="">
+                                <img class="footer-nav__icon" style="width: 60px" src="/img/service.png" alt="Сервис">
+                                <span>Сервис</span>
+                            </a>
+                        </li>
+                        <li class="footer-nav__item col-sm">
+                            <a class="footer-nav__link" href="">
+                                <img class="footer-nav__icon" style="width: 60px" src="/img/partners.png"
+                                     alt="Партнеры">
+                                <span>Партнеры</span>
+                            </a>
+                        </li>
+                        <li class="footer-nav__item col-sm">
+                            <a class="footer-nav__link" href="">
+                                <img class="footer-nav__icon" style="width: 60px" src="/img/reviews.png" alt="Отзывы">
+                                <span>Отзывы</span>
+                            </a>
+                        </li>
+                        <li class="footer-nav__item col-sm">
+                            <a class="footer-nav__link" href="">
+                                <img class="footer-nav__icon" style="width: 60px" src="/img/about.png" alt="О нас">
+                                <span>О нас</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-copyright text-center">
+                    ModalMall - интернет магазин качественных трикотажных, насочно-чулочных изделий и белья. Все права
+                    зашищены. Доставка по всей России.
+                    © ModalMall 2017 - {{date('Y')}}
+                </div>
             </div>
         </div>
     </div>
