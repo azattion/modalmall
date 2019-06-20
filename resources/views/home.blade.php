@@ -54,10 +54,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="header-title__italic text-center">Бестселлеры</h2>
-                    <div class="row">
+                    <div class="row product-row">
                         @foreach($products as $product)
                             <div class="col-md-3">
-                                @include('layouts.product-cart', ['product' => $product])
+                                @include('layouts.product-card', ['product' => $product])
                             </div>
                         @endforeach
                     </div>
