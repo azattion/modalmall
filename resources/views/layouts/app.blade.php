@@ -47,7 +47,7 @@
     <meta name="fb:page_id" content="43929265776"/>
 
     <link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/martini"/>
-    <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
+    <link rel="shortcut icon" type="image/png" href="/img/about.png"/>
     <link rel="fluid-icon" type="image/png" href="/fluid-icon.png"/>
     <link rel="me" type="text/html" href="http://google.com/profiles/thenextweb"/>
     <link rel='shortlink' href='http://blog.unto.net/?p=353'/>
@@ -84,7 +84,7 @@
             font-family: 'Aquarelle';
             font-style: normal;
             font-weight: 400;
-            src: local('AG_Futura'), local('Aquarelle'),
+            src: local('Aquarelle'), local('Aquarelle'),
                 /*url(/font/Aquarelle.woff) format('woff'),*/ url(/font/Aquarelle.ttf) format('truetype');
         }
 
@@ -92,8 +92,9 @@
             font-family: 'AG_Futura Bold';
             font-style: normal;
             font-weight: 700;
-            src: local('AG_Futura Bold'), local('AG_Futura-Bold'),
-                /*url(/font/AG_Futura_Bold.woff) format('woff'),*/ url(/font/AG_Futura_Bold.ttf) format('truetype');
+            src: local('AG_Futura Bold'), local('AG_Futura Bold'),
+                /*url(/font/AG_Futura_Bold.woff) format('woff'),*/
+            url(/font/AG_Futura_Bold.ttf) format('truetype');
         }
 
         .header-title__italic {
@@ -178,7 +179,7 @@
             /*width: 100%;*/
             /*height: 100%;*/
             /*top: -100px;*/
-            padding: 47px;
+            padding: 44px 47px 47px;
             background: url(/img/cart-1.png) top/100% no-repeat;
         }
 
@@ -212,9 +213,10 @@
         }
 
         .product__cover {
-            border: 5px solid #f7b5bd;
-            border-radius: 5px;
+            /*border: 5px solid #f7b5bd;*/
+            /*border-radius: 5px;*/
             position: relative;
+            margin-bottom: 15px;
         }
 
         .product__cost {

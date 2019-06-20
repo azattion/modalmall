@@ -18,7 +18,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('images')->orderBy('id')->where('status', 1)->where('pid', 0)->get();
+        $categories = Category::with('images')->orderBy('id')->where('inc_menu', 1)->where('status', 1)->where('pid', 0)->get();
         $products = Product::with('images')->orderBy('name')->get();
         return view('home', ['categories' => $categories, 'products' => $products]);
     }
