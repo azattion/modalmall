@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{--<script src="/store/public/js/manifest.js"></script>--}}
     {{--<script src="/store/public/js/vendor.js"></script>--}}
-    {{--TODO - Добавить актупльные данные--}}
+    {{--TODO - Добавить актуальные данные--}}
     <script src="/js/app.js"></script>
     <link rel="stylesheet" href="/css/app.css">
     <meta name="keywords" content="your, tags"/>
@@ -72,6 +72,16 @@
     {{--<link media="only screen and (max-device-width: 480px)" href="http://wordpress.org/style/iphone.css" type="text/css"--}}
     {{--rel="stylesheet"/>--}}
     <style>
+        a:hover{
+            text-decoration: none;
+        }
+        select{
+            background-color: #fff;
+            border: 2px solid #6D2175;
+            border-radius: 7px;
+            padding: 0 5px;
+            width: 100%;
+        }
         @font-face {
             font-family: 'AG_Futura';
             font-style: normal;
@@ -163,10 +173,32 @@
             color: #fff;
         }
 
-        .category__name {
+        .category-card__name {
             background-color: #ee6688;
             color: #fff;
             font-weight: bold;
+            padding: 0 8px 0 10px;
+            border-radius: 1px;
+        }
+        .category-card__icon{
+            position: relative;
+            right: -5px;
+        }
+        .category-card{
+            padding: 0 20px;
+        }
+        .category-card__cover{
+            height: 200px;
+        }
+        div.swiper-button-prev, div.swiper-button-next{
+            width: 44px;
+            background-size: 44px 44px;
+        }
+        div.swiper-button-prev{
+            background-image: url('/img/arrow-left.png');
+        }
+        div.swiper-button-next{
+            background-image: url('/img/arrow-right.png');
         }
 
         .product {

@@ -25,7 +25,7 @@
                         <!-- If we need pagination -->
                         {{--<div class="swiper-pagination"></div>--}}
 
-                        <!-- If we need navigation buttons -->
+                                <!-- If we need navigation buttons -->
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-button-next"></div>
                     </div>
@@ -34,17 +34,19 @@
             <div class="row">
                 @foreach($categories as $category)
                     <div class="col-sm">
-                        <div class="category">
+                        <div class="category-card">
                             <a href="{{route('products.category', $category['id'])}}">
-                                @if(isset($category->images[0]))
-                                    <img class="img-fluid"
-                                         src="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
-                                @else
-                                    <img class="img-fluid" src="https://cdn.browshot.com/static/images/not-found.png">
-                                @endif
-                                <div class="category__caption text-center">
-                                    <img style="width: 40px;" src="/img/kids.png">
-                                    <span class="category__name">{{$category['name']}}</span>
+                                <div class="category-card__cover">
+                                    @if(isset($category->images[0]))
+                                        <img class="category-card__img img-fluid"
+                                             src="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
+                                    @else
+                                        <img class="category-card__img img-fluid"
+                                             src="https://cdn.browshot.com/static/images/not-found.png">
+                                    @endif
+                                </div>
+                                <div class="category-card__caption">
+                                    <img class="category-card__icon" style="width: 40px;" src="/img/kids.png"><span class="category-card__name">{{$category['name']}}</span>
                                 </div>
                             </a>
                         </div>
@@ -73,6 +75,9 @@
         .swiper-container {
             width: 1100px;
             height: 376px;
+            border: 2px solid #EC6687;
+            border-radius: 3px;
+            margin: 15px 0;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
