@@ -72,16 +72,18 @@
     {{--<link media="only screen and (max-device-width: 480px)" href="http://wordpress.org/style/iphone.css" type="text/css"--}}
     {{--rel="stylesheet"/>--}}
     <style>
-        a:hover{
+        a:hover {
             text-decoration: none;
         }
-        select{
+
+        select {
             background-color: #fff;
             border: 2px solid #6D2175;
             border-radius: 7px;
             padding: 0 5px;
             width: 100%;
         }
+
         @font-face {
             font-family: 'AG_Futura';
             font-style: normal;
@@ -103,8 +105,7 @@
             font-style: normal;
             font-weight: 700;
             src: local('AG_Futura Bold'), local('AG_Futura Bold'),
-                /*url(/font/AG_Futura_Bold.woff) format('woff'),*/
-            url(/font/AG_Futura_Bold.ttf) format('truetype');
+                /*url(/font/AG_Futura_Bold.woff) format('woff'),*/ url(/font/AG_Futura_Bold.ttf) format('truetype');
         }
 
         .header-title__italic {
@@ -126,6 +127,10 @@
             background-position: top center, bottom center;
             background-size: contain;
             padding: 10px 0;
+        }
+
+        section {
+            margin: 25px 0;
         }
 
         .header-nav__icon {
@@ -180,32 +185,42 @@
             padding: 0 8px 0 10px;
             border-radius: 1px;
         }
-        .category-card__icon{
+
+        .category-card__icon {
             position: relative;
             right: -5px;
         }
-        .category-card{
+
+        .category-card {
             padding: 0 20px;
         }
-        .category-card__cover{
+
+        .category-card__cover {
             height: 200px;
         }
-        div.swiper-button-prev, div.swiper-button-next{
+
+        .category-card__img {
+            max-height: 100%;
+        }
+
+        div.swiper-button-prev, div.swiper-button-next {
             width: 44px;
             background-size: 44px 44px;
         }
-        div.swiper-button-prev{
+
+        div.swiper-button-prev {
             background-image: url('/img/arrow-left.png');
         }
-        div.swiper-button-next{
+
+        div.swiper-button-next {
             background-image: url('/img/arrow-right.png');
         }
 
-        .product {
+        .product-card {
             position: relative;
         }
 
-        .product {
+        .product-card {
             /*content: ' ';*/
             /*display: block;*/
             /*width: 100%;*/
@@ -215,16 +230,19 @@
             background: url(/img/cart-1.png) top/100% no-repeat;
         }
 
-        .product-row>div:nth-child(2n) .product{
+        .product-row > div:nth-child(2n) .product-card {
             background-image: url("/img/cart-2.png");
         }
-        .product-row>div:nth-child(3n) .product{
+
+        .product-row > div:nth-child(3n) .product-card {
             background-image: url("/img/cart-3.png");
         }
-        .product-row>div:nth-child(4n) .product{
+
+        .product-row > div:nth-child(4n) .product-card {
             background-image: url("/img/cart-4.png");
         }
-        .product__new {
+
+        .product-card__new {
             position: absolute;
             right: 0;
             bottom: 0;
@@ -244,20 +262,20 @@
             z-index: 1;
         }
 
-        .product__cover {
+        .product-card__cover {
             /*border: 5px solid #f7b5bd;*/
             /*border-radius: 5px;*/
             position: relative;
             margin-bottom: 15px;
         }
 
-        .product__cost {
+        .product-card__cost {
             color: #000;
             font-weight: 700;
             font-family: 'AG_Futura Bold'
         }
 
-        .product__name {
+        .product-card__name {
             color: #000;
             font-weight: 700;
             font-family: 'AG_Futura Bold'
@@ -296,6 +314,28 @@
         .category-nav__link:hover, .category-nav__link:focus, .category-nav__link:active {
             color: #FABBCB;
             text-decoration: none;
+        }
+
+        .cabinet-card {
+            margin-bottom: 30px;
+        }
+
+        .cabinet-card__img {
+            width: 130px;
+            height: auto;
+        }
+
+        .cabinet-card__name {
+            color: #491a79;
+            font-size: 25px;
+        }
+
+        .cabinet-card__additional-link {
+            display: inline-block;
+            border-radius: 3px;
+            padding: 0 5px;
+            color: #000000;
+            border: 1px solid #491a79;
         }
     </style>
 </head>
@@ -395,22 +435,24 @@
 
 <section>
     <div class="container">
-        @if ($message = Session::get('success'))
-            <div class="pad margin no-print">
-                <div class="alert alert-success" style="margin-bottom: 0!important;">
-                    <h4><i class="fa fa-info"></i> Оповещения</h4>
-                    {{$message}}
+        <div class="col">
+            @if ($message = Session::get('success'))
+                <div class="pad margin no-print">
+                    <div class="alert alert-success">
+                        <h4><i class="fa fa-info"></i> Оповещения</h4>
+                        {{$message}}
+                    </div>
                 </div>
-            </div>
-        @endif
-        @if ($message = Session::get('error'))
-            <div class="pad margin no-print">
-                <div class="alert alert-danger">
-                    <h4><i class="icon fa fa-ban"></i> Предупреждение</h4>
-                    {{$message}}
+            @endif
+            @if ($message = Session::get('error'))
+                <div class="pad margin no-print">
+                    <div class="alert alert-danger">
+                        <h4><i class="icon fa fa-ban"></i> Предупреждение</h4>
+                        {{$message}}
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
 
         <div class="col-md-12">
             @yield('content')

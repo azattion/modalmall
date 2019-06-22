@@ -17,7 +17,7 @@ Auth::routes();
 Route::namespace('Site')->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/logout', 'HomeController@logout')->name('logout');
+//    Route::get('/logout', 'HomeController@logout')->name('logout');
 
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
@@ -33,7 +33,9 @@ Route::namespace('Site')->group(function () {
     Route::resource('cabinet/cart', 'CartController', ['as' => 'user']);
     Route::resource('cabinet/review', 'ReviewController', ['as' => 'user']);
     Route::resource('cabinet/favorite', 'FavoriteController', ['as' => 'user']);
-    Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet');
+    Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet')->middleware('auth');
+    Route::any('/cabinet/settings', 'HomeController@settings')->name('user.settings')->middleware('auth');
+    Route::any('/cabinet/settings/password', 'HomeController@password')->name('user.settings.password')->middleware('auth');
 
     Route::get('/rss.xml', 'HomeController@rss')->name('rss');
     Route::get('/sitemap.xml', 'HomeController@sitemap')->name('sitemap');
