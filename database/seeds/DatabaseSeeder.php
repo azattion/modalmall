@@ -15,9 +15,10 @@ class DatabaseSeeder extends Seeder
 //             UsersTableSeeder::class
 //         ]);
         DB::table('users')->insert([
-            'name' => 'Azat',
+            'name' => 'Azation',
             'email' => 'azat91knu@gmail.com',
             'password' => bcrypt('12345678'),
+            'role' => 1,
         ]);
         DB::table('images')->insert([
             array('caption' => 'cat-kids.png', 'name' => 'Wc0NO3ZJOwIaIVpzxG3pVlUmu1VtFcSCtb8y7nhX', 'ext' => 'png', 'path' => '/images/30', 'height' => '628', 'width' => '514', 'size' => '61120', 'status' => '1', 'uid' => '1', 'desc' => NULL, 'imageable_type' => 'category', 'imageable_id' => '3', 'order' => '0'),

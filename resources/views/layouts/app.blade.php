@@ -117,16 +117,22 @@
         body {
             background-image: url(/img/content-bg-left.png), url(/img/content-bg-right.png);
             background-repeat: no-repeat, no-repeat;
-            background-position: left center, right center;
-            background-size: contain;
+            background-position: left top, right top;
+            background-size: 100px 858px, 100px 681px;
         }
 
         header {
             background-image: url(/img/header-bg-top-center.png), url(/img/header-bg-bottom-center.png);
             background-repeat: no-repeat, no-repeat;
             background-position: top center, bottom center;
-            background-size: contain;
+            background-size: 804px 100px, 537px 100px;
             padding: 10px 0;
+        }
+        footer{
+            background-image: url(/img/footer-left-bottom-bg.png), url(/img/footer-right-bg.png);
+            background-repeat: no-repeat, no-repeat;
+            background-position: left bottom, right center;
+            background-size: 542px 200px, 100px 204px;
         }
 
         section {
@@ -161,6 +167,9 @@
 
         .footer-nav__item {
             line-height: 1;
+        }
+        .footer-nav__name{
+            display: block;
         }
 
         .footer-nav__icon {
@@ -229,6 +238,35 @@
             padding: 44px 47px 47px;
             background: url(/img/cart-1.png) top/100% no-repeat;
         }
+        .product__img{
+            padding: 53px 61px 51px;
+            display: inline-block;
+            height: 280px;
+            background: url(/img/cart-3.png) top/100% no-repeat;
+        }
+        .product__img.product-img-full{
+            position: relative;
+            top: -45px;
+        }
+        .product__cost{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .product__images .product__img{
+            width: 100px;
+            float: left;
+            padding: 20px;
+            height: 120px;
+        }
+        .product__images .product__img:nth-child(1n){
+            background: url(/img/cart-1.png) top/100% no-repeat;
+        }
+        .product__images .product__img:nth-child(2n){
+            background: url(/img/cart-2.png) top/100% no-repeat;
+        }
+        .product__images .product__img:nth-child(3n){
+            background: url(/img/cart-3.png) top/100% no-repeat;
+        }
 
         .product-row > div:nth-child(2n) .product-card {
             background-image: url("/img/cart-2.png");
@@ -240,6 +278,13 @@
 
         .product-row > div:nth-child(4n) .product-card {
             background-image: url("/img/cart-4.png");
+        }
+
+        .product__images{
+            overflow: hidden;
+        }
+        .product_images_row{
+            width: 3000px;
         }
 
         .product-card__new {
@@ -291,7 +336,7 @@
         }
 
         .footer-copyright {
-            padding: 5px 15px;
+            padding: 5px 15px 5px 100px;
             color: #fff;
             background: -moz-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* FF3.6+ */
             background: -webkit-gradient(linear, 90deg, color-stop(0, FFFFFF), color-stop(28%, F7B5BD)); /* Chrome,Safari4+ */
@@ -347,15 +392,15 @@
                 <a href="{{route('home')}}"><img style="width: 250px" src="/img/logo.png" alt=""></a>
             </div>
             <div class="col-md-4">
-                <form action="{{route('products.search')}}" method="get">
+                <form style="margin-top: 20px" action="{{route('products.search')}}" method="get">
                     <div class="form-row">
                         <div class="col-md-10">
-                            <input name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text"
+                            <input style="margin: 5px 0; border: 1px solid #411979; border-radius: 15px;" name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text"
                                    placeholder="Введите слово..">
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-link">
-                                <img style="width: 30px" src="/img/search.png">
+                                <img style="width: 35px" src="/img/search.png">
                             </button>
                         </div>
                     </div>
@@ -473,38 +518,38 @@
                             <a class="footer-nav__link" href="">
                                 <img class="footer-nav__icon" style="width: 60px" src="/img/mobile-version.png"
                                      alt="Мобильная версия">
-                                <span>Мобильная версия</span>
+                                <span class="footer-nav__name">Мобильная версия</span>
                             </a>
                         </li>
                         <li class="footer-nav__item col-sm">
                             <a class="footer-nav__link" href="">
                                 <img class="footer-nav__icon" style="width: 60px" src="/img/brands.png" alt="Бренды">
-                                <span>Бренды</span>
+                                <span class="footer-nav__name">Бренды</span>
                             </a>
                         </li>
                         <li class="footer-nav__item col-sm">
                             <a class="footer-nav__link" href="">
                                 <img class="footer-nav__icon" style="width: 60px" src="/img/service.png" alt="Сервис">
-                                <span>Сервис</span>
+                                <span class="footer-nav__name">Сервис</span>
                             </a>
                         </li>
                         <li class="footer-nav__item col-sm">
                             <a class="footer-nav__link" href="">
                                 <img class="footer-nav__icon" style="width: 60px" src="/img/partners.png"
                                      alt="Партнеры">
-                                <span>Партнеры</span>
+                                <span class="footer-nav__name">Партнеры</span>
                             </a>
                         </li>
                         <li class="footer-nav__item col-sm">
                             <a class="footer-nav__link" href="">
                                 <img class="footer-nav__icon" style="width: 60px" src="/img/reviews.png" alt="Отзывы">
-                                <span>Отзывы</span>
+                                <span class="footer-nav__name">Отзывы</span>
                             </a>
                         </li>
                         <li class="footer-nav__item col-sm">
                             <a class="footer-nav__link" href="">
                                 <img class="footer-nav__icon" style="width: 60px" src="/img/about.png" alt="О нас">
-                                <span>О нас</span>
+                                <span class="footer-nav__name">О нас</span>
                             </a>
                         </li>
                     </ul>

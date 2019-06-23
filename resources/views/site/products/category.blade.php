@@ -5,15 +5,17 @@
 @section('content')
     <div class="row">
         <div class="col-sm-2">
-            <div style="background-color: #EA6385">
-                <ul class="category-nav list-unstyled">
-                    @if(isset($categories))
+            @if(isset($categories) && count($categories))
+                <div style="background-color: #EA6385">
+                    <ul class="category-nav list-unstyled">
                         @foreach($categories as $category)
-                            <li class="category-nav__item"><a class="category-nav__link" href="{{route('products.category', $category['id'])}}">{{$category['name']}}</a></li>
+                            <li class="category-nav__item"><a class="category-nav__link"
+                                                              href="{{route('products.category', $category['id'])}}">{{$category['name']}}</a>
+                            </li>
                         @endforeach
-                    @endif
-                </ul>
-            </div>
+                    </ul>
+                </div>
+            @endif
         </div>
         <div class="col-sm-10">
             <h3 class="text-left">{{$category['name']}}</h3>

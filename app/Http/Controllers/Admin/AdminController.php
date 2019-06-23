@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Mail\OrderShipped;
 use App\Post;
 use App\Review;
 use App\Product;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 
 class AdminController extends Controller
@@ -19,7 +21,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
     }
 
 
@@ -30,6 +32,12 @@ class AdminController extends Controller
      */
     public function index()
     {
+        if(isset($_GET['mail'])) {
+//            mail('razatt23@gmail.com', 'test', 'test');
+            $dd = Mail::to('razatt23@gmail.com')
+                ->send(new OrderShipped());
+        }
+//        dd($dd);
         return view('admin.dashboard');
     }
 
