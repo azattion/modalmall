@@ -18,6 +18,8 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->date('date');
             $table->text('text');
+            $table->integer('type')->default(0)->index();
+            $table->string('slug')->nullable(true)->unique();
             $table->boolean('status')->default(1);
             $table->string('desc')->nullable(true);
             $table->string('keywords')->nullable(true);

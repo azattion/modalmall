@@ -20,17 +20,19 @@ class PostController extends Controller
     {
         return [
             'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'desc' => 'nullable|string',
             'text' => 'required|string',
             'keywords' => 'nullable|string',
             'status' => 'nullable|boolean',
+            'type' => 'required|integer',
             'date' => 'required|date',
 
             'meta_title' => 'nullable|string|max:255',
             'meta_desc' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
 
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:3072'
         ];
     }
 
@@ -85,10 +87,12 @@ class PostController extends Controller
 
         $post = new Post();
         $post->title = $request->get('title');
+        $post->slug = $request->get('slug');
         $post->desc = $request->get('desc');
         $post->text = $request->get('text');
         $post->date = $request->get('date');
         $post->status = $request->get('status') ? 1 : 0;
+        $post->type = $request->get('type');
         $post->keywords = $request->get('keywords');
         $post->uid = auth()->id();
 
@@ -153,10 +157,12 @@ class PostController extends Controller
 
         $post = Post::findOrFail($id);
         $post->title = $request->get('title');
+        $post->slug = $request->get('slug');
         $post->desc = $request->get('desc');
         $post->text = $request->get('text');
         $post->date = $request->get('date');
         $post->status = $request->get('status') ? 1 : 0;
+        $post->type = $request->get('type');
         $post->keywords = $request->get('keywords');
         $post->uid = auth()->id();
 

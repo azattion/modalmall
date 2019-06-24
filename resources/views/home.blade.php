@@ -12,15 +12,20 @@
                         <!-- Additional required wrapper -->
                         <div class="swiper-wrapper">
                             <!-- Slides -->
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="/img/slider.png" alt="Спецпредложения и новинки">
-                            </div>
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="/img/slider.png" alt="Спецпредложения и новинки">
-                            </div>
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="/img/slider.png" alt="Спецпредложения и новинки">
-                            </div>
+                            @if($posts)
+                                @foreach($posts as $post)
+
+                                    @foreach($post->images as $image)
+                                        <div class="swiper-slide">
+                                            <a href="{{route('posts.show', $post['id'])}}">
+                                                <img class="img-fluid"
+                                                     src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"
+                                                     alt="{{$post['title']}}">
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            @endif
                         </div>
                         <!-- If we need pagination -->
                         {{--<div class="swiper-pagination"></div>--}}
@@ -59,10 +64,10 @@
     <style>
         .swiper-container {
             width: 1100px;
-            height: 376px;
+            height: 340px;
             border: 2px solid #EC6687;
             border-radius: 3px;
-            margin: 15px 0;
+            margin: 15px auto;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>

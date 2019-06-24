@@ -471,7 +471,7 @@
                         <a class="main-nav__link text-uppercase" href="">Family look</a>
                     </li>
                     <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">Новинки</a></li>
+                        <a class="main-nav__link text-uppercase" href="{{route('products.novelty')}}">Новинки</a></li>
                 </ul>
             </div>
         </div>

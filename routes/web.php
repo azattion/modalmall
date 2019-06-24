@@ -21,6 +21,7 @@ Route::namespace('Site')->group(function () {
 
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
+    Route::get('/catalog/new', 'ProductController@novelty')->name('products.novelty');
     Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
     Route::get('/catalog/product/{id}', 'ProductController@show')->name('products.show');
 
@@ -40,7 +41,13 @@ Route::namespace('Site')->group(function () {
     Route::get('/rss.xml', 'HomeController@rss')->name('rss');
     Route::get('/sitemap.xml', 'HomeController@sitemap')->name('sitemap');
 
-    Route::get('/post/{id}', 'PostController@show')->name('posts.show');
+    Route::get('/post/{id}', 'PostController@show')
+        ->name('posts.show')
+        ->where('id', '[0-9]+');
+
+    Route::get('/page/{slug}', 'PostController@page_show')
+        ->name('posts.page-show')
+        ->where('name', '[A-Za-z0-9]+');
 });
 
 Route::namespace('Admin')->group(function () {
@@ -52,6 +59,7 @@ Route::namespace('Admin')->group(function () {
     Route::get('admin/products/multiple', 'ProductController@multiple')->name('admin.products.multiple');
     Route::resource('admin/products', 'ProductController', ['as' => 'admin']);
 
+    Route::resource('admin/menu', 'MenuController', ['as' => 'admin']);
     Route::resource('admin/posts', 'PostController', ['as' => 'admin']);
     Route::resource('admin/users', 'UserController', ['as' => 'admin']);
     Route::resource('admin/categories', 'CategoryController', ['as' => 'admin']);

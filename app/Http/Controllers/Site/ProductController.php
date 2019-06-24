@@ -43,6 +43,14 @@ class ProductController extends Controller
             ]);
     }
 
+    public function novelty()
+    {
+        $products = Product::where('as_new_start_date', '<=', date('Y-m-d H:i:s'))->where('as_new_end_date', '>=', date('Y-m-d H:i:s'))->orderBy('id', 'desc')->get();
+
+        return view('site.products.search',
+            ['category' => [], 'products' => $products]);
+    }
+
     public function search(Request $request)
     {
         $word = $request->get('q');

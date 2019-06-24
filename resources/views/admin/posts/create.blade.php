@@ -33,6 +33,13 @@
                                    placeholder="Введите название" autocomplete="off"
                                    value="{{ old('title', $post->title) }}">
                         </div>
+
+                        <div class="form-group @error('slug') has-error @enderror">
+                            <label for="slug">Заголовок</label>
+                            <input type="text" name="slug" class="form-control" id="slug"
+                                   placeholder="Введите url" autocomplete="off"
+                                   value="{{ old('slug', $post->slug) }}">
+                        </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group @error('date') has-error @enderror">
@@ -44,6 +51,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group @error('type') has-error @enderror">
+                                    <label for="type">Категория</label>
+                                    <select name="type" class="form-control" id="type">
+                                        <option value="0">Выберите..</option>
+                                        <?php $types = config('services.posts_type');?>
+                                        @foreach($types as $key => $type)
+                                            <option @if($key == old('type', $post->type)) selected
+                                                    @endif value="{{$key}}">{{$type}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="checkbox">
                             <label>
@@ -60,8 +83,13 @@
                                 <div class="row">
                                     @foreach($post->images as $image)
                                         <div class="col-sm-2">
-                                            <a target="_blank" href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img class="img-responsive" src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
-                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}" name="image-del[{{$image['id']}}]"> Удалить</label></div>
+                                            <a target="_blank"
+                                               href="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
+                                                        class="img-responsive"
+                                                        src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}"
+                                                                                name="image-del[{{$image['id']}}]">
+                                                    Удалить</label></div>
                                         </div>
                                     @endforeach
                                 </div>

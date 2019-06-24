@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Post;
 use App\Product;
 use App\Category;
 use App\User;
@@ -22,7 +23,8 @@ class HomeController extends Controller
     {
         $categories = Category::with('images')->orderBy('id')->where('inc_menu', 1)->where('status', 1)->where('pid', 0)->get();
         $products = Product::with('images')->orderBy('name')->get();
-        return view('home', ['categories' => $categories, 'products' => $products]);
+        $posts = Post::with('images')->where('status', 1)->where('type', 2)->orderBy('date', 'desc')->take(5)->get();
+        return view('home', ['categories' => $categories, 'products' => $products, 'posts' => $posts]);
     }
 
     public function cabinet()

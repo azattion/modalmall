@@ -18,4 +18,10 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         return view('site.posts.show', ['post' => $post]);
     }
+
+    function page_show($name)
+    {
+        $post = Post::where('slug', $name)->get();
+        return view('site.posts.show', ['post' => $post]);
+    }
 }
