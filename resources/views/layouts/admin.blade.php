@@ -360,6 +360,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('admin.menu.index')}}">
+                        <i class="fa fa-gift"></i>
+                        <span>Меню</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('admin.categories.index')}}">
                         <i class="fa fa-list"></i>
                         <span>Категории</span>

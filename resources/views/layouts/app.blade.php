@@ -128,7 +128,8 @@
             background-size: 804px 100px, 537px 100px;
             padding: 10px 0;
         }
-        footer{
+
+        footer {
             background-image: url(/img/footer-left-bottom-bg.png), url(/img/footer-right-bg.png);
             background-repeat: no-repeat, no-repeat;
             background-position: left bottom, right center;
@@ -168,7 +169,8 @@
         .footer-nav__item {
             line-height: 1;
         }
-        .footer-nav__name{
+
+        .footer-nav__name {
             display: block;
         }
 
@@ -238,33 +240,40 @@
             padding: 44px 47px 47px;
             background: url(/img/cart-1.png) top/100% no-repeat;
         }
-        .product__img{
+
+        .product__img {
             padding: 53px 61px 51px;
             display: inline-block;
             height: 280px;
             background: url(/img/cart-3.png) top/100% no-repeat;
         }
-        .product__img.product-img-full{
+
+        .product__img.product-img-full {
             position: relative;
             top: -45px;
         }
-        .product__cost{
+
+        .product__cost {
             font-size: 30px;
             font-weight: bold;
         }
-        .product__images .product__img{
+
+        .product__images .product__img {
             width: 100px;
             float: left;
             padding: 20px;
             height: 120px;
         }
-        .product__images .product__img:nth-child(1n){
+
+        .product__images .product__img:nth-child(1n) {
             background: url(/img/cart-1.png) top/100% no-repeat;
         }
-        .product__images .product__img:nth-child(2n){
+
+        .product__images .product__img:nth-child(2n) {
             background: url(/img/cart-2.png) top/100% no-repeat;
         }
-        .product__images .product__img:nth-child(3n){
+
+        .product__images .product__img:nth-child(3n) {
             background: url(/img/cart-3.png) top/100% no-repeat;
         }
 
@@ -280,10 +289,11 @@
             background-image: url("/img/cart-4.png");
         }
 
-        .product__images{
+        .product__images {
             overflow: hidden;
         }
-        .product_images_row{
+
+        .product_images_row {
             width: 3000px;
         }
 
@@ -395,7 +405,8 @@
                 <form style="margin-top: 20px" action="{{route('products.search')}}" method="get">
                     <div class="form-row">
                         <div class="col-md-10">
-                            <input style="margin: 5px 0; border: 1px solid #411979; border-radius: 15px;" name="q" value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text"
+                            <input style="margin: 5px 0; border: 1px solid #411979; border-radius: 15px;" name="q"
+                                   value="{{isset($_GET['q'])?$_GET['q']:''}}" class="form-control" type="text"
                                    placeholder="Введите слово..">
                         </div>
                         <div class="col-md-2">
@@ -408,43 +419,47 @@
             </div>
             <div class="col-md-5 text-center">
                 <ul class="header-nav list-unstyled row" style="margin-bottom: 0">
-                    <li class="header-nav__item col-sm">
-                        <a class="header-nav__link" href="{{route('user.cabinet')}}">
-                            <img class="header-nav__icon" style="width: 60px;"
-                                 src="/img/cabinet.png"
-                                 alt="Личный кабинет">
-                            <span>Личный кабинет</span>
-                        </a>
-                    </li>
-                    <li class="header-nav__item col-sm">
-                        <a class="header-nav__link" href="{{route('user.cart.index')}}">
-                            <img class="header-nav__icon" style="width: 60px;"
-                                 src="/img/cart.png"
-                                 alt="Корзина">
-                            <span>Корзина</span>
-                        </a>
-                    </li>
-                    <li class="header-nav__item col-sm">
-                        <a class="header-nav__link" href="/delivery">
-                            <img class="header-nav__icon" style="width: 60px;" src="/img/delivery.png"
-                                 alt="Доставка">
-                            <span>Доставка</span>
-                        </a>
-                    </li>
-                    <li class="header-nav__item col-sm">
-                        <a class="header-nav__link" href="/promotion">
-                            <img class="header-nav__icon" style="width: 60px;" src="/img/promotion.png"
-                                 alt="Акция">
-                            <span>Акция</span>
-                        </a>
-                    </li>
-                    <li class="header-nav__item col-sm">
-                        <a class="header-nav__link" href="/gift">
-                            <img class="header-nav__icon" style="width: 60px;" src="/img/gift.png"
-                                 alt="Подарок">
-                            <span>Подарок</span>
-                        </a>
-                    </li>
+                    @php $menu = App\Menu::with('images')->where('type', 1)->where('status', 1)->get(); @endphp
+                    @foreach($menu as $item)
+                        <li class="header-nav__item col-sm">
+                            <a class="header-nav__link" href="{{$item['link']}}">
+                                @if(isset($item->images[0]))
+                                    <img alt="{{$item['title']}}" style="width: 60px"
+                                         src="/storage{{$item->images[0]['path']}}/{{$item->images[0]['name']}}.{{$item->images[0]['ext']}}">
+                                @endif
+                                <span>{{$item['title']}}</span>
+                            </a>
+                        </li>
+                    @endforeach
+                    {{--<li class="header-nav__item col-sm">--}}
+                    {{--<a class="header-nav__link" href="{{route('user.cart.index')}}">--}}
+                    {{--<img class="header-nav__icon" style="width: 60px;"--}}
+                    {{--src="/img/cart.png"--}}
+                    {{--alt="Корзина">--}}
+                    {{--<span>Корзина</span>--}}
+                    {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="header-nav__item col-sm">--}}
+                    {{--<a class="header-nav__link" href="/delivery">--}}
+                    {{--<img class="header-nav__icon" style="width: 60px;" src="/img/delivery.png"--}}
+                    {{--alt="Доставка">--}}
+                    {{--<span>Доставка</span>--}}
+                    {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="header-nav__item col-sm">--}}
+                    {{--<a class="header-nav__link" href="/promotion">--}}
+                    {{--<img class="header-nav__icon" style="width: 60px;" src="/img/promotion.png"--}}
+                    {{--alt="Акция">--}}
+                    {{--<span>Акция</span>--}}
+                    {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="header-nav__item col-sm">--}}
+                    {{--<a class="header-nav__link" href="/gift">--}}
+                    {{--<img class="header-nav__icon" style="width: 60px;" src="/img/gift.png"--}}
+                    {{--alt="Подарок">--}}
+                    {{--<span>Подарок</span>--}}
+                    {{--</a>--}}
+                    {{--</li>--}}
                 </ul>
             </div>
         </div>
@@ -456,22 +471,25 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <ul class="main-nav list-unstyled row" style="margin-bottom: 0">
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">О нас</a></li>
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">Десткое</a></li>
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">Женское</a></li>
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">Мужское</a></li>
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">Plus size</a>
-                    </li>
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="">Family look</a>
-                    </li>
-                    <li class="main-nav__item col-sm">
-                        <a class="main-nav__link text-uppercase" href="{{route('products.novelty')}}">Новинки</a></li>
+                    @php $menu = App\Menu::where('type', 2)->where('status', 1)->get(); @endphp
+                    @foreach($menu as $item)
+                        <li class="main-nav__item col-sm">
+                            <a class="main-nav__link text-uppercase" href="">{{$item['title']}}</a></li>
+                    @endforeach
+                    {{--<li class="main-nav__item col-sm">--}}
+                    {{--<a class="main-nav__link text-uppercase" href="">Десткое</a></li>--}}
+                    {{--<li class="main-nav__item col-sm">--}}
+                    {{--<a class="main-nav__link text-uppercase" href="">Женское</a></li>--}}
+                    {{--<li class="main-nav__item col-sm">--}}
+                    {{--<a class="main-nav__link text-uppercase" href="">Мужское</a></li>--}}
+                    {{--<li class="main-nav__item col-sm">--}}
+                    {{--<a class="main-nav__link text-uppercase" href="">Plus size</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="main-nav__item col-sm">--}}
+                    {{--<a class="main-nav__link text-uppercase" href="">Family look</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="main-nav__item col-sm">--}}
+                    {{--<a class="main-nav__link text-uppercase" href="{{route('products.novelty')}}">Новинки</a></li>--}}
                 </ul>
             </div>
         </div>
@@ -514,44 +532,51 @@
             <div class="col-md-9">
                 <div class="text-center">
                     <ul class="footer-nav list-unstyled row">
-                        <li class="footer-nav__item col-sm">
-                            <a class="footer-nav__link" href="">
-                                <img class="footer-nav__icon" style="width: 60px" src="/img/mobile-version.png"
-                                     alt="Мобильная версия">
-                                <span class="footer-nav__name">Мобильная версия</span>
-                            </a>
-                        </li>
-                        <li class="footer-nav__item col-sm">
-                            <a class="footer-nav__link" href="">
-                                <img class="footer-nav__icon" style="width: 60px" src="/img/brands.png" alt="Бренды">
-                                <span class="footer-nav__name">Бренды</span>
-                            </a>
-                        </li>
-                        <li class="footer-nav__item col-sm">
-                            <a class="footer-nav__link" href="">
-                                <img class="footer-nav__icon" style="width: 60px" src="/img/service.png" alt="Сервис">
-                                <span class="footer-nav__name">Сервис</span>
-                            </a>
-                        </li>
-                        <li class="footer-nav__item col-sm">
-                            <a class="footer-nav__link" href="">
-                                <img class="footer-nav__icon" style="width: 60px" src="/img/partners.png"
-                                     alt="Партнеры">
-                                <span class="footer-nav__name">Партнеры</span>
-                            </a>
-                        </li>
-                        <li class="footer-nav__item col-sm">
-                            <a class="footer-nav__link" href="">
-                                <img class="footer-nav__icon" style="width: 60px" src="/img/reviews.png" alt="Отзывы">
-                                <span class="footer-nav__name">Отзывы</span>
-                            </a>
-                        </li>
-                        <li class="footer-nav__item col-sm">
-                            <a class="footer-nav__link" href="">
-                                <img class="footer-nav__icon" style="width: 60px" src="/img/about.png" alt="О нас">
-                                <span class="footer-nav__name">О нас</span>
-                            </a>
-                        </li>
+                        @php $menu = App\Menu::with('images')->where('type', 3)->where('status', 1)->get(); @endphp
+                        @foreach($menu as $item)
+                            <li class="footer-nav__item col-sm">
+                                <a class="footer-nav__link" href="">
+                                    @if(isset($item->images[0]))
+                                        <img class="footer-nav__icon" alt="{{$item['title']}}" style="width: 60px"
+                                             src="/storage{{$item->images[0]['path']}}/{{$item->images[0]['name']}}.{{$item->images[0]['ext']}}">
+                                    @endif
+                                    {{--<img class="footer-nav__icon" style="width: 60px" src="{{$item['']}}"--}}
+                                    {{--alt="Мобильная версия">--}}
+                                    <span class="footer-nav__name">{{$item['title']}}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                        {{--<li class="footer-nav__item col-sm">--}}
+                        {{--<a class="footer-nav__link" href="">--}}
+                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/brands.png" alt="Бренды">--}}
+                        {{--<span class="footer-nav__name">Бренды</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li class="footer-nav__item col-sm">--}}
+                        {{--<a class="footer-nav__link" href="">--}}
+                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/service.png" alt="Сервис">--}}
+                        {{--<span class="footer-nav__name">Сервис</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li class="footer-nav__item col-sm">--}}
+                        {{--<a class="footer-nav__link" href="">--}}
+                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/partners.png"--}}
+                        {{--alt="Партнеры">--}}
+                        {{--<span class="footer-nav__name">Партнеры</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li class="footer-nav__item col-sm">--}}
+                        {{--<a class="footer-nav__link" href="">--}}
+                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/reviews.png" alt="Отзывы">--}}
+                        {{--<span class="footer-nav__name">Отзывы</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li class="footer-nav__item col-sm">--}}
+                        {{--<a class="footer-nav__link" href="">--}}
+                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/about.png" alt="О нас">--}}
+                        {{--<span class="footer-nav__name">О нас</span>--}}
+                        {{--</a>--}}
+                        {{--</li>--}}
                     </ul>
                 </div>
                 <div class="footer-copyright text-center">

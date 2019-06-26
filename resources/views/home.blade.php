@@ -5,36 +5,33 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Slider main container -->
-                    <div class="swiper-container">
-                        <!-- Additional required wrapper -->
-                        <div class="swiper-wrapper">
-                            <!-- Slides -->
-                            @if($posts)
-                                @foreach($posts as $post)
-
-                                    @foreach($post->images as $image)
-                                        <div class="swiper-slide">
-                                            <a href="{{route('posts.show', $post['id'])}}">
-                                                <img class="img-fluid"
-                                                     src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"
-                                                     alt="{{$post['title']}}">
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                @endforeach
-                            @endif
-                        </div>
-                        <!-- If we need pagination -->
-                        {{--<div class="swiper-pagination"></div>--}}
-
-                                <!-- If we need navigation buttons -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+            <div class="col-md-12">
+                @if($posts)
+                        <!-- Slider main container -->
+                <div class="swiper-container">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        @foreach($posts as $post)
+                            @foreach($post->images as $image)
+                                <div class="swiper-slide">
+                                    <a href="{{route('posts.show', $post['id'])}}">
+                                        <img class="img-fluid"
+                                             src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"
+                                             alt="{{$post['title']}}">
+                                    </a>
+                                </div>
+                            @endforeach
+                        @endforeach
                     </div>
+                    <!-- If we need pagination -->
+                    {{--<div class="swiper-pagination"></div>--}}
+
+                            <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
+                @endif
             </div>
             <div class="row">
                 @foreach($categories as $category)
