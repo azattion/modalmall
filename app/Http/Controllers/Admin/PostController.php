@@ -104,7 +104,8 @@ class PostController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 if ($image->isValid()) {
-                    $this->upload_image($image, $post->id);
+//                    $this->upload_image($image, $post->id);
+                    ImageModel::upload_image($image, $post->id, 'App\Post');
                 }
             }
         }
@@ -175,7 +176,8 @@ class PostController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 if ($image->isValid()) {
-                    $this->upload_image($image, $post->id);
+//                    $this->upload_image($image, $post->id);
+                    ImageModel::upload_image($image, $post->id, 'App\Post');
                 }
             }
         }
@@ -183,10 +185,7 @@ class PostController extends Controller
         if($request->has('image-del')){
             foreach ($request->get('image-del') as $id) {
                 $image = ImageModel::findOrFail($id);
-                Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");
-                Storage::delete("/public{$image['path']}/lg/{$image['name']}.{$image['ext']}");
-                Storage::delete("/public{$image['path']}/md/{$image['name']}.{$image['ext']}");
-                Storage::delete("/public{$image['path']}/sm/{$image['name']}.{$image['ext']}");
+                ImageModel::delete_image($image);
                 $image->delete();
             }
         }
@@ -213,47 +212,4 @@ class PostController extends Controller
         return redirect()->route('admin.posts.index')->with('success', 'Запись удалена');
     }
 
-    /**
-     * @param $image
-     * @param int $pid
-     */
-    private function upload_image(UploadedFile $image, $pid = 0)
-    {
-        list($width, $height, $type, $attr) = getimagesize($image->path());
-        $destination_path = '/public/images/' . (rand(0, 100) % 100) . '/';
-        $uploaded = $image->store($destination_path);
-        if (!$uploaded) return;
-        $file_info = pathinfo($uploaded);
-        $image_data = [
-            'ext' => $image->extension(),
-            'path' => str_replace('public', '', $file_info['dirname']),
-            'status' => 1,
-            'uid' => Auth::id(),
-            'caption' => $image->getClientOriginalName(),
-            'name' => $file_info['filename'],
-            'width' => $width,
-            'height' => $height,
-            'size' => $image->getClientSize(),
-            'imageable_type' => 'App\Post',
-            'imageable_id' => $pid,
-        ];
-
-        ImageModel::create($image_data);
-
-        $resize = Image::make($image);
-        $resize->resize(1000, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/lg/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-
-        $resize->resize(500, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/md/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-
-        $resize->resize(200, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/sm/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-    }
 }

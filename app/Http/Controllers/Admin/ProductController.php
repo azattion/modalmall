@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Brand;
 use App\Product;
 use App\Image as ImageModel;
 use App\Category;
@@ -116,9 +117,11 @@ class ProductController extends Controller
     {
         $product = new Product();
         $categories = Category::where('status', 1)->orderBy('ordr')->get();
+        $brands = Brand::where('status', 1)->orderBy('ordr')->get();
         return view('admin.products.create', [
             'product' => $product,
-            'categories' => $categories
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 
@@ -173,16 +176,19 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 if ($image->isValid()) {
-                    $this->upload_image($image, $product->id);
+//                    $this->upload_image($image, $product->id);
+                    ImageModel::upload_image($image, $product->id, 'App\Product');
                 }
             }
         }
 
         if ($request->get('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
+            $brands = Brand::where('status', 1)->orderBy('ordr')->get();
             return view('admin.products.create', [
                 'product' => $product,
-                'categories' => $categories
+                'categories' => $categories,
+                'brands' => $brands
             ]);
         } elseif ($request->get('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно добавлена');
@@ -214,10 +220,12 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->cats = explode("|", trim($product->cats, '|'));
         $categories = Category::where('status', 1)->orderBy('ordr')->orderBy('pid')->get();
+        $brands = Brand::where('status', 1)->orderBy('ordr')->get();
 
         return view('admin.products.create', [
             'product' => $product,
-            'categories' => $categories
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 
@@ -276,27 +284,27 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 if ($image->isValid()) {
-                    $this->upload_image($image, $product->id);
+//                    $this->upload_image($image, $product->id);
+                    ImageModel::upload_image($image, $product->id, 'App\Product');
                 }
             }
         }
         if ($request->has('image-del')) {
             foreach ($request->get('image-del') as $id) {
                 $image = ImageModel::findOrFail($id);
-                Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");
-                Storage::delete("/public{$image['path']}/lg/{$image['name']}.{$image['ext']}");
-                Storage::delete("/public{$image['path']}/md/{$image['name']}.{$image['ext']}");
-                Storage::delete("/public{$image['path']}/sm/{$image['name']}.{$image['ext']}");
+                ImageModel::delete_image($image);
                 $image->delete();
             }
         }
 
         if ($request->has('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
+            $brands = Brand::where('status', 1)->orderBy('ordr')->get();
             $product->id = null;
             return view('admin.products.create', [
                 'product' => $product,
-                'categories' => $categories
+                'categories' => $categories,
+                'brands' => $brands
             ]);
         } elseif ($request->has('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно изменена');
@@ -362,49 +370,6 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Данные успешно сохранены');
     }
 
-    /**
-     * @param $image
-     * @param int $pid
-     */
-    private function upload_image(UploadedFile $image, $pid = 0)
-    {
-        list($width, $height, $type, $attr) = getimagesize($image->path());
-        $destination_path = '/public/images/' . (rand(0, 100) % 100) . '/';
-        $uploaded = $image->store($destination_path);
-        if (!$uploaded) return;
-        $file_info = pathinfo($uploaded);
-        $image_data = [
-            'ext' => $image->extension(),
-            'path' => str_replace('public', '', $file_info['dirname']),
-            'status' => 1,
-            'uid' => Auth::id(),
-            'caption' => $image->getClientOriginalName(),
-            'name' => $file_info['filename'],
-            'width' => $width,
-            'height' => $height,
-            'size' => $image->getClientSize(),
-            'imageable_type' => 'App\Product',
-            'imageable_id' => $pid,
-        ];
-
-        ImageModel::create($image_data);
-
-        $resize = Image::make($image);
-        $resize->resize(1000, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/lg/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-
-        $resize->resize(500, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/md/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-
-        $resize->resize(200, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/sm/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-    }
 
     private function getParentsId($cat, $id)
     {

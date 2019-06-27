@@ -84,7 +84,8 @@ class MenuController extends Controller
 
         if ($request->hasFile('image')) {
             if ($request->file('image')->isValid()) {
-                $this->upload_image($request->file('image'), $menu->id);
+//                $this->upload_image($request->file('image'), $menu->id);
+                ImageModel::upload_image($request->file('image'), $menu->id, 'App\Menu');
             }
         }
 
@@ -137,7 +138,8 @@ class MenuController extends Controller
 
         if ($request->hasFile('image')) {
             if ($request->file('image')->isValid()) {
-                $this->upload_image($request->file('image'), $menu->id);
+//                $this->upload_image($request->file('image'), $menu->id);
+                ImageModel::upload_image($request->file('image'), $menu->id, 'App\Menu');
             }
         }
 
@@ -158,48 +160,4 @@ class MenuController extends Controller
         return redirect()->route('admin.menu.show', $type)->with('success', 'Запись удалена');
     }
 
-
-    /**
-     * @param UploadedFile $image
-     * @param int $pid
-     */
-    private function upload_image(UploadedFile $image, $pid = 0)
-    {
-        list($width, $height, $type, $attr) = getimagesize($image->path());
-        $destination_path = '/public/images/' . (rand(0, 100) % 100) . '/';
-        $uploaded = $image->store($destination_path);
-        if (!$uploaded) return;
-        $file_info = pathinfo($uploaded);
-        $image_data = [
-            'ext' => $image->extension(),
-            'path' => str_replace('public', '', $file_info['dirname']),
-            'status' => 1,
-            'uid' => Auth::id(),
-            'caption' => $image->getClientOriginalName(),
-            'name' => $file_info['filename'],
-            'width' => $width,
-            'height' => $height,
-            'size' => $image->getClientSize(),
-            'imageable_type' => 'App\Menu',
-            'imageable_id' => $pid,
-        ];
-
-        ImageModel::create($image_data);
-
-        $resize = Image::make($image);
-        $resize->resize(1000, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/lg/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-
-        $resize->resize(500, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/md/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-
-        $resize->resize(200, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::put("{$destination_path}/sm/{$file_info['filename']}." . $image->extension(), (string)$resize->encode());
-    }
 }
