@@ -27,9 +27,10 @@ class ProductController extends Controller
             $order = $_GET['order'];
         }
 
-        $category = Category::findOrFail($id);
+        $category = Category::find($id);
         $categories = Category::where('status', 1)->where('pid', $id)->get();
         $products = Product::orderBy($sort, $order)->where('cats', 'LIKE', "%|{$id}|%");
+        $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
 
         if (isset($_GET['brand']) && $_GET['brand']) {
             $products = $products->orWhere('brand', $_GET['brand']);
@@ -38,9 +39,10 @@ class ProductController extends Controller
 
         return view('site.products.category',
             [
-                'category' => $category,
-                'products' => $products,
-                'categories' => $categories
+                'category'   => $category,
+                'products'   => $products,
+                'categories' => $categories,
+                'brands'     => $brands
             ]);
     }
 
@@ -54,20 +56,28 @@ class ProductController extends Controller
 
     public function brands()
     {
-        $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
+        $brands = Brand::where('status', 1)->orderBy('ordr')->get();
 
-        return view('site.products.brand',  ['products' => $brands]);
+        return view('site.products.brand',  ['brands' => $brands]);
     }
 
     public function search(Request $request)
     {
         $word = $request->get('q');
-        $products = [];
+        $category = new Category();
+        $categories = Category::where('status', 1)->get();
+        $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
+        $products = New Product();
         if ($word) {
             $products = Product::orderBy('id', 'desc')->where('name', 'LIKE', "%{$word}%")->get();
         }
-        return view('site.products.search',
-            ['category' => [], 'products' => $products]);
+        return view('site.products.category',
+            [
+                'category'   => $category,
+                'products'   => $products,
+                'categories' => $categories,
+                'brands'     => $brands
+            ]);
     }
 
     public function show($id)

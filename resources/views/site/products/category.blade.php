@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Category item - {$category['name']}")
+@section('title', "Category item")
 
 @section('content')
     <div class="row">
@@ -18,7 +18,7 @@
             @endif
         </div>
         <div class="col-sm-10">
-            <h3 class="text-left">{{$category['name']}}</h3>
+            <h3 class="text-left">{{isset($category['name'])?$category['name']:''}}</h3>
             <div class="row">
                 <div class="col-sm text-left">
                     <label for="sort">Сортировать по:
@@ -48,16 +48,16 @@
                     <label for="brand">Бренд: <br>
                         <select name="brand" id="brand">
                             <option value="0">...</option>
-                            @php $brands = config('services.brands') @endphp
-                            @foreach($brands as $key=>$brand)
-                                <option value="{{$key}}">{{$brand}}</option>
+                            {{--@php $brands = config('services.brands') @endphp--}}
+                            @foreach($brands as $brand)
+                                <option @if(isset($_GET['brand']) && $_GET['brand'] == $brand['id']) selected @endif value="{{$brand['id']}}">{{$brand['name']}}</option>
                             @endforeach
                         </select>
                     </label>
                 </div>
 
                 <div class="col-sm text-right">
-                    <label for="collection">Сезон: <br>
+                    <label for="collection">Производитель: <br>
                         <select name="collection" id="collection">
                             <option value="0">...</option>
                             @php $producers = config('services.producers') @endphp

@@ -37,8 +37,9 @@
                         @if(count($brands))
                             @foreach($brands as $brand)
                                 <tr>
-                                    <td><a target="_blank"
-                                           href="{{route('products.brands', $brand['id'])}}">{{$brand['id']}}</a>
+                                    <td>
+                                        <a target="_blank"
+                                           href="{{route('products.category', 0)}}/?brand={{$brand['id']}}">{{$brand['id']}}</a>
                                     </td>
                                     <td>
                                         @if(isset($brand->images[0]))
@@ -49,7 +50,7 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>{{$brand->name}}</td>
+                                    <td>{{$brand['name']}}</td>
                                     <td>
                                         @if($brand['status'])
                                             <span class="label label-success">Активный</span>

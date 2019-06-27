@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Search")
+@section('title', "Поиск")
 
 @section('content')
     <div class="col-md-12">

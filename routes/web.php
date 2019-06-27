@@ -22,7 +22,7 @@ Route::namespace('Site')->group(function () {
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
     Route::get('/catalog/new', 'ProductController@novelty')->name('products.novelty');
-    Route::get('/catalog/brands', 'ProductController@brands')->name('products.brands');
+    Route::get('/brands', 'ProductController@brands')->name('brands');
     Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
     Route::get('/catalog/product/{id}', 'ProductController@show')->name('products.show');
 
