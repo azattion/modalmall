@@ -74,7 +74,7 @@ class ProductController extends Controller
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',
             'collection' => 'nullable|string|max:255',
-//            'sex' => 'nullable|numeric|min:1',
+
             'meta_title' => 'nullable|string|max:255',
             'meta_desc' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
@@ -98,7 +98,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('images')->orderBy('id', 'desc');
+        $products = Product::with('images')->with('brands')->orderBy('id', 'desc');
         if (isset($_GET['q'])) {
             $products = $products->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
                 ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
@@ -151,7 +151,7 @@ class ProductController extends Controller
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
-//        $product->sex = $request->get('sex');
+
         $product->quantity = $request->get('quantity');
         $product->colors = "|" . implode("|", $request->get('colors')) . "|";
         $product->sizes = "|" . implode("|", $request->get('sizes')) . "|";
@@ -259,7 +259,7 @@ class ProductController extends Controller
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
-//        $product->sex = $request->get('sex');
+
         $product->quantity = $request->get('quantity');
         $product->colors = $request->get('colors') ? "|" . implode("|", $request->get('colors')) . "|" : "";
         $product->sizes = $request->get('sizes') ? "|" . implode("|", $request->get('sizes')) . "|" : "";

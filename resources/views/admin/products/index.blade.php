@@ -37,7 +37,6 @@
                             <th></th>
                         </tr>
                         @if(count($products))
-                            @php $brands = config('services.brands'); @endphp
                             @foreach($products as $product)
                                 <tr>
                                     <td><a target="_blank"
@@ -60,7 +59,7 @@
                                             <span class="label label-default">Невидимый</span>
                                         @endif
                                     </td>
-                                    <td>{{$product['brand'] ? $brands[$product['brand']] : ''}}</td>
+                                    <td>{{$product->brands['name']}}</td>
                                     <td>{{$product['quantity']}}</td>
                                     <td>
                                         <form action="{{route('admin.products.destroy', $product['id'])}}"

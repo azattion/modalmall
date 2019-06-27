@@ -172,10 +172,9 @@
                                     <label for="brand">Бренды</label>
                                     <select name="brand" class="form-control" id="brand">
                                         <option value="0">Выберите..</option>
-                                        <?php $brands = config('services.brands'); ?>
-                                        @foreach($brands as $key => $cat)
-                                            <option @if(old('brand', $product->brand)==$key) selected
-                                                    @endif value="{{$key}}">{{$cat}}</option>
+                                        @foreach($brands as $key => $brand)
+                                            <option @if(old('brand', $product->brand)==$brand['id']) selected
+                                                    @endif value="{{$brand['id']}}">{{$brand['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>

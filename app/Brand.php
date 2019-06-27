@@ -13,4 +13,8 @@ class Brand extends Model
     {
         return $this->morphMany('App\Image', 'imageable');
     }
+
+//    public function product(){
+//        return $this->belongsTo('App\Product', 'brand');
+//    }
 }
