@@ -14,7 +14,7 @@ class Category extends Model
      */
     public function images()
     {
-        return $this->hasMany('App\Image', 'imageable_id');
+        return $this->morphMany('App\Image', 'imageable');
     }
 
     public function scopeNestedtree($query)

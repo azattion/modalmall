@@ -474,7 +474,7 @@
                     @php $menu = App\Menu::where('type', 2)->where('status', 1)->get(); @endphp
                     @foreach($menu as $item)
                         <li class="main-nav__item col-sm">
-                            <a class="main-nav__link text-uppercase" href="">{{$item['title']}}</a></li>
+                            <a class="main-nav__link text-uppercase" href="{{$item['link']}}">{{$item['title']}}</a></li>
                     @endforeach
                     {{--<li class="main-nav__item col-sm">--}}
                     {{--<a class="main-nav__link text-uppercase" href="">Десткое</a></li>--}}
@@ -535,7 +535,7 @@
                         @php $menu = App\Menu::with('images')->where('type', 3)->where('status', 1)->get(); @endphp
                         @foreach($menu as $item)
                             <li class="footer-nav__item col-sm">
-                                <a class="footer-nav__link" href="">
+                                <a class="footer-nav__link" href="{{$item['link']}}">
                                     @if(isset($item->images[0]))
                                         <img class="footer-nav__icon" alt="{{$item['title']}}" style="width: 60px"
                                              src="/storage{{$item->images[0]['path']}}/{{$item->images[0]['name']}}.{{$item->images[0]['ext']}}">

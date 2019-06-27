@@ -126,7 +126,7 @@ class CategoryController extends Controller
             'meta_desc' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
 
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
     }
 
@@ -159,11 +159,9 @@ class CategoryController extends Controller
             $category->pid = intval($_GET['pid']);
         }
         $categories = Category::where('status', 1)->orderBy('ordr')->get();
-        $images = [];
         return view('admin.categories.create', [
             'category' => $category,
             'categories' => $categories,
-            'images' => $images
         ]);
     }
 
@@ -198,16 +196,27 @@ class CategoryController extends Controller
             $category->save();
         }
 
-        if ($request->hasFile('image')) {
-            if ($request->file('image')->isValid()) {
-                $this->upload_image($request->file('image'), $category->id);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                if ($image->isValid()) {
+                    $this->upload_image($image, $category->id);
+                }
+            }
+        }
+        if ($request->has('image-del')) {
+            foreach ($request->get('image-del') as $id) {
+                $image = ImageModel::findOrFail($id);
+                Storage::delete("/public{$image['path']}/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/lg/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/md/{$image['name']}.{$image['ext']}");
+                Storage::delete("/public{$image['path']}/sm/{$image['name']}.{$image['ext']}");
+                $image->delete();
             }
         }
 
         if ($request->get('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
-            $images = [];
-            return view('admin.categories.create', compact('category', 'categories', 'sex', 'images'));
+            return view('admin.categories.create', compact('category', 'categories'));
         } elseif ($request->get('save-2new')) {
             return redirect()->route('admin.categories.create')->with('success', 'Запись успешно добавлена');
         } else {
@@ -279,9 +288,11 @@ class CategoryController extends Controller
         }
 
 
-        if ($request->hasFile('image')) {
-            if ($request->file('image')->isValid()) {
-                $this->upload_image($request->file('image'), $category->id);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                if ($image->isValid()) {
+                    $this->upload_image($image, $category->id);
+                }
             }
         }
         if ($request->has('image-del')) {
@@ -298,11 +309,9 @@ class CategoryController extends Controller
         if ($request->has('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $category->id = null;
-            $images = [];
             return view('admin.categories.create', [
                 'category' => $category,
                 'categories' => $categories,
-                'images' => $images,
             ]);
         } elseif ($request->has('save-2new')) {
             return redirect()->route('admin.categories.create')->with('success', 'Запись успешно изменена');

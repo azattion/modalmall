@@ -114,13 +114,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $product = new Product;
-        $images = [];
+        $product = new Product();
         $categories = Category::where('status', 1)->orderBy('ordr')->get();
         return view('admin.products.create', [
             'product' => $product,
-            'categories' => $categories,
-            'images' => $images
+            'categories' => $categories
         ]);
     }
 
@@ -182,11 +180,9 @@ class ProductController extends Controller
 
         if ($request->get('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
-            $images = [];
             return view('admin.products.create', [
                 'product' => $product,
-                'categories' => $categories,
-                'images' => $images
+                'categories' => $categories
             ]);
         } elseif ($request->get('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно добавлена');
@@ -298,11 +294,9 @@ class ProductController extends Controller
         if ($request->has('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $product->id = null;
-            $images = [];
             return view('admin.products.create', [
                 'product' => $product,
-                'categories' => $categories,
-                'images' => $images
+                'categories' => $categories
             ]);
         } elseif ($request->has('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно изменена');

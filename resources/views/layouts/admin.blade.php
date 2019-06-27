@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>AdminLTE 2 | Dashboard</title>
+    <link rel="shortcut icon" type="image/png" href="/img/about.png"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -363,6 +364,12 @@
                     <a href="{{route('admin.menu.index')}}">
                         <i class="fa fa-gift"></i>
                         <span>Меню</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('admin.brands.index')}}">
+                        <i class="fa fa-certificate"></i>
+                        <span>Бренды</span>
                     </a>
                 </li>
                 <li>

@@ -51,6 +51,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Favorite', 'uid');
     }
 
+    public function avatars(){
+        return $this->morphMany('App\Image', 'imageable');
+    }
+
 //    /***
 //     * @param string $role
 //     * @return $this

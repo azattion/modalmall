@@ -22,6 +22,7 @@ Route::namespace('Site')->group(function () {
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
     Route::get('/catalog/new', 'ProductController@novelty')->name('products.novelty');
+    Route::get('/catalog/brands', 'ProductController@brands')->name('products.brands');
     Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
     Route::get('/catalog/product/{id}', 'ProductController@show')->name('products.show');
 
@@ -60,6 +61,7 @@ Route::namespace('Admin')->group(function () {
     Route::resource('admin/products', 'ProductController', ['as' => 'admin']);
 
     Route::resource('admin/menu', 'MenuController', ['as' => 'admin']);
+    Route::resource('admin/brands', 'BrandController', ['as' => 'admin']);
     Route::resource('admin/posts', 'PostController', ['as' => 'admin']);
     Route::resource('admin/users', 'UserController', ['as' => 'admin']);
     Route::resource('admin/categories', 'CategoryController', ['as' => 'admin']);

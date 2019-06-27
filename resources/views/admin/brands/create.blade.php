@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Категории')
+@section('title', 'Бренды')
 
 @section('content')
     <div class="row">
@@ -8,14 +8,14 @@
         <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{$category->id?"Изменить":"Добавить"}} категорию</h3>
+                    <h3 class="box-title">{{$brand->id?"Изменить":"Добавить"}} бренд</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form" method="post" enctype="multipart/form-data"
-                      action="{{$category->id ? route('admin.categories.update', $category->id) : route('admin.categories.store')}}">
+                      action="{{$brand->id ? route('admin.brands.update', $brand->id) : route('admin.brands.store')}}">
                     @csrf
-                    @if($category->id) @method('PUT') @endif
+                    @if($brand->id) @method('PUT') @endif
                     <div class="box-body">
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -29,43 +29,22 @@
                         <div class="form-group @error('name') has-error @enderror">
                             <label for="name">Название</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Введите название"
-                                   value="{{ old('name', $category->name) }}">
+                                   value="{{ old('name', $brand->name) }}">
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input {{old('status', $category->status)?'checked':''}} name="status" value="1"
+                                <input {{old('status', $brand->status)?'checked':''}} name="status" value="1"
                                        type="checkbox">
                                 Активный
                             </label>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input {{old('inc_menu', $category->inc_menu)?'checked':''}} name="inc_menu" value="1"
-                                       type="checkbox">
-                                Включить в меню
-                            </label>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group @error('pid') has-error @enderror">
-                                    <label for="pid">Родительская категория</label>
-                                    <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid" size="20">
-                                        <option @if(old('pid', $category->pid)==0) selected @endif value="0">Корень</option>
-                                        @foreach($categories as $cat)
-                                            <option @if(old('pid', $category->pid) == $cat->id) selected
-                                                    @endif value="{{$cat->id}}">{{str_repeat("—", $cat['level'])}} {{$cat['name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group @error('image') has-error @enderror">
                             <label for="image">Фотография</label>
-                            <input accept="image/*" type="file" name="images[]" id="image">
+                            <input accept="image/*" type="file" name="images[]" multiple id="image">
                             <p class="help-block">Максимальный размер 3 Мб</p>
-                            @if($category->images)
+                            @if($brand->images)
                                 <div class="row">
-                                    @foreach($category->images as $image)
+                                    @foreach($brand->images as $image)
                                         <div class="col-sm-2">
                                             <a target="_blank"
                                                href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
@@ -81,7 +60,7 @@
                         <div class="form-group @error('desc') has-error @enderror">
                             <label for="desc">Описание</label>
                         <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"
-                                  placeholder="Характеристика">{{ old('desc', $category->desc) }}</textarea>
+                                  placeholder="Введите описание бренда">{{ old('desc', $brand->desc) }}</textarea>
                         </div>
                         <div class="box box-default collapsed-box">
                             <div class="box-header with-border">
@@ -100,18 +79,18 @@
                                     <label for="meta_title">Заголовок</label>
                                     <input type="text" name="meta_title" class="form-control" id="meta_title"
                                            placeholder="Введите название"
-                                           value="{{ old('meta_title', $category->meta_title) }}">
+                                           value="{{ old('meta_title', $brand->meta_title) }}">
                                 </div>
                                 <div class="form-group @error('meta_desc') has-error @enderror">
                                     <label for="meta_desc">Описание</label>
                         <textarea name="meta_desc" class="form-control" id="meta_desc"
-                                  placeholder="Характеристика">{{ old('meta_desc', $category->meta_desc) }}</textarea>
+                                  placeholder="Характеристика">{{ old('meta_desc', $brand->meta_desc) }}</textarea>
                                 </div>
                                 <div class="form-group @error('meta_keywords') has-error @enderror">
                                     <label for="meta_keywords">Ключевые слова</label>
                                     <input type="text" name="meta_keywords" class="form-control" id="meta_keywords"
                                            placeholder="Введите ключевые слова"
-                                           value="{{ old('meta_keywords', $category->meta_keywords) }}">
+                                           value="{{ old('meta_keywords', $brand->meta_keywords) }}">
                                 </div>
                             </div>
                             <!-- /.box-body -->

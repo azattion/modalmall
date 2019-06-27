@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Brand;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
@@ -49,6 +50,13 @@ class ProductController extends Controller
 
         return view('site.products.search',
             ['category' => [], 'products' => $products]);
+    }
+
+    public function brands()
+    {
+        $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
+
+        return view('site.products.brand',  ['products' => $brands]);
     }
 
     public function search(Request $request)
