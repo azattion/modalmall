@@ -32,7 +32,8 @@ Route::namespace('Site')->group(function () {
 //    Route::get('/cabinet/order', 'ProductController@orders')->name('user.orders');
 
     Route::resource('cabinet/order', 'OrderController', ['as' => 'user']);
-    Route::resource('cabinet/cart', 'CartController', ['as' => 'user']);
+    Route::resource('cart', 'CartController', ['as' => 'user']);
+    Route::get('cart/delete/{id}', 'CartController@destroy')->name('user.cart.delete')->middleware('auth');
     Route::resource('cabinet/review', 'ReviewController', ['as' => 'user']);
     Route::resource('cabinet/favorite', 'FavoriteController', ['as' => 'user']);
     Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet')->middleware('auth');

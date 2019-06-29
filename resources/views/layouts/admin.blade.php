@@ -362,7 +362,7 @@
                 </li>
                 <li>
                     <a href="{{route('admin.menu.index')}}">
-                        <i class="fa fa-gift"></i>
+                        <i class="fa fa-list-alt"></i>
                         <span>Меню</span>
                     </a>
                 </li>
@@ -390,7 +390,7 @@
                 <li>
                     <a href="{{route('admin.users.index')}}">
                         <i class="fa fa-users"></i>
-                        <span>Клиенты</span>
+                        <span>Пользователи</span>
                     </a>
                 </li>
                 <li>

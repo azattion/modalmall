@@ -56,7 +56,6 @@
                                 </div>
                             @endif
                         </div>
-
                         <div class="form-group @error('desc') has-error @enderror">
                             <label for="desc">Описание</label>
                         <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"

@@ -1,43 +1,96 @@
 @extends('layouts.app')
 
-@section('title', "User Orders")
-
+@section('title', 'Мои заказы')
 
 @section('content')
     <div class="col-md-12">
-        <h3 class="text-center">Мои заказы</h3>
-        @if(count($orders))
-            @foreach($orders as $order)
-{{--                {{dd($order->items)}}--}}
-                <div class="row">
-                    <div class="col-md-2">
-                        {{$order['created_at']}}
-                    </div>
-                    <div class="col-md-2">
-                        {{$order['email']}}
-                    </div>
-                    <div class="col-md-2">
-                        {{$order['phone']}}
-                    </div>
-                    <div class="col-md-1">
-                        {{$order['status']}}
-                    </div>
-                    <div class="col-md-5">
-                        {{$order['address']}}
-                    </div>
-                </div>
-                @foreach($order->items as $item)
-                    <div class="col-md-12">
-                        {{$item['pid']}} => {{$item['qt']}}
-                    </div>
+        <h1>Мои заказы</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Наименование товара</th>
+                <th>Дополнительно</th>
+                <th></th>
+                <th>Статус заказа</th>
+            </tr>
+            </thead>
+            <tbody>
+            @php
+            $colors = config('services.colors');
+            $sizes = config('services.sizes');
+            @endphp
+            @if(count($orders))
+                @foreach($orders as $order)
+                    @php $cost = 0; @endphp
+                    @foreach($order->items as $item)
+                        @php $cost += $item['cost'] * $item['qt']; @endphp
+                    @endforeach
+                    <tr style="background-color: #fff">
+                        <td></td>
+                        <td>
+                            <span class="info-subtitle">Заказ №:</span> <span
+                                    class="info-body">{{$order['id']}}</span><br>
+                            <span class="info-subtitle">Время заказа:</span> <span
+                                    class="info-body">{{$order['created_at']}}</span>
+                        </td>
+                        <td>
+                            @php $statues = config('services.order_status'); @endphp
+                            <span class="info-subtitle">Статус:</span><br/>
+                            <span class="info-body">{{$statues[$order['status']]}}</span>
+                        </td>
+                        <td><span class="info-subtitle">Стоимость:</span><br/> <span class="info-body">{{$cost}}
+                                руб.</span></td>
+                        <td></td>
+                    </tr>
+                    @foreach($order->items as $item)
+                        <tr>
+                            <td class="text-center">
+                                @if(isset($item->product->images[0]))
+                                    <img style="width: 50px"
+                                         src="/storage{{$item->product->images[0]['path']}}/sm/{{$item->product->images[0]['name']}}.{{$item->product->images[0]['ext']}}">
+                                @else
+                                    <img class="img-fluid" style="width: 50px"
+                                         src="http://www.scppa.org/image.axd?picture=/2018/04/photo_not_available.png">
+                                @endif
+                            </td>
+                            <td>
+                                <a title="{{$item->product['name']}}" target="_blank"
+                                   href="{{route('products.show', $item['pid'])}}">
+                                    {{$item->product['name']}}
+                                </a>
+                                <div>{{$item['cost']}} руб. X {{$item['qt']}}</div>
+                            </td>
+                            <td>
+                                @if($item['color'])
+                                    <div>Цвет: {{$colors[$item['color']]}}</div>
+                                @endif
+                                @if($item['size'])
+                                    <div>Размер: {{$sizes[$item['size']]}}</div>
+                                @endif
+                            </td>
+                            <td></td>
+                            <td>
+                                @if($item['status'] == 2)
+                                    <span class="badge badge-danger">Предзаказ</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
-            @endforeach
-        @else
-            <div class="row">
-                <div class="col-md-12">
-                    Не найдено
-                </div>
+            @else
+                <tr>
+                    <td colspan="4">
+                        <div>У вас пока заказов нет</div>
+                    </td>
+                </tr>
+            @endif
+            </tbody>
+        </table>
+        <div>
+            <div class="no-margin pull-right">
+                {{ $orders->links() }}
             </div>
-        @endif
+        </div>
     </div>
 @endsection

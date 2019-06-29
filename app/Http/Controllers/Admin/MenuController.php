@@ -143,6 +143,14 @@ class MenuController extends Controller
             }
         }
 
+        if ($request->has('image-del')) {
+            foreach ($request->get('image-del') as $id) {
+                $image = ImageModel::findOrFail($id);
+                ImageModel::delete_image($image);
+                $image->delete();
+            }
+        }
+
         return redirect()->route('admin.menu.show', $menu->type)->with('success', 'Запись успешно изменена');
     }
 

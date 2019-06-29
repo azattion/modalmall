@@ -38,6 +38,19 @@
                             <label for="image">Иконка</label>
                             <input accept="image/*" type="file" name="image" id="image">
                             <p class="help-block">Максимальный размер 3 Мб</p>
+                            @if($menu->images)
+                                <div class="row">
+                                    @foreach($menu->images as $image)
+                                        <div class="col-sm-2">
+                                            <a target="_blank"
+                                               href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
+                                                        class="img-responsive"
+                                                        src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
+                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}" name="image-del[{{$image['id']}}]"> Удалить</label></div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                         <div class="form-group @error('link') has-error @enderror">
                             <label for="link">Ссылка</label>

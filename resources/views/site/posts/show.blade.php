@@ -5,6 +5,11 @@
 @section('content')
     <h1>{{$post['title']}}</h1>
     <p>{{$post['date']}}</p>
+    <div class="post__admin">
+        <a target="_blank" href="{{route('admin.posts.edit', $post['id'])}}">
+            Редактировать публикацию
+        </a>
+    </div>
     @if($post->images)
         <div class="row">
             @foreach($post->images as $image)

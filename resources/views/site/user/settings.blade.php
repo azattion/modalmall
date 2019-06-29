@@ -45,6 +45,12 @@
                            placeholder="Введите ваше имя">
                 </div>
                 <div class="form-group">
+                    <label for="surname">Фамилия</label>
+                    <input name="surname" value="{{old('surname', auth()->user()['surname'])}}"
+                           class="form-control @error('surname') is-invalid @enderror" type="text" id="surname"
+                           placeholder="Введите вашу фамилию">
+                </div>
+                <div class="form-group">
                     <label for="phone">Номер телефона</label>
                     <input name="phone" value="{{old('phone', auth()->user()['phone'])}}"
                            class="form-control @error('phone') is-invalid @enderror" type="text" id="phone"

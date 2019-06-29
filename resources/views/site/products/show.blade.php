@@ -8,22 +8,27 @@
     <p>{{$product->category['name']}}</p>
     <div class="row">
         <div class="col-md-4">
+
             <div class="product__cover text-center">
                 @if(count($product->images))
-                    <div class="product__img product-img-full">
-                        <img style="height: 200px;" class="img-fluid"
-                             src="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">
-                    </div>
-
-                    <div class="product__images">
-                        <div class="product_images_row">
-                            @foreach($product->images as $image)
-                                <div class="product__img">
-                                    <img class="img-fluid"
-                                         src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">
-                                </div>
-                            @endforeach
+                    <div class="exzoom" id="exzoom">
+                        <!-- Images -->
+                        <div class="exzoom_img_box">
+                            <ul class='exzoom_img_ul'>
+                                @foreach($product->images as $image)
+                                    <li class="">
+                                        <img class="img-fluid"
+                                             src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
+                        <div class="exzoom_nav"></div>
+                        <!-- Nav Buttons -->
+                        <p class="exzoom_btn">
+                            <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+                            <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+                        </p>
                     </div>
                 @else
                     <div class="product__img">
@@ -31,105 +36,311 @@
                              src="http://www.scppa.org/image.axd?picture=/2018/04/photo_not_available.png">
                     </div>
                 @endif
+
+                {{--<div class="product__img product-img-full">--}}
+                {{--<img style="height: 200px;" class="img-fluid"--}}
+                {{--src="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">--}}
+                {{--</div>--}}
+
+                {{--<div class="product__images">--}}
+                {{--<div class="product_images_row">--}}
+                {{--@foreach($product->images as $image)--}}
+                {{--<div class="product__img">--}}
+                {{--<img class="img-fluid"--}}
+                {{--src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">--}}
+                {{--</div>--}}
+                {{--@endforeach--}}
+                {{--</div>--}}
+                {{--</div>--}}
             </div>
         </div>
         <div class="col-md-8">
-            <div><a target="_blank" href="{{route('admin.products.edit', $product['id'])}}">Редактировать
-                    товар</a></div>
-            <div class="product__cost">{{$product['price']}} <img style="width: 20px"
-                                                                  src="https://static.thenounproject.com/png/92306-200.png"
-                                                                  alt=""></div>
+            <div class="product__admin">
+                <a target="_blank" href="{{route('admin.products.edit', $product['id'])}}">
+                    Редактировать товар
+                </a>
+            </div>
+            <div class="product__cost">
+                @if($product['sale_percent'] && strtotime($product['sale_start_date']) < time() && strtotime($product['sale_end_date']) > time())
+                    <span class="product__cost_sale">{{$product['cost']}}  руб.</span> <span class="badge badge-danger">{{$product['sale_percent']}} %</span>
+                @else
+                    <span>{{$product['cost']}}</span> руб.
+                @endif
+            </div>
             <div class="product__collection">Коллекция: {{$product['collection']}}</div>
             <div class="product__quantity">Количество: {{$product['quantity']}}</div>
 
-            @php
-            $colors = config('services.colors');
-            $product_colors = explode('|', trim($product['colors'], '|'));
-            @endphp
-            {{--@php dump($product_colors) @endphp--}}
-            @if($product['colors'] && count($product_colors))
-                <div class="product__colors">Выберите
-                    цвет: @foreach($product_colors as $color) {{$colors[$color]}}
-                    , @endforeach</div>
-            @endif
-
-            @php
-            $sizes = config('services.sizes');
-            $product_sizes = explode('|', trim($product['sizes'], '|'));
-            @endphp
-            @if($product['sizes'] && count($product_sizes))
-                <div class="product__sizes">Выберите
-                    размер: @foreach($product_sizes as $size) {{$sizes[$size]}}
-                    , @endforeach
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                        Таблица размеров
-                    </button>
-                </div>
+            <form method="post" action="{{route('user.cart.store')}}">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
 
-                        <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Таблица размеров</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                @php
+                $colors = config('services.colors');
+                $product_colors = explode('|', trim($product['colors'], '|'));
+                @endphp
+                {{--@php dump($product_colors) @endphp--}}
+                @if($product['colors'] && count($product_colors))
+                    <div class="product__colors">
+                        Выберите цвет:
+                        @foreach($product_colors as $key => $color)
+                            <label><input {{$key==0?"checked":""}} class="form-check-inline" type="radio" name="color"
+                                          value="{{$color}}">{{$colors[$color]}}</label>
+                        @endforeach
+                    </div>
+                @endif
+
+                @php
+                $sizes = config('services.sizes');
+                $product_sizes = explode('|', trim($product['sizes'], '|'));
+                @endphp
+
+                @if($product['sizes'] && count($product_sizes))
+                    <div class="product__sizes">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="size">Выберите размер:</label>
+                                <select name="size" id="size">
+                                    @foreach($product_sizes as $key => $size)
+                                        <option value="{{$size}}">{{$sizes[$size]}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-success" data-toggle="modal"
+                                        data-target="#exampleModal">
+                                    Таблица размеров
                                 </button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
-                <form method="post" action="{{route('user.cart.store')}}">
+
+                <div class="row">
                     @csrf
-                    <div class="row">
-                        <input type="hidden" name="id" value="{{$product['id']}}">
-                        @if($product['quantity'])
-                            <div class="col-sm-2">
-                                <input class="form-control" type="number" name="qt" min="1" value="1">
-                            </div>
-                            <button type="submit" class="btn btn-success">В корзину</button>
-                        @else
-                            <button type="submit" disabled class="btn btn-success">Нет в наличии</button>
-                        @endif
-                        @if($product->favorite)
-                            <form action="{{route('user.favorite.destroy', $product->favorite['id'])}}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="pid" value="{{$product['id']}}">
-                                <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit"
-                                        class="btn btn-link">
-                                    Удалить из избранных
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{route('user.favorite.store')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="pid" value="{{$product['id']}}">
-                                <button type="submit" class="btn btn-link">
-                                    В избранное
-                                </button>
-                            </form>
-                        @endif
+                    <input type="hidden" name="id" value="{{$product['id']}}">
+                    {{--<input type="hidden" name="status" value="{{$product['available'] ? 1 : 2}}">--}}
+                    <div class="col-sm-2">
+                        <input class="form-control" type="number" name="qt" min="1" value="1">
                     </div>
+                    <button type="submit" class="btn btn-success">
+                        @if($product['available'])В корзину @else Предзаказать @endif
+                    </button>
+                    {{--<div>Нет в наличии</div>--}}
+                </div>
+            </form>
+
+            @if($product->favorite)
+                <form action="{{route('user.favorite.destroy', $product->favorite['id'])}}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="pid" value="{{$product['id']}}">
+                    <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit"
+                            class="btn btn-link">
+                        Удалить из избранных
+                    </button>
                 </form>
+            @else
+                <form action="{{route('user.favorite.store')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="pid" value="{{$product['id']}}">
+                    <button type="submit" class="btn btn-link">
+                        В избранное
+                    </button>
+                </form>
+            @endif
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Таблица размеров</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table align="center" test="9" width="100%">
+                            <tbody>
+                            <tr class="tr_head">
+                                <td>
+                                    <div>Российский размер</div>
+                                </td>
+                                <td>
+                                    <div>Размер производителя</div>
+                                </td>
+                                <td>
+                                    <div>Обхват груди, в см</div>
+                                </td>
+                                <td>
+                                    <div>Обхват талии, в см</div>
+                                </td>
+                                <td>
+                                    <div>Обхват бедер, в см</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>40</div>
+                                </td>
+                                <td>
+                                    <div>40</div>
+                                </td>
+                                <td>
+                                    <div>78-81</div>
+                                </td>
+                                <td>
+                                    <div>56-59</div>
+                                </td>
+                                <td>
+                                    <div>83-86</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>40-ULTRA</div>
+                                </td>
+                                <td>
+                                    <div>34/170</div>
+                                </td>
+                                <td>
+                                    <div>78-81</div>
+                                </td>
+                                <td>
+                                    <div>57-60</div>
+                                </td>
+                                <td>
+                                    <div>80-83</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>42-ULTRA</div>
+                                </td>
+                                <td>
+                                    <div>36/170</div>
+                                </td>
+                                <td>
+                                    <div>82-85</div>
+                                </td>
+                                <td>
+                                    <div>61-64</div>
+                                </td>
+                                <td>
+                                    <div>84-87</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>44</div>
+                                </td>
+                                <td>
+                                    <div>38</div>
+                                </td>
+                                <td>
+                                    <div>86-89</div>
+                                </td>
+                                <td>
+                                    <div>66-69</div>
+                                </td>
+                                <td>
+                                    <div>92-95</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>44-ULTRA</div>
+                                </td>
+                                <td>
+                                    <div>38/170</div>
+                                </td>
+                                <td>
+                                    <div>86-89</div>
+                                </td>
+                                <td>
+                                    <div>65-68</div>
+                                </td>
+                                <td>
+                                    <div>88-91</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>46-ULTRA</div>
+                                </td>
+                                <td>
+                                    <div>40/170</div>
+                                </td>
+                                <td>
+                                    <div>90-93</div>
+                                </td>
+                                <td>
+                                    <div>69-72</div>
+                                </td>
+                                <td>
+                                    <div>92-95</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>48-ULTRA</div>
+                                </td>
+                                <td>
+                                    <div>42/170</div>
+                                </td>
+                                <td>
+                                    <div>94-97</div>
+                                </td>
+                                <td>
+                                    <div>73-76</div>
+                                </td>
+                                <td>
+                                    <div>96-99</div>
+                                </td>
+                            </tr>
+                            <tr class="data-size">
+                                <td>
+                                    <div>50-ULTRA</div>
+                                </td>
+                                <td>
+                                    <div>44/170</div>
+                                </td>
+                                <td>
+                                    <div>98-101</div>
+                                </td>
+                                <td>
+                                    <div>77-80</div>
+                                </td>
+                                <td>
+                                    <div>100-103</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-12">
             <table class="table table-bordered">
                 @if($product['brand'])
                     <tr>
-                        @php $brands = config('services.brands'); @endphp
                         <td>Бренд</td>
-                        <td>{{$brands[$product['brand']]}}</td>
+                        <td>{{$product->brands['name']}}</td>
                     </tr>
                 @endif
                 @if($product['producer'])
@@ -165,18 +376,29 @@
             <h5>Отзывы</h5>
             <?php $hasUserReview = false; ?>
             @foreach($product->reviews as $review)
-                <div>{{$review['star']}} => {{$review['text']}}
-                    @if(auth()->id() && $review['uid']==auth()->id())
-                        <?php $hasUserReview = true; ?>
-                        <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
-                            @csrf
-                            @method('DELETE')
-                            <button onclick="return confirm('Вы действительно хотите удалить?')"
-                                    class="btn btn-success"
-                                    type="submit">Удалить
-                            </button>
-                        </form>
-                    @endif
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product__review-img">
+                            <div style="width:{{$review['star']*100/5}}%"></div>
+                        </div>
+                        @if(auth()->id() && $review['uid']==auth()->id())
+                            <?php $hasUserReview = true; ?>
+                            <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
+                                @csrf
+                                @method('DELETE')
+                                <button onclick="return confirm('Вы действительно хотите удалить?')"
+                                        class="btn btn-link"
+                                        type="submit">Удалить
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                    <div class="col-md-12">
+                        <div class="product__review-text">
+                            {{$review['text']}}
+                        </div>
+
+                    </div>
                 </div>
             @endforeach
             @if(!$hasUserReview)
@@ -184,10 +406,28 @@
                     @csrf
                     <input type="hidden" name="pid" value="{{$product['id']}}">
                     <div class="form-group">
-                        <input required type="range" name="star" min="1" max="5">
+                        {{--<input required type="range" name="star" min="1" max="5">--}}
+                        <fieldset class="review">
+                            <input type="radio" id="star5" name="star" value="5">
+                            <label for="star5"
+                                   title="Отлично">5</label>
+                            <input type="radio" id="star4" name="star" value="4">
+                            <label for="star4"
+                                   title="Очень хорошо">4</label>
+                            <input type="radio" id="star3" name="star" value="3">
+                            <label for="star3"
+                                   title="Хорошо">3</label>
+                            <input type="radio" id="star2" name="star" value="2">
+                            <label for="star2"
+                                   title="Удовлетворительно">2</label>
+                            <input type="radio" id="star1" name="star" value="1">
+                            <label for="star1"
+                                   title="Плохо">1</label>
+                        </fieldset>
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Введите отзыв" required name="text"
+                        <label for="review-text">
+                        <textarea id="review-text" placeholder="Введите отзыв" required name="text"
                                   class="form-control">{{old('text')}}</textarea>
                         </label>
                     </div>
@@ -198,5 +438,26 @@
             @endif
         </div>
     </div>
+@endsection
+
+@section('script')
+    <link href="/css/jquery.exzoom.css" rel="stylesheet">
+    <script src="/js/jquery.exzoom.js"></script>
+    <script>
+        $(function () {
+            $("#exzoom").exzoom({
+                // thumbnail nav options
+                "navWidth": 60,
+                "navHeight": 60,
+                "navItemNum": 5,
+                "navItemMargin": 7,
+                "navBorder": 1,
+                // autoplay
+                "autoPlay": false,
+                // autoplay interval in milliseconds
+                "autoPlayTimeout": 2000
+            });
+        });
+    </script>
 @endsection
 

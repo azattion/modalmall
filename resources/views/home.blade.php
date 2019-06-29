@@ -40,9 +40,9 @@
                     </div>
                 @endforeach
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: 30px">
                 <div class="col-md-12">
-                    <h2 class="header-title__italic text-center">Бестселлеры</h2>
+                    <h2 style="margin-bottom: 0" class="header-title__italic text-center">Бестселлеры</h2>
                     <div class="row product-row">
                         @foreach($products as $product)
                             <div class="col-md-3">

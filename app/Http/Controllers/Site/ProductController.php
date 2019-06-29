@@ -20,8 +20,8 @@ class ProductController extends Controller
     {
         $sort = 'id';
         $order = 'desc';
-        if (isset($_GET['sort']) && in_array($_GET['sort'], array('price', 'top'))) {
-            $sort = 'price';
+        if (isset($_GET['sort']) && in_array($_GET['sort'], array('cost', 'top'))) {
+            $sort = 'cost';
         }
         if (isset($_GET['order']) && in_array($_GET['order'], array('desc', 'asc'))) {
             $order = $_GET['order'];
@@ -33,7 +33,11 @@ class ProductController extends Controller
         $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
 
         if (isset($_GET['brand']) && $_GET['brand']) {
-            $products = $products->orWhere('brand', $_GET['brand']);
+            $products = $products->where('brand', $_GET['brand']);
+        }
+        if(isset($_GET['promotion'])){
+            $products = $products->where('sale_start_date', '>', date('Y-m-d H:i:s'))
+            ->where('sale_end_date', '<', date('Y-m-d H:i:s'));
         }
         $products = $products->get();
 
@@ -57,7 +61,6 @@ class ProductController extends Controller
     public function brands()
     {
         $brands = Brand::where('status', 1)->orderBy('ordr')->get();
-
         return view('site.products.brand',  ['brands' => $brands]);
     }
 

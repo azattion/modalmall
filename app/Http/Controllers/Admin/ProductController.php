@@ -62,7 +62,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
             'cat' => 'required|numeric|min:1',
-            'price' => 'required|numeric',
+            'cost' => 'required|numeric',
             'quantity' => 'nullable|numeric|min:0',
             'colors.*' => 'nullable|numeric',
             'sizes.*' => 'nullable|numeric',
@@ -70,6 +70,7 @@ class ProductController extends Controller
             'composition' => 'nullable|string',
             'unit' => 'nullable|string',
 
+            'available' => 'required|numeric|max:1',
             'status' => 'nullable|numeric|max:1',
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',
@@ -146,13 +147,14 @@ class ProductController extends Controller
             $pid[] = $request->get('cat');
         }
         $product->cats = "|" . implode('|', $pid) . "|";
-        $product->price = $request->get('price');
+        $product->cost = $request->get('cost');
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
 
         $product->quantity = $request->get('quantity');
+        $product->available = $request->get('available');
         $product->colors = "|" . implode("|", $request->get('colors')) . "|";
         $product->sizes = "|" . implode("|", $request->get('sizes')) . "|";
         $product->brand = $request->get('brand');
@@ -169,6 +171,7 @@ class ProductController extends Controller
         $product->as_new_end_date = $request->get('as_new_end_date');
 
         $product->sale = $request->get('sale') ?: 0;
+        $product->sale_percent = $request->get('sale_percent');
         $product->sale_start_date = $request->get('sale_start_date');
         $product->sale_end_date = $request->get('sale_end_date');
         $product->save();
@@ -254,12 +257,13 @@ class ProductController extends Controller
         }
         $product->cats = "|" . implode('|', $pid) . "|";
 
-        $product->price = $request->get('price');
+        $product->cost = $request->get('cost');
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
         $product->collection = $request->get('collection');
 
+        $product->available = $request->get('available');
         $product->quantity = $request->get('quantity');
         $product->colors = $request->get('colors') ? "|" . implode("|", $request->get('colors')) . "|" : "";
         $product->sizes = $request->get('sizes') ? "|" . implode("|", $request->get('sizes')) . "|" : "";
@@ -277,6 +281,7 @@ class ProductController extends Controller
         $product->as_new_end_date = $request->get('as_new_end_date');
 
         $product->sale = $request->get('sale') ?: 0;
+        $product->sale_percent = $request->get('sale_percent');
         $product->sale_start_date = $request->get('sale_start_date');
         $product->sale_end_date = $request->get('sale_end_date');
         $product->save();

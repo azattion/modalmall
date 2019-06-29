@@ -8,9 +8,9 @@
             @if(isset($categories) && count($categories))
                 <div style="background-color: #EA6385">
                     <ul class="category-nav list-unstyled">
-                        @foreach($categories as $category)
+                        @foreach($categories as $cat)
                             <li class="category-nav__item"><a class="category-nav__link"
-                                                              href="{{route('products.category', $category['id'])}}">{{$category['name']}}</a>
+                                                              href="{{route('products.category', $cat['id'])}}">{{$cat['name']}}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -20,19 +20,23 @@
         <div class="col-sm-10">
             <h3 class="text-left">{{isset($category['name'])?$category['name']:''}}</h3>
             <div class="row">
-                <div class="col-sm text-left">
-                    <label for="sort">Сортировать по:
-                        <select name="sort" id="sort">
-                            <option value="{{route('products.category', $category['id'])}}?sort=top&order=up">Популярные
-                            </option>
-                            <option value="{{route('products.category', $category['id'])}}?sort=price&order=desc">По
-                                цене
-                            </option>
-                            <option value="{{route('products.category', $category['id'])}}?sort=price&order=asc">По цене
-                            </option>
-                        </select>
-                    </label>
-                </div>
+                @if($category)
+                    <div class="col-sm text-left">
+                        <label for="sort">Сортировать по:
+                            <select name="sort" id="sort">
+                                <option value="{{route('products.category', $category['id'])}}?sort=top&order=up">
+                                    Популярные
+                                </option>
+                                <option value="{{route('products.category', $category['id'])}}?sort=cost&order=desc">По
+                                    цене
+                                </option>
+                                <option value="{{route('products.category', $category['id'])}}?sort=cost&order=asc">По
+                                    цене
+                                </option>
+                            </select>
+                        </label>
+                    </div>
+                @endif
                 <div class="col-sm text-right">
                     <label for="size">Размер: <br>
                         <select name="size" id="size">
@@ -50,7 +54,8 @@
                             <option value="0">...</option>
                             {{--@php $brands = config('services.brands') @endphp--}}
                             @foreach($brands as $brand)
-                                <option @if(isset($_GET['brand']) && $_GET['brand'] == $brand['id']) selected @endif value="{{$brand['id']}}">{{$brand['name']}}</option>
+                                <option @if(isset($_GET['brand']) && $_GET['brand'] == $brand['id']) selected
+                                        @endif value="{{$brand['id']}}">{{$brand['name']}}</option>
                             @endforeach
                         </select>
                     </label>

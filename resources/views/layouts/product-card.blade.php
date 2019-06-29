@@ -13,13 +13,19 @@
                     <img class="img-fluid" src="/img/new.png" alt="">
                 </div>
             @endif
-            @if(time() > strtotime($product['sale_start_date']) && time() < strtotime($product['sale_end_date']))
+            @if($product['sale_percent'] && time() > strtotime($product['sale_start_date']) && time() < strtotime($product['sale_end_date']))
                 <div class="product-card__sale">
                     <img class="img-fluid" src="/img/sale.png" alt="">
                 </div>
             @endif
         </div>
-        <div class="product-card__cost text-center">{{$product['price']}} RUB</div>
+        <div class="product-card__cost text-center">
+            @if($product['sale_percent'] && strtotime($product['sale_start_date']) < time() && strtotime($product['sale_end_date']) > time())
+                <span class="product__cost_sale">{{$product['cost']}}  руб.</span> <span class="badge badge-danger">{{$product['sale_percent']}} %</span>
+            @else
+                <span>{{$product['cost']}}</span> руб.
+            @endif
+        </div>
         <div class="product-card__name text-center">{{$product['name']}}</div>
     </a>
 </div>

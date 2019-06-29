@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderItem;
+use App\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -22,7 +23,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('id', 'desc')->where('uid', auth()->id())->paginate(config('services.pagination'));
+        $orders = Order::with('items')->orderBy('id', 'desc')->where('uid', auth()->id())->paginate(10);
         return view('site.orders.index', ['orders' => $orders]);
     }
 
@@ -50,11 +51,16 @@ class OrderController extends Controller
             'phone' => 'required|string|max:255',
             'id.*' => 'required|numeric|max:255',
             'qt.*' => 'required|numeric|max:255',
+//            'status.*' => 'required|numeric|max:255',
+            'color.*' => 'nullable|numeric|max:255',
+            'size.*' => 'nullable|numeric|max:255',
+//            'cost.*' => 'nullable|numeric|max:255',
         ]);
         $order = new Order;
         $order->email = $request->get('email');
         $order->phone = $request->get('phone');
         $order->address = $request->get('address');
+        $order->status = 0;
         $order->uid = auth()->id();
         $order->save();
 
@@ -62,6 +68,11 @@ class OrderController extends Controller
 
         $qt = $request->get('qt');
         $pid = $request->get('id');
+//        $status = $request->get('status');
+        $color = $request->get('color');
+        $size = $request->get('size');
+//        $cost = $request->get('cost');
+
         if ($request->has('id')) {
             foreach ($pid as $id) {
                 $orderItem = [
@@ -69,6 +80,10 @@ class OrderController extends Controller
                     'uid' => auth()->id(),
                     'oid' => $order->id,
                     'qt' => isset($qt[$id]) ? $qt[$id] : 1,
+                    'color' => isset($color[$id]) ? $color[$id] : 0,
+                    'status' => Product::find($id)['available']?1:2,
+                    'size' => isset($size[$id]) ? $size[$id] : 0,
+                    'cost' => Product::find($id)['cost'],
                 ];
 
                 OrderItem::create($orderItem);

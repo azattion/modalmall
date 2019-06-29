@@ -21,7 +21,11 @@ class PostController extends Controller
 
     function page_show($name)
     {
-        $post = Post::where('slug', $name)->get();
+        $post = Post::where('slug', $name)->first();
+        if (!($post)) {
+            abort(404);
+        }
+//        dd($post);
         return view('site.posts.show', ['post' => $post]);
     }
 }

@@ -22,7 +22,10 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-        $favorites = Favorite::orderBy('id', 'desc')->where('uid', auth()->id())->paginate();
+        $favorites = Favorite::orderBy('id', 'desc')
+            ->where('uid', auth()->id())
+            ->paginate(config('services.pagination'));
+
         return view('site.favorites.index', ['favorites' => $favorites]);
     }
 

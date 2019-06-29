@@ -70,7 +70,7 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group @error('quantity') has-error @enderror">
-                                    <label for="quantity">Количество</label>
+                                    <label for="quantity">Количество в упаковке</label>
                                     <input type="number" min="0" name="quantity" class="form-control" id="quantity"
                                            placeholder="Введите количество"
                                            value="{{ old('quantity', $product->quantity) }}">
@@ -78,13 +78,23 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group @error('available') has-error @enderror">
+                                    <label for="available">Доступно</label>
+                                    <input type="number" min="0" name="available" class="form-control" id="available"
+                                           placeholder="Введите в наличии"
+                                           value="{{ old('available', $product->available) }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group @error('price') has-error @enderror">
-                                    <label for="price">Стоимость</label>
+                                <div class="form-group @error('cost') has-error @enderror">
+                                    <label for="cost">Стоимость</label>
                                     <div class="input-group">
-                                        <input type="number" min="0" name="price" class="form-control" id="price"
+                                        <input type="number" min="0" name="cost" class="form-control" id="cost"
                                                placeholder="Введите стоимость" autocomplete="off"
-                                               value="{{ old('price', $product->price) }}">
+                                               value="{{ old('cost', $product->cost) }}">
                                         <span class="input-group-addon">RUB</span>
                                     </div>
                                 </div>
@@ -236,13 +246,14 @@
                             <!-- /.box-header -->
                             <div class="box-body" style="display: none;">
                                 <div class="checkbox">
-                                    <label>
+                                    {{--<label>--}}
                                         {{--<input {{$product->as_new || old('as_new')?'checked':''}} name="as_new"--}}
                                         {{--value="1"--}}
                                         {{--type="checkbox">--}}
                                         Новинка
-                                    </label>
+                                    {{--</label>--}}
                                 </div>
+
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group @error('as_new_start_date') has-error @enderror">
@@ -266,12 +277,24 @@
                                     </div>
                                 </div>
                                 <div class="checkbox">
-                                    <label>
+                                    {{--<label>--}}
                                         {{--<input {{$product->sale || old('sale')?'checked':''}} name="sale"--}}
                                         {{--value="1"--}}
                                         {{--type="checkbox">--}}
                                         Скидка
-                                    </label>
+                                    {{--</label>--}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group @error('sale_percent') has-error @enderror">
+                                            <label for="sale_percent">Процент скидка</label>
+                                            <input type="text" name="sale_percent" class="form-control"
+                                                   id="sale_percent"
+                                                   placeholder="Введите процент скидки" autocomplete="off"
+                                                   value="{{ old('sale_percent', $product->sale_percent) }}">
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4">

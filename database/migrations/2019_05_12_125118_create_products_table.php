@@ -34,10 +34,10 @@ class CreateProductsTable extends Migration
 
             $table->integer('quantity')->nullable(true);
             $table->integer('unit')->nullable(true);
-            $table->integer('pack_price')->nullable(true);
-            $table->integer('price')->default(0);
+            $table->integer('pack_cost')->nullable(true);
+            $table->integer('cost')->default(0);
             $table->integer('tax')->nullable(true);
-//            $table->integer('available')->nullable(true);
+            $table->integer('available')->nullable(true);
             $table->boolean('status')->default(true)->index();
             $table->integer('uid')->default(0)->index();
 
@@ -45,6 +45,7 @@ class CreateProductsTable extends Migration
             $table->date('as_new_start_date')->nullable();
             $table->date('as_new_end_date')->nullable();
             $table->boolean('sale')->default(false);
+            $table->float('sale_percent')->nullable();
             $table->date('sale_start_date')->nullable();
             $table->date('sale_end_date')->nullable();
 

@@ -8,7 +8,7 @@ class Favorite extends Model
 {
     public function product()
     {
-        return $this->hasOne('App\Product', 'pid');
+        return $this->hasOne('App\Product', 'id', 'pid');
     }
 
     public function scopeUser($query)

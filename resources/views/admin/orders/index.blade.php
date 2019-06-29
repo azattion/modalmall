@@ -45,9 +45,8 @@
                                     <td>{{$order['created_at']}}</td>
                                     <td>
                                         @if($order['status'])
-                                            <span class="label label-success">Активный</span>
-                                        @else
-                                            <span class="label label-default">Невидимый</span>
+                                            @php $statues = config('services.order_status'); @endphp
+                                            {{$statues[$order['status']]}}
                                         @endif
                                     </td>
                                     <td>{{$order['address']}}</td>

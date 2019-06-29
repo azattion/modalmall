@@ -115,10 +115,10 @@
         }
 
         body {
-            background-image: url(/img/content-bg-left.png), url(/img/content-bg-right.png);
-            background-repeat: no-repeat, no-repeat;
-            background-position: left top, right top;
-            background-size: 100px 858px, 100px 681px;
+            background-image: url(/img/content-bg-left.png), url(/img/content-bg-right.png), url(/img/footer-left-bottom-bg.png);
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-position: left top, right top, left bottom;
+            background-size: 100px 858px, 100px 681px, 542px 200px;
         }
 
         header {
@@ -130,14 +130,15 @@
         }
 
         footer {
-            background-image: url(/img/footer-left-bottom-bg.png), url(/img/footer-right-bg.png);
-            background-repeat: no-repeat, no-repeat;
-            background-position: left bottom, right center;
-            background-size: 542px 200px, 100px 204px;
+            background-image: url(/img/footer-right-bg.png);
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 100px 204px;
         }
 
         section {
             margin: 25px 0;
+            min-height: 500px;
         }
 
         .header-nav__icon {
@@ -150,6 +151,10 @@
 
         .header-nav__link {
             color: #000;
+        }
+
+        .header-nav__name {
+            display: block;
         }
 
         .main-nav__link {
@@ -307,7 +312,7 @@
             z-index: 1;
         }
 
-        .product__sale {
+        .product-card__sale {
             position: absolute;
             right: 0;
             top: 0;
@@ -334,6 +339,9 @@
             color: #000;
             font-weight: 700;
             font-family: 'AG_Futura Bold'
+        }
+        .product__cost_sale{
+            text-decoration: line-through;
         }
 
         footer {
@@ -392,6 +400,158 @@
             color: #000000;
             border: 1px solid #491a79;
         }
+        .info-subtitle{
+            color: #999;
+        }
+        .info-body{
+            color: #333;
+        }
+        .review:not(:checked) > label {
+            float: right;
+            width: 1em;
+            padding: 0 .1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 200%;
+            line-height: 1.2;
+            color: #ddd;
+        }
+        .review:not(:checked) > label:before {
+            content: '★ ';
+        }
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .review {
+            border: 0;
+            float: left
+        }
+
+        .review:not(:checked) > input {
+            position: absolute;
+            top: -9999px;
+            clip: rect(0, 0, 0, 0)
+        }
+
+        .review:not(:checked) > label {
+            float: right;
+            width: 1em;
+            padding: 0 .1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 200%;
+            line-height: 1.2;
+            color: #ddd
+        }
+
+        .review:not(:checked) > label:before {
+            content: '★ '
+        }
+
+        .review > input:checked ~ label {
+            color: #005f8e
+        }
+
+        .review:not(:checked) > label:hover, .review:not(:checked) > label:hover ~ label {
+            color: #0095da
+        }
+
+        .review > input:checked + label:hover, .review > input:checked + label:hover ~ label, .review > input:checked ~ label:hover, .review > input:checked ~ label:hover ~ label, .review > label:hover ~ input:checked ~ label {
+            color: #0095da
+        }
+
+        .review > label:active {
+            position: relative;
+            top: 2px;
+            left: 2px
+        }
+        .col-review {
+            margin-bottom: 30px
+        }
+
+        .product__review-img {
+            float: left;
+            width: 125px;
+            margin-right: 10px;
+            position: relative
+        }
+
+        .product__review-img div {
+            height: 25px;
+            background: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDMwNiAzMDYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwNiAzMDY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0ic3Rhci1yYXRlIj4KCQk8cG9seWdvbiBwb2ludHM9IjE1MywyMzAuNzc1IDI0Ny4zNSwyOTkuNjI1IDIxMS42NSwxODcuNDI1IDMwNiwxMjEuMTI1IDE5MS4yNSwxMjEuMTI1IDE1Myw2LjM3NSAxMTQuNzUsMTIxLjEyNSAwLDEyMS4xMjUgICAgIDk0LjM1LDE4Ny40MjUgNTguNjUsMjk5LjYyNSAgICIgZmlsbD0iIzU4OTBmZiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=) left bottom;
+            background-size: 25px
+        }
+
+        .product__review-img:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            height: 25px;
+            width: 125px;
+            opacity: .3;
+            background: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDMwNiAzMDYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwNiAzMDY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0ic3Rhci1yYXRlIj4KCQk8cG9seWdvbiBwb2ludHM9IjE1MywyMzAuNzc1IDI0Ny4zNSwyOTkuNjI1IDIxMS42NSwxODcuNDI1IDMwNiwxMjEuMTI1IDE5MS4yNSwxMjEuMTI1IDE1Myw2LjM3NSAxMTQuNzUsMTIxLjEyNSAwLDEyMS4xMjUgICAgIDk0LjM1LDE4Ny40MjUgNTguNjUsMjk5LjYyNSAgICIgZmlsbD0iIzU4OTBmZiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=) left bottom;
+            background-size: 25px
+        }
+
+        .col-review-value {
+            float: left;
+            margin-right: 10px;
+            font-size: 25px
+        }
+
+        .col-review-act {
+            margin-right: 30px;
+            user-select: none
+        }
+
+        .col-review {
+            vertical-align: middle;
+            line-height: 28px
+        }
+
+        .col-review .col-review-act {
+            line-height: 25px;
+            background-color: #0095da;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            position: relative
+        }
+
+        .col-review.marked .col-review-act {
+            padding: 2px 20px 2px 7px;
+            background-color: #3bb3ed
+        }
+
+        .col-review.marked .col-review-act:after {
+            height: 14px;
+            padding: 0 0 0 2px;
+            position: absolute;
+            content: "★"
+        }
+
+        .col-review.marked .col-review-act:before {
+            right: 100%;
+            top: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(136, 183, 213, 0);
+            border-right-color: #3bb3ed;
+            border-width: 6px;
+            margin-top: -6px
+        }
     </style>
 </head>
 <body>
@@ -424,42 +584,13 @@
                         <li class="header-nav__item col-sm">
                             <a class="header-nav__link" href="{{$item['link']}}">
                                 @if(isset($item->images[0]))
-                                    <img alt="{{$item['title']}}" style="width: 60px"
+                                    <img class="header-nav__icon" alt="{{$item['title']}}" style="width: 60px"
                                          src="/storage{{$item->images[0]['path']}}/{{$item->images[0]['name']}}.{{$item->images[0]['ext']}}">
                                 @endif
-                                <span>{{$item['title']}}</span>
+                                <span class="header-nav__name">{{$item['title']}}</span>
                             </a>
                         </li>
                     @endforeach
-                    {{--<li class="header-nav__item col-sm">--}}
-                    {{--<a class="header-nav__link" href="{{route('user.cart.index')}}">--}}
-                    {{--<img class="header-nav__icon" style="width: 60px;"--}}
-                    {{--src="/img/cart.png"--}}
-                    {{--alt="Корзина">--}}
-                    {{--<span>Корзина</span>--}}
-                    {{--</a>--}}
-                    {{--</li>--}}
-                    {{--<li class="header-nav__item col-sm">--}}
-                    {{--<a class="header-nav__link" href="/delivery">--}}
-                    {{--<img class="header-nav__icon" style="width: 60px;" src="/img/delivery.png"--}}
-                    {{--alt="Доставка">--}}
-                    {{--<span>Доставка</span>--}}
-                    {{--</a>--}}
-                    {{--</li>--}}
-                    {{--<li class="header-nav__item col-sm">--}}
-                    {{--<a class="header-nav__link" href="/promotion">--}}
-                    {{--<img class="header-nav__icon" style="width: 60px;" src="/img/promotion.png"--}}
-                    {{--alt="Акция">--}}
-                    {{--<span>Акция</span>--}}
-                    {{--</a>--}}
-                    {{--</li>--}}
-                    {{--<li class="header-nav__item col-sm">--}}
-                    {{--<a class="header-nav__link" href="/gift">--}}
-                    {{--<img class="header-nav__icon" style="width: 60px;" src="/img/gift.png"--}}
-                    {{--alt="Подарок">--}}
-                    {{--<span>Подарок</span>--}}
-                    {{--</a>--}}
-                    {{--</li>--}}
                 </ul>
             </div>
         </div>
@@ -474,22 +605,14 @@
                     @php $menu = App\Menu::where('type', 2)->where('status', 1)->get(); @endphp
                     @foreach($menu as $item)
                         <li class="main-nav__item col-sm">
-                            <a class="main-nav__link text-uppercase" href="{{$item['link']}}">{{$item['title']}}</a></li>
+                            <a class="main-nav__link text-uppercase" href="{{$item['link']}}">{{$item['title']}}</a>
+                        </li>
                     @endforeach
-                    {{--<li class="main-nav__item col-sm">--}}
-                    {{--<a class="main-nav__link text-uppercase" href="">Десткое</a></li>--}}
-                    {{--<li class="main-nav__item col-sm">--}}
-                    {{--<a class="main-nav__link text-uppercase" href="">Женское</a></li>--}}
-                    {{--<li class="main-nav__item col-sm">--}}
-                    {{--<a class="main-nav__link text-uppercase" href="">Мужское</a></li>--}}
-                    {{--<li class="main-nav__item col-sm">--}}
-                    {{--<a class="main-nav__link text-uppercase" href="">Plus size</a>--}}
-                    {{--</li>--}}
-                    {{--<li class="main-nav__item col-sm">--}}
-                    {{--<a class="main-nav__link text-uppercase" href="">Family look</a>--}}
-                    {{--</li>--}}
-                    {{--<li class="main-nav__item col-sm">--}}
-                    {{--<a class="main-nav__link text-uppercase" href="{{route('products.novelty')}}">Новинки</a></li>--}}
+                    @if(auth()->user()['role']==1)
+                        <li class="main-nav__item col-sm">
+                            <a target="_blank" class="main-nav__link text-uppercase" href="/admin">Админка</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -546,37 +669,6 @@
                                 </a>
                             </li>
                         @endforeach
-                        {{--<li class="footer-nav__item col-sm">--}}
-                        {{--<a class="footer-nav__link" href="">--}}
-                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/brands.png" alt="Бренды">--}}
-                        {{--<span class="footer-nav__name">Бренды</span>--}}
-                        {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="footer-nav__item col-sm">--}}
-                        {{--<a class="footer-nav__link" href="">--}}
-                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/service.png" alt="Сервис">--}}
-                        {{--<span class="footer-nav__name">Сервис</span>--}}
-                        {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="footer-nav__item col-sm">--}}
-                        {{--<a class="footer-nav__link" href="">--}}
-                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/partners.png"--}}
-                        {{--alt="Партнеры">--}}
-                        {{--<span class="footer-nav__name">Партнеры</span>--}}
-                        {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="footer-nav__item col-sm">--}}
-                        {{--<a class="footer-nav__link" href="">--}}
-                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/reviews.png" alt="Отзывы">--}}
-                        {{--<span class="footer-nav__name">Отзывы</span>--}}
-                        {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="footer-nav__item col-sm">--}}
-                        {{--<a class="footer-nav__link" href="">--}}
-                        {{--<img class="footer-nav__icon" style="width: 60px" src="/img/about.png" alt="О нас">--}}
-                        {{--<span class="footer-nav__name">О нас</span>--}}
-                        {{--</a>--}}
-                        {{--</li>--}}
                     </ul>
                 </div>
                 <div class="footer-copyright text-center">
@@ -598,5 +690,6 @@
     }
 </script>
 @yield('script')
+{{--<script src="//code.jivosite.com/widget.js" jv-id="HppuFpTeFt" async></script>--}}
 </body>
 </html>

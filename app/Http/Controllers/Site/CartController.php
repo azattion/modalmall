@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -20,7 +21,18 @@ class CartController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
-        return view('site.cart.index', ['cart' => $cart]);
+        $products = [];
+        if (count($cart)) {
+            $products_id = [];
+            foreach ($cart as $key => $item) {
+                $products_id[] = $key;
+            }
+            $results = Product::find($products_id);
+            foreach ($results as $result) {
+                $products[$result['id']] = $result;
+            }
+        }
+        return view('site.cart.index', ['cart' => $cart, 'products' => $products]);
     }
 
     /**
@@ -43,29 +55,40 @@ class CartController extends Controller
     {
         $this->validate($request, [
             'id' => 'required|numeric|min:1',
-            'qt' => 'required|numeric|min:1'
+            'qt' => 'required|numeric|min:1',
+            'color' => 'nullable|numeric',
+            'size' => 'nullable|numeric',
+//            'status' => 'required|numeric'
         ]);
 
 //        $request->session()->forget('cart');
         $qt = $request->get('qt');
         $id = $request->get('id');
+        $color = $request->get('color');
+        $size = $request->get('size');
+//        $status = $request->get('status');
+//        $cost = $request->get('cost');
 
         $cart = $request->session()->get('cart', []);
         $isEmpty = false;
 
         if (count($cart)) {
             if (isset($cart[$id])) {
-                $cart[$id] += $qt;
+                $cart[$id]['qt'] += $qt;
             } else {
-                $cart[$id] = $qt;
+                $cart[$id] = ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color];
             }
             session(['cart' => $cart]);
             $isEmpty = true;
         }
-//        dd($cart);
+//        dd($request->all());
 
-        !$isEmpty && session(['cart' => [$id => $qt]]);;
-        return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
+        !$isEmpty && session(['cart' => [$id => ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color]]]);
+        if ($request->ajax()) {
+            return ['success' => true];
+        } else {
+            return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
+        }
 
     }
 
@@ -117,7 +140,7 @@ class CartController extends Controller
             unset($cart[$id]);
         }
         session(['cart' => $cart]);
-        return redirect()->route('site.products.cart')->with('success', 'Данные успешно обновлены');
+        return redirect()->route('user.cart.index')->with('success', 'Товар удален из корзины');
 
     }
 }

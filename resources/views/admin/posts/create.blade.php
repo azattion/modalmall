@@ -33,18 +33,30 @@
                                    placeholder="Введите название" autocomplete="off"
                                    value="{{ old('title', $post->title) }}">
                         </div>
-
-                        <div class="form-group @error('slug') has-error @enderror">
-                            <label for="slug">Заголовок</label>
-                            <input type="text" name="slug" class="form-control" id="slug"
-                                   placeholder="Введите url" autocomplete="off"
-                                   value="{{ old('slug', $post->slug) }}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group @error('slug') has-error @enderror">
+                                    <label for="slug">Ссылка</label>
+                                    <input type="text" name="slug" class="form-control" id="slug"
+                                           placeholder="Введите url" autocomplete="off"
+                                           value="{{ old('slug', $post->slug) }}">
+                                </div>
+                            </div>
+                            @if($post->slug)
+                                <div class="col-md-6">
+                                    <br>
+                                    <a style="margin-top: 10px; display: inline-block" target="_blank"
+                                       href="{{$_SERVER['APP_URL']}}/page/{{$post['slug']}}">{{$_SERVER['APP_URL']}}
+                                        /page/{{$post['slug']}}</a>
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group @error('date') has-error @enderror">
                                     <label for="date">Дата</label>
-                                    <input autocomplete="off" type="text" name="date" class="datepicker form-control"
+                                    <input autocomplete="off" type="text" name="date"
+                                           class="datepicker form-control"
                                            id="date"
                                            placeholder="Введите дату"
                                            value="{{ old('date', $post->date) }}">
@@ -87,7 +99,8 @@
                                                href="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
                                                         class="img-responsive"
                                                         src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
-                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}"
+                                            <div class="checkbox"><label><input type="checkbox"
+                                                                                value="{{$image['id']}}"
                                                                                 name="image-del[{{$image['id']}}]">
                                                     Удалить</label></div>
                                         </div>
@@ -153,7 +166,8 @@
                                 class="btn btn-default pull-left">Сохранить
                             и дублировать
                         </button>
-                        <button name="save-2new" value="1" type="submit" class="btn btn-default pull-left">Сохранить и
+                        <button name="save-2new" value="1" type="submit" class="btn btn-default pull-left">Сохранить
+                            и
                             новый
                         </button>
                         <button name="save-2list" value="1" type="submit" class="btn btn-primary pull-right">
