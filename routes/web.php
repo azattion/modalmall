@@ -47,6 +47,10 @@ Route::namespace('Site')->group(function () {
         ->name('posts.show')
         ->where('id', '[0-9]+');
 
+    Route::get('/post/category/{id}', 'PostController@category')
+        ->name('posts.category')
+        ->where('id', '[0-9]+');
+
     Route::get('/page/{slug}', 'PostController@page_show')
         ->name('posts.page-show')
         ->where('name', '[A-Za-z0-9]+');

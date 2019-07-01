@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Публикация")
+@section('title', $post['title'])
 
 @section('content')
     <h1>{{$post['title']}}</h1>
@@ -15,7 +15,7 @@
             @foreach($post->images as $image)
                 <div class="col-md-3">
                     <img class="img-fluid"
-                                           src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">
+                         src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">
                 </div>
             @endforeach
         </div>

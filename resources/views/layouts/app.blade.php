@@ -306,9 +306,9 @@
             position: absolute;
             right: 0;
             bottom: 0;
-            margin-bottom: -40px;
-            margin-right: -40px;
-            width: 80px;
+            margin-bottom: -30px;
+            margin-right: -30px;
+            width: 60px;
             z-index: 1;
         }
 
@@ -316,9 +316,9 @@
             position: absolute;
             right: 0;
             top: 0;
-            margin-top: -40px;
-            margin-right: -40px;
-            width: 80px;
+            margin-top: -30px;
+            margin-right: -30px;
+            width: 60px;
             z-index: 1;
         }
 
