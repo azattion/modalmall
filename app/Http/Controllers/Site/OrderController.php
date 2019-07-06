@@ -80,7 +80,7 @@ class OrderController extends Controller
                     'pid' => $id,
                     'uid' => auth()->id(),
                     'oid' => $order->id,
-                    'qt' => isset($qt[$id]) ? $qt[$key] : 1,
+                    'qt' => isset($qt[$key]) ? $qt[$key] : 1,
                     'color' => isset($color[$key]) ? $color[$key] : 0,
                     'status' => $product['available'] ? 1 : 2,
                     'size' => isset($size[$key]) ? $size[$key] : 0,
@@ -92,7 +92,7 @@ class OrderController extends Controller
         }
 
 
-        return redirect()->route('user.cabinet')->with('success', 'Ваш заказ успешно отправлен');
+        return redirect()->route('user.order.index')->with('success', 'Ваш заказ успешно отправлен');
 
     }
 

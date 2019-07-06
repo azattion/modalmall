@@ -14,14 +14,16 @@ class Review extends Model
         return $this->belongsTo('App\Product', 'pid');
     }
 
-    public function scopePublish($query){
+    public function scopePublish($query)
+    {
         return $query->where('status', 1);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User', 'uid');
     }
 }

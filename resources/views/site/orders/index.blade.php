@@ -39,7 +39,7 @@
                             <span class="info-subtitle">Статус:</span><br/>
                             <span class="info-body">{{$statues[$order['status']]}}</span>
                         </td>
-                        <td><span class="info-subtitle">Стоимость:</span><br/> <span class="info-body">{{$cost}}
+                        <td><span class="info-subtitle">Итого:</span><br/> <span class="info-body">{{number_format($cost, 0, '.', ' ')}}
                                 руб.</span></td>
                         <td></td>
                     </tr>
@@ -59,7 +59,7 @@
                                    href="{{route('products.show', $item['pid'])}}">
                                     {{$item->product['name']}}
                                 </a>
-                                <div>{{$item['cost']}} руб. X {{$item['qt']}}</div>
+                                <div>{{number_format($item['cost'], 0, '.', ' ')}} руб. X {{$item['qt']}}</div>
                             </td>
                             <td>
                                 @if($item['color'])

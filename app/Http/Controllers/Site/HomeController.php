@@ -22,7 +22,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::with('images')->orderBy('id')->where('inc_menu', 1)->where('status', 1)->where('pid', 0)->get();
-        $products = Product::with('images')->orderBy('name')->get();
+        $products = Product::with('images')->with('reviews')->orderBy('name')->get();
         $posts = Post::with('images')->where('status', 1)->where('type', 2)->orderBy('date', 'desc')->take(5)->get();
         return view('home', ['categories' => $categories, 'products' => $products, 'posts' => $posts]);
     }

@@ -82,9 +82,12 @@ class CartController extends Controller
             $isEmpty = true;
         }
 
-        !$isEmpty && session(['cart' => [$cart_key => ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color]]]);
+        if (!$isEmpty) {
+            $cart = [$cart_key => ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color]];
+            session(['cart' => $cart]);
+        }
         if ($request->ajax()) {
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'qt' => count($cart), 'cart' => $cart]);
         } else {
             return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
         }

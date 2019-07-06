@@ -66,15 +66,13 @@
             </h1>
             @php $reviews = $product->reviews; @endphp
             <div class="product__field product__review">
-                @php $star = 0; @endphp
-                @foreach($reviews as $review)
-                    @php $star += $review['star']; @endphp
-                @endforeach
-                @if($star)
-                    <div class="product__review-value">{{number_format($star/count($reviews), 1)}}</div>
-                @endif
+                {{--@php $star = 0; @endphp--}}
+                {{--@foreach($reviews as $review)--}}
+                    {{--@php $star += $review['star']; @endphp--}}
+                {{--@endforeach--}}
+                <div class="product__review-value">{{number_format($product->average_rating, 1)}}</div>
                 <div class="product__review-img">
-                    <div style="width:{{$star*100/5}}%"></div>
+                    <div style="width: @if($product->average_rating) {{$product->average_rating*100/5}}% @else 0% @endif"></div>
                 </div>
                 <div class="clearfix"></div>
             </div>

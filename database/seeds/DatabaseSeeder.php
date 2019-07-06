@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('menu')->insert([
             array('id' => '1', 'title' => 'Личный кабинет', 'ordr' => '1', 'link' => '/cabinet', 'status' => '0', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:45:21', 'updated_at' => '2019-06-28 21:45:21'),
-            array('id' => '2', 'title' => 'Корзина', 'ordr' => '1', 'link' => '/cart', 'status' => '1', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:59:01', 'updated_at' => '2019-06-28 21:59:01'),
+            array('id' => '2', 'title' => 'Корзина', 'ordr' => '1', 'link' => '/cart', 'status' => '0', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:59:01', 'updated_at' => '2019-06-28 21:59:01'),
             array('id' => '3', 'title' => 'Доставка', 'ordr' => '1', 'link' => '/page/delivery', 'status' => '1', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:59:42', 'updated_at' => '2019-06-28 21:59:42'),
             array('id' => '4', 'title' => 'Бренды', 'ordr' => '1', 'link' => '/brands', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:01:23', 'updated_at' => '2019-06-28 22:01:23'),
             array('id' => '5', 'title' => 'Акция', 'ordr' => '1', 'link' => '/catalog/0?promotion', 'status' => '1', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 22:05:19', 'updated_at' => '2019-06-28 22:05:19'),

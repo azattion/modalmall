@@ -60,4 +60,14 @@ class Product extends Model
         return $cost;
     }
 
+    public function getAverageRatingAttribute()
+    {
+        $reviews = $this->reviews;
+        $rating = 0;
+        foreach ($reviews as $review) {
+            $rating += $review['star'];
+        }
+        return $rating ? $rating / count($reviews) : $rating;
+    }
+
 }

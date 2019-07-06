@@ -65,19 +65,21 @@
                                     @endif
                                     <br/>
                                     @php
-                                        $cost = $products[$product['id']]['cost'];
-                                        $is_sale = $products[$product['id']]->is_sale;
-                                        if($is_sale) $cost = $products[$product['id']]->cost_with_sale;
+                                    $cost = $products[$product['id']]['cost'];
+                                    $is_sale = $products[$product['id']]->is_sale;
+                                    if($is_sale) $cost = $products[$product['id']]->cost_with_sale;
                                     @endphp
-                                    {{number_format($cost, 0, '.', ' ')}} руб. X <span class="product__qt_text">{{$product['qt']}}</span>
+                                    {{number_format($cost, 0, '.', ' ')}} руб. X <span
+                                            class="product__qt-text">{{$product['qt']}}</span>
                                     @if($is_sale)
-                                        <br/><span style="text-decoration: line-through">{{$products[$product['id']]['cost']}} руб.</span>
+                                        <br/><span style="text-decoration: line-through">{{$products[$product['id']]['cost']}}
+                                            руб.</span>
                                         Скидка {{ $products[$product['id']]['sale_percent'] }}%
                                     @endif
                                     @php $total += $cost * $product['qt']; @endphp
                                 </td>
                                 {{--<td>--}}
-                                    {{----}}
+                                {{----}}
                                 {{--</td>--}}
                                 <td>
                                     {{--<input style="width: 100px" name="qt[{{$product['id']}}]" class="form-control"--}}
@@ -88,7 +90,8 @@
                                         <input type="hidden" name="key[]" class="product__key" value="{{$key}}">
                                         <input type="hidden" name="cost[]" class="product__cost" value="{{$cost}}">
                                         <input type="button" value="-" class="product__qt-minus btn">
-                                        <input data-action="{{route('user.cart.update', $key)}}" type="text" pattern="\d+" value="{{$product['qt']}}"
+                                        <input data-action="{{route('user.cart.update', $key)}}" type="text"
+                                               pattern="\d+" value="{{$product['qt']}}"
                                                name="qt[]"
                                                class="product__qt form-control text-center"
                                                min="1" required="">
@@ -109,7 +112,7 @@
                                     <a href="{{route('user.cart.delete', $key)}}" class="btn btn-link">Удалить</a>
                                 </td>
                             </tr>
-                            @php $product_count++; @endphp
+                            @php $product_count += 1 * $product['qt']; @endphp
                         @endforeach
                         </tbody>
                     </table>
@@ -158,10 +161,13 @@
                     </div>
                     <div class="card-body  text-right">
                         <h4 class="card-title">
-                            <b>Итого:</b>
-                            <span id="product__total">{{number_format($total, 0, '.', ' ')}}</span> руб.
+                            <div id="product__total">
+                                <b>Итого:</b>
+                                <span>{{number_format($total, 0, '.', ' ')}}</span> руб.
+                                <input type="hidden" value="{{$total}}">
+                            </div>
                         </h4>
-                        <p class="card-text">товаров: {{$product_count}}</p>
+                        <p class="card-text">товаров: <span id="product__cart-qt">{{$product_count}}</span></p>
                         <a href="" class="btn btn-success">Перейти к оформлению</a>
                     </div>
                 </div>

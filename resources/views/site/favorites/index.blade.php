@@ -39,14 +39,24 @@
                     <a href="{{route('products.show', $favorite['pid'])}}">
                         {{$favorite->product['name']}}
                     </a>
+                    <div>
+                        @if($favorite->product->is_sale)
+                            {{number_format($favorite->product->cost_with_sale, 0, '.', ' ')}} руб.
+                            <br/>
+                            <span style="text-decoration: line-through">
+                                {{$favorite->product['cost']}} руб.
+                            </span>
+                            Скидка {{ $favorite->product['sale_percent'] }}%
+                        @else
+                            {{number_format($favorite->product['cost'], 0, '.', ' ')}} руб.
+                        @endif
+                        {{--{{$favorite->product['cost']}} руб.--}}
+                    </div>
                 </td>
                 <td>
                     {{$favorite['created_at']}}
                 </td>
                 <td>
-                    <div>
-                        {{$favorite->product['cost']}} руб.
-                    </div>
                     <div>
                         {{$favorite->product['available']?"В наличии":"Нет в наличии"}}
                     </div>
