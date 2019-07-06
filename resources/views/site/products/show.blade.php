@@ -4,12 +4,11 @@
 
 @section('content')
 
-    <h1>{{$product['name']}}</h1>
-    <p>{{$product->category['name']}}</p>
+    <div class="product__field product__category">{{$category['name']}}</div>
     <div class="row">
         <div class="col-md-4">
 
-            <div class="product__cover text-center">
+            <div class="product__field product__cover text-center">
                 @if(count($product->images))
                     <div class="exzoom" id="exzoom">
                         <!-- Images -->
@@ -31,21 +30,21 @@
                         </p>
                     </div>
                 @else
-                    <div class="product__img">
+                    <div class="product__field product__img">
                         <img style="height: 200px;" class="img-fluid"
                              src="http://www.scppa.org/image.axd?picture=/2018/04/photo_not_available.png">
                     </div>
                 @endif
 
-                {{--<div class="product__img product-img-full">--}}
+                {{--<div class="product__field product__img product-img-full">--}}
                 {{--<img style="height: 200px;" class="img-fluid"--}}
                 {{--src="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">--}}
                 {{--</div>--}}
 
-                {{--<div class="product__images">--}}
+                {{--<div class="product__field product__images">--}}
                 {{--<div class="product_images_row">--}}
                 {{--@foreach($product->images as $image)--}}
-                {{--<div class="product__img">--}}
+                {{--<div class="product__field product__img">--}}
                 {{--<img class="img-fluid"--}}
                 {{--src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">--}}
                 {{--</div>--}}
@@ -55,22 +54,45 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="product__admin">
+            <div class="product__field product__admin">
                 <a target="_blank" href="{{route('admin.products.edit', $product['id'])}}">
                     Редактировать товар
                 </a>
             </div>
-            <div class="product__cost">
-                @if($product['sale_percent'] && strtotime($product['sale_start_date']) < time() && strtotime($product['sale_end_date']) > time())
-                    <span class="product__cost_sale">{{$product['cost']}}  руб.</span> <span class="badge badge-danger">{{$product['sale_percent']}} %</span>
+            <h1 class="product__field">
+                <span class="product__field product__name">
+                    {{$product['name']}} / Арт: {{$product['vendor_code']}}
+                </span>
+            </h1>
+            @php $reviews = $product->reviews; @endphp
+            <div class="product__field product__review">
+                @php $star = 0; @endphp
+                @foreach($reviews as $review)
+                    @php $star += $review['star']; @endphp
+                @endforeach
+                @if($star)
+                    <div class="product__review-value">{{number_format($star/count($reviews), 1)}}</div>
+                @endif
+                <div class="product__review-img">
+                    <div style="width:{{$star*100/5}}%"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="product__field product__cost">
+                @if($product->is_sale)
+                    {{$product->cost_with_sale}} руб.
+                    <span class="product__field product__cost_sale">{{$product['cost']}} руб.</span> <span
+                            class="badge badge-danger">{{$product['sale_percent']}}
+                        %</span>
                 @else
-                    <span>{{$product['cost']}}</span> руб.
+                    <span>{{number_format($product['cost'], 0, '.', ' ')}}</span> руб.
                 @endif
             </div>
-            <div class="product__collection">Коллекция: {{$product['collection']}}</div>
-            <div class="product__quantity">Количество: {{$product['quantity']}}</div>
+            <div class="product__field product__collection">Коллекция: {{$product['collection']}}</div>
+            <div class="product__field product__quantity">Количество в упаковке: {{$product['quantity']}}</div>
 
-            <form method="post" action="{{route('user.cart.store')}}">
+            <form class="product__cart-form" method="post" action="{{route('user.cart.store')}}">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -87,11 +109,15 @@
                 @endphp
                 {{--@php dump($product_colors) @endphp--}}
                 @if($product['colors'] && count($product_colors))
-                    <div class="product__colors">
+                    <div class="product__field product__colors">
                         Выберите цвет:
                         @foreach($product_colors as $key => $color)
-                            <label><input {{$key==0?"checked":""}} class="form-check-inline" type="radio" name="color"
-                                          value="{{$color}}">{{$colors[$color]}}</label>
+                            <div class="form-check form-check-inline">
+                                <input {{$key==0?"checked":""}} id="color{{$key}}" class="d-none form-check-input"
+                                       type="radio" name="color"
+                                       value="{{$color}}">
+                                <label class="form-check-label" for="color{{$key}}">{{$colors[$color]}}</label>
+                            </div>
                         @endforeach
                     </div>
                 @endif
@@ -102,19 +128,23 @@
                 @endphp
 
                 @if($product['sizes'] && count($product_sizes))
-                    <div class="product__sizes">
+                    <div class="product__field product__sizes">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="size">Выберите размер:</label>
-                                <select name="size" id="size">
-                                    @foreach($product_sizes as $key => $size)
-                                        <option value="{{$size}}">{{$sizes[$size]}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="row form-group">
+                                    <label for="size" class="col-sm-6 col-form-label">Выберите размер:</label>
+                                    <div class="col-sm-6">
+                                        <select name="size" id="size">
+                                            @foreach($product_sizes as $key => $size)
+                                                <option value="{{$size}}">{{$sizes[$size]}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-success" data-toggle="modal"
-                                        data-target="#exampleModal">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-link" data-toggle="modal"
+                                        data-target="#tableSizes">
                                     Таблица размеров
                                 </button>
                             </div>
@@ -127,12 +157,25 @@
                     @csrf
                     <input type="hidden" name="id" value="{{$product['id']}}">
                     {{--<input type="hidden" name="status" value="{{$product['available'] ? 1 : 2}}">--}}
-                    <div class="col-sm-2">
-                        <input class="form-control" type="number" name="qt" min="1" value="1">
+                    {{--<div class="col-sm-3">--}}
+                    {{--<div class="input-group">--}}
+                    {{--<div class="input-group-prepend">--}}
+                    {{--<input type="button" value="-" class="product__qt-minus btn">--}}
+                    {{--</div>--}}
+                    <input type="hidden" pattern="\d+" name="qt"
+                           class="product__qt form-control text-center" value="1" min="1" required="">
+                    {{--<div class="input-group-append">--}}
+                    {{--<input type="button" value="+" class="product__qt-plus btn">--}}
+                    {{--</div>--}}
+                    {{--<input class="form-control" type="number" name="qt" min="1" value="1">--}}
+                    {{--</div>--}}
+                    {{--</div>--}}
+                    <div class="col-sm-3">
+                        <button type="submit" class="btn btn-success">
+                            @if($product['available'])В корзину @else Предзаказать @endif
+                        </button>
                     </div>
-                    <button type="submit" class="btn btn-success">
-                        @if($product['available'])В корзину @else Предзаказать @endif
-                    </button>
+
                     {{--<div>Нет в наличии</div>--}}
                 </div>
             </form>
@@ -159,12 +202,12 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="tableSizes" tabindex="-1" role="dialog"
+             aria-labelledby="tableSizesLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Таблица размеров</h5>
+                        <h5 class="modal-title" id="tableSizesLabel">Таблица размеров</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -375,10 +418,10 @@
         <div class="col-md-6">
             <h5>Отзывы</h5>
             <?php $hasUserReview = false; ?>
-            @foreach($product->reviews as $review)
+            @foreach($reviews as $review)
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="product__review-img">
+                        <div class="product__field product__review-img">
                             <div style="width:{{$review['star']*100/5}}%"></div>
                         </div>
                         @if(auth()->id() && $review['uid']==auth()->id())
@@ -388,13 +431,13 @@
                                 @method('DELETE')
                                 <button onclick="return confirm('Вы действительно хотите удалить?')"
                                         class="btn btn-link"
-                                        type="submit">Удалить
+                                        type="submit">Удалить мой отзыв
                                 </button>
                             </form>
                         @endif
                     </div>
                     <div class="col-md-12">
-                        <div class="product__review-text">
+                        <div class="product__field product__review-text">
                             {{$review['text']}}
                         </div>
 
@@ -405,31 +448,35 @@
                 <form action="{{route('user.review.store')}}" method="post">
                     @csrf
                     <input type="hidden" name="pid" value="{{$product['id']}}">
-                    <div class="form-group">
-                        {{--<input required type="range" name="star" min="1" max="5">--}}
-                        <fieldset class="review">
-                            <input type="radio" id="star5" name="star" value="5">
-                            <label for="star5"
-                                   title="Отлично">5</label>
-                            <input type="radio" id="star4" name="star" value="4">
-                            <label for="star4"
-                                   title="Очень хорошо">4</label>
-                            <input type="radio" id="star3" name="star" value="3">
-                            <label for="star3"
-                                   title="Хорошо">3</label>
-                            <input type="radio" id="star2" name="star" value="2">
-                            <label for="star2"
-                                   title="Удовлетворительно">2</label>
-                            <input type="radio" id="star1" name="star" value="1">
-                            <label for="star1"
-                                   title="Плохо">1</label>
-                        </fieldset>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{--<input required type="range" name="star" min="1" max="5">--}}
+                                <fieldset class="review">
+                                    <input type="radio" id="star5" name="star" value="5">
+                                    <label for="star5"
+                                           title="Отлично">5</label>
+                                    <input type="radio" id="star4" name="star" value="4">
+                                    <label for="star4"
+                                           title="Очень хорошо">4</label>
+                                    <input type="radio" id="star3" name="star" value="3">
+                                    <label for="star3"
+                                           title="Хорошо">3</label>
+                                    <input type="radio" id="star2" name="star" value="2">
+                                    <label for="star2"
+                                           title="Удовлетворительно">2</label>
+                                    <input type="radio" id="star1" name="star" value="1">
+                                    <label for="star1"
+                                           title="Плохо">1</label>
+                                </fieldset>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="review-text">
+                        <label for="review-text" class="col-form-label"></label>
                         <textarea id="review-text" placeholder="Введите отзыв" required name="text"
                                   class="form-control">{{old('text')}}</textarea>
-                        </label>
+
                     </div>
                     <button type="submit" class="btn btn-success">
                         Добавить

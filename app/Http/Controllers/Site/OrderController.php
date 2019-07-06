@@ -74,16 +74,17 @@ class OrderController extends Controller
 //        $cost = $request->get('cost');
 
         if ($request->has('id')) {
-            foreach ($pid as $id) {
+            foreach ($pid as $key => $id) {
+                $product = Product::find($id);
                 $orderItem = [
                     'pid' => $id,
                     'uid' => auth()->id(),
                     'oid' => $order->id,
-                    'qt' => isset($qt[$id]) ? $qt[$id] : 1,
-                    'color' => isset($color[$id]) ? $color[$id] : 0,
-                    'status' => Product::find($id)['available']?1:2,
-                    'size' => isset($size[$id]) ? $size[$id] : 0,
-                    'cost' => Product::find($id)['cost'],
+                    'qt' => isset($qt[$id]) ? $qt[$key] : 1,
+                    'color' => isset($color[$key]) ? $color[$key] : 0,
+                    'status' => $product['available'] ? 1 : 2,
+                    'size' => isset($size[$key]) ? $size[$key] : 0,
+                    'cost' => ($product->is_sale) ? $product->cost_with_sale : $product['cost'],
                 ];
 
                 OrderItem::create($orderItem);

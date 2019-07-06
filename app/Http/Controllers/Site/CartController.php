@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-//    public function __construct()
-//    {
+    public function __construct()
+    {
 //        $this->middleware('auth');
-//    }
+    }
 
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class CartController extends Controller
         if (count($cart)) {
             $products_id = [];
             foreach ($cart as $key => $item) {
-                $products_id[] = $key;
+                $products_id[] = $item['id'];
             }
             $results = Product::find($products_id);
             foreach ($results as $result) {
@@ -66,26 +66,25 @@ class CartController extends Controller
         $id = $request->get('id');
         $color = $request->get('color');
         $size = $request->get('size');
-//        $status = $request->get('status');
-//        $cost = $request->get('cost');
 
         $cart = $request->session()->get('cart', []);
         $isEmpty = false;
 
+        $cart_key = md5("{$id}-{$color}-{$size}");
+
         if (count($cart)) {
-            if (isset($cart[$id])) {
-                $cart[$id]['qt'] += $qt;
+            if (isset($cart[$cart_key])) {
+                $cart[$cart_key]['qt'] += $qt;
             } else {
-                $cart[$id] = ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color];
+                $cart[$cart_key] = ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color];
             }
             session(['cart' => $cart]);
             $isEmpty = true;
         }
-//        dd($request->all());
 
-        !$isEmpty && session(['cart' => [$id => ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color]]]);
+        !$isEmpty && session(['cart' => [$cart_key => ['id' => $id, 'qt' => $qt, 'size' => $size, 'color' => $color]]]);
         if ($request->ajax()) {
-            return ['success' => true];
+            return response()->json(['success' => true]);
         } else {
             return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
         }
@@ -123,7 +122,26 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'qt' => 'required|numeric|min:1',
+        ]);
+
+        $cart = $request->session()->get('cart', []);
+
+        $qt = $request->get('qt');
+
+        if (count($cart)) {
+            if (isset($cart[$id])) {
+                $cart[$id]['qt'] = $qt;
+            }
+            session(['cart' => $cart]);
+        }
+
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        } else {
+            return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
+        }
     }
 
     /**

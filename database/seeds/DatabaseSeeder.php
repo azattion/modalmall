@@ -38,10 +38,10 @@ class DatabaseSeeder extends Seeder
             array('id' => '41','caption' => 'product-1.jpg','name' => 'h8w7FHLWhFU41qaDW1qbMdzlpXqVVpwPisqwzrvK','ext' => 'jpeg','path' => '/images/81','height' => '568','width' => '425','size' => '53778','status' => '1','uid' => '1','desc' => NULL,'imageable_type' => 'App\\Product','imageable_id' => '4','order' => '0','created_at' => '2019-06-29 21:12:52','updated_at' => '2019-06-29 21:12:52'),
             array('id' => '42','caption' => 'product-3.jpg','name' => 'KuBErTxsHPVEPm2aI8iMIR3976SqTeqVQBe4vdZl','ext' => 'jpeg','path' => '/images/64','height' => '570','width' => '426','size' => '38852','status' => '1','uid' => '1','desc' => NULL,'imageable_type' => 'App\\Product','imageable_id' => '4','order' => '0','created_at' => '2019-06-29 21:12:52','updated_at' => '2019-06-29 21:12:52'),
             array('id' => '43','caption' => 'product-4.jpg','name' => '5fuKldSZS8Re3sRFe5PYSWDHE2rmKfrRa98SPm7W','ext' => 'jpeg','path' => '/images/26','height' => '568','width' => '425','size' => '35887','status' => '1','uid' => '1','desc' => NULL,'imageable_type' => 'App\\Product','imageable_id' => '4','order' => '0','created_at' => '2019-06-29 21:12:52','updated_at' => '2019-06-29 21:12:52'),
-            array('id' => '44','caption' => 'about.png','name' => 'PSyDg4lnD0XTcWoXGOBNo47nXALIHzIzf9lBpmv9','ext' => 'png','path' => '/images/2','height' => '186','width' => '187','size' => '16522','status' => '1','uid' => '1','desc' => NULL,'imageable_type' => 'App\\Menu','imageable_id' => '17','order' => '0','created_at' => '2019-06-30 01:05:11','updated_at' => '2019-06-30 01:05:11')
+            array('id' => '44','caption' => 'about.png','name' => 'PSyDg4lnD0XTcWoXGOBNo47nXALIHzIzf9lBpmv9','ext' => 'png','path' => '/images/2','height' => '186','width' => '187','size' => '16522','status' => '1','uid' => '1','desc' => NULL,'imageable_type' => 'App\\Menu','imageable_id' => '18','order' => '0','created_at' => '2019-06-30 01:05:11','updated_at' => '2019-06-30 01:05:11')
         ]);
         DB::table('menu')->insert([
-            array('id' => '1', 'title' => 'Личный кабинет', 'ordr' => '1', 'link' => '/cabinet', 'status' => '1', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:45:21', 'updated_at' => '2019-06-28 21:45:21'),
+            array('id' => '1', 'title' => 'Личный кабинет', 'ordr' => '1', 'link' => '/cabinet', 'status' => '0', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:45:21', 'updated_at' => '2019-06-28 21:45:21'),
             array('id' => '2', 'title' => 'Корзина', 'ordr' => '1', 'link' => '/cart', 'status' => '1', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:59:01', 'updated_at' => '2019-06-28 21:59:01'),
             array('id' => '3', 'title' => 'Доставка', 'ordr' => '1', 'link' => '/page/delivery', 'status' => '1', 'type' => '1', 'uid' => '1', 'created_at' => '2019-06-28 21:59:42', 'updated_at' => '2019-06-28 21:59:42'),
             array('id' => '4', 'title' => 'Бренды', 'ordr' => '1', 'link' => '/brands', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:01:23', 'updated_at' => '2019-06-28 22:01:23'),
@@ -57,7 +57,8 @@ class DatabaseSeeder extends Seeder
             array('id' => '14', 'title' => 'Сервис', 'ordr' => '1', 'link' => '/page/service', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:16:44', 'updated_at' => '2019-06-28 22:16:44'),
             array('id' => '15', 'title' => 'Партнерам', 'ordr' => '1', 'link' => '/page/partners', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:17:46', 'updated_at' => '2019-06-28 22:17:46'),
             array('id' => '16', 'title' => 'Отзывы', 'ordr' => '1', 'link' => '/reviews', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:18:14', 'updated_at' => '2019-06-28 22:18:14'),
-            array('id' => '17', 'title' => 'О нас', 'ordr' => '1', 'link' => '/page/about', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:18:14', 'updated_at' => '2019-06-28 22:18:14')
+            array('id' => '17', 'title' => 'Видео', 'ordr' => '1', 'link' => '/page/category/3', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:18:14', 'updated_at' => '2019-06-28 22:18:14'),
+            array('id' => '18', 'title' => 'О нас', 'ordr' => '1', 'link' => '/page/about', 'status' => '1', 'type' => '3', 'uid' => '1', 'created_at' => '2019-06-28 22:18:14', 'updated_at' => '2019-06-28 22:18:14')
         ]);
         DB::table('posts')->insert([
                 [
@@ -271,7 +272,9 @@ class DatabaseSeeder extends Seeder
                     'collection' => 'SEVIM 2017',
                     'desc' => 'test',
                     'quantity' => 1,
-                    'cost' => 10000,
+                    'cost' => 100,
+                    'sizes' => '|1|2|',
+                    'colors' => '|1|3|',
                 ],
                 [
                     'name' => 'Продукт 2',
@@ -281,7 +284,9 @@ class DatabaseSeeder extends Seeder
                     'collection' => 'SEVIM 2017',
                     'desc' => 'test',
                     'quantity' => 1,
-                    'cost' => 10000,
+                    'cost' => 100,
+                    'sizes' => '|1|2|',
+                    'colors' => '|1|3|',
                 ],
                 [
                     'name' => 'Продукт 3',
@@ -292,6 +297,8 @@ class DatabaseSeeder extends Seeder
                     'desc' => 'test',
                     'quantity' => 1,
                     'cost' => 10000,
+                    'sizes' => '|1|2|',
+                    'colors' => '|1|3|',
                 ],
                 [
                     'name' => 'Продукт 4',
@@ -302,6 +309,8 @@ class DatabaseSeeder extends Seeder
                     'desc' => 'test',
                     'quantity' => 1,
                     'cost' => 10000,
+                    'sizes' => '|1|2|',
+                    'colors' => '|1|3|',
                 ]
             ]
         );

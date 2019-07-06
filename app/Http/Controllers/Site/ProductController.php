@@ -35,18 +35,18 @@ class ProductController extends Controller
         if (isset($_GET['brand']) && $_GET['brand']) {
             $products = $products->where('brand', $_GET['brand']);
         }
-        if(isset($_GET['promotion'])){
+        if (isset($_GET['promotion'])) {
             $products = $products->where('sale_start_date', '>', date('Y-m-d H:i:s'))
-            ->where('sale_end_date', '<', date('Y-m-d H:i:s'));
+                ->where('sale_end_date', '<', date('Y-m-d H:i:s'));
         }
         $products = $products->get();
 
         return view('site.products.category',
             [
-                'category'   => $category,
-                'products'   => $products,
+                'category' => $category,
+                'products' => $products,
                 'categories' => $categories,
-                'brands'     => $brands
+                'brands' => $brands
             ]);
     }
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
     public function brands()
     {
         $brands = Brand::where('status', 1)->orderBy('ordr')->get();
-        return view('site.products.brand',  ['brands' => $brands]);
+        return view('site.products.brand', ['brands' => $brands]);
     }
 
     public function search(Request $request)
@@ -76,18 +76,34 @@ class ProductController extends Controller
         }
         return view('site.products.category',
             [
-                'category'   => $category,
-                'products'   => $products,
+                'category' => $category,
+                'products' => $products,
                 'categories' => $categories,
-                'brands'     => $brands
+                'brands' => $brands
             ]);
     }
 
     public function show($id)
     {
         $product = Product::findOrFail($id);
+        $categories = Category::where('status', 1)->where('pid', $id)->get();
+        $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
+
+        $category = '';
+        if ($product['cats']) {
+            $category_exploded = explode('|', trim($product['cats'], '|'));
+//            $category = $category_exploded[0];
+            $category = Category::where('status', 1)
+                ->where('id', $category_exploded[0])->first();
+        }
+
         return view('site.products.show',
-            ['product' => $product]);
+            [
+                'product' => $product,
+                'category' => $category,
+                'categories' => $categories,
+                'brands' => $brands
+            ]);
     }
 
 //    public function cart_add(Request $request)
