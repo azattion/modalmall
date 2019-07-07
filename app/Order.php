@@ -13,4 +13,10 @@ class Order extends Model
     public function user(){
         return $this->belongsTo('App\User', 'uid');
     }
+
+    public function delete()
+    {
+        $this->items()->delete();
+        return parent::delete();
+    }
 }

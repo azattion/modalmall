@@ -51,11 +51,16 @@ class Product extends Model
         return $this->attributes['sale_percent'] && strtotime($this->attributes['sale_start_date']) < time() && strtotime($this->attributes['sale_end_date']) > time();
     }
 
+    public function getSaleAttribute()
+    {
+        return $this->attributes['cost'] / 100 * $this->attributes['sale_percent'];
+    }
+
     public function getCostWithSaleAttribute()
     {
         $cost = $this->attributes['cost'];
         if ($this->getIsSaleAttribute()) {
-            $cost = $this->attributes['cost'] - $this->attributes['cost'] / 100 * $this->attributes['sale_percent'];
+            $cost = $this->attributes['cost'] - $this->getSaleAttribute();
         }
         return $cost;
     }

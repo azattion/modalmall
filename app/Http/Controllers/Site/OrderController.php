@@ -34,7 +34,20 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        $cart = session()->get('cart', []);
+        if (count($cart) == 0) return redirect()->route('user.cart.index');
+        $products = [];
+        if (count($cart)) {
+            $products_id = [];
+            foreach ($cart as $key => $item) {
+                $products_id[] = $item['id'];
+            }
+            $results = Product::find($products_id);
+            foreach ($results as $result) {
+                $products[$result['id']] = $result;
+            }
+        }
+        return view('site.orders.create', ['cart' => $cart, 'products' => $products]);
     }
 
     /**
@@ -49,11 +62,12 @@ class OrderController extends Controller
             'address' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:255',
-            'id.*' => 'required|numeric|max:255',
-            'qt.*' => 'required|numeric|max:255',
+            'agree' => 'required',
+//            'id.*' => 'required|numeric|max:255',
+//            'qt.*' => 'required|numeric|max:255',
 //            'status.*' => 'required|numeric|max:255',
-            'color.*' => 'nullable|numeric|max:255',
-            'size.*' => 'nullable|numeric|max:255',
+//            'color.*' => 'nullable|numeric|max:255',
+//            'size.*' => 'nullable|numeric|max:255',
 //            'cost.*' => 'nullable|numeric|max:255',
         ]);
         $order = new Order;
@@ -64,14 +78,19 @@ class OrderController extends Controller
         $order->uid = auth()->id();
         $order->save();
 
-        $request->session()->forget('cart');
-
         $qt = $request->get('qt');
         $pid = $request->get('id');
-//        $status = $request->get('status');
         $color = $request->get('color');
         $size = $request->get('size');
-//        $cost = $request->get('cost');
+
+        $cart = $request->session()->get('cart', []);
+        if (count($cart)) {
+//            foreach(){
+//
+//            }
+            dd($cart);
+        }
+        $request->session()->forget('cart');
 
         if ($request->has('id')) {
             foreach ($pid as $key => $id) {
@@ -92,7 +111,7 @@ class OrderController extends Controller
         }
 
 
-        return redirect()->route('user.order.index')->with('success', 'Ваш заказ успешно отправлен');
+        return redirect()->route('user.order.index')->with('success', 'Ваш заказ успешно добавлен в заказы');
 
     }
 

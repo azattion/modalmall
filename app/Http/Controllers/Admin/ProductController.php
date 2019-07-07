@@ -70,7 +70,7 @@ class ProductController extends Controller
             'composition' => 'nullable|string',
             'unit' => 'nullable|string',
 
-            'available' => 'required|numeric|max:1',
+            'available' => 'nullable|numeric|max:1',
             'status' => 'nullable|numeric|max:1',
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',

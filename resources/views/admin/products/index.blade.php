@@ -92,9 +92,9 @@
                     <a href="{{route('admin.products.multiple')}}" class="btn btn-default">
                         <i class="fa fa-upload"></i> Импорт из файла
                     </a>
-                    <ul class="pagination pagination-sm no-margin pull-right">
+                    <div class="no-margin pull-right">
                         {{ $products->links() }}
-                    </ul>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>

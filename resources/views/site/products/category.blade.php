@@ -75,11 +75,13 @@
             </div>
             <div class="row">
                 @foreach($products as $product)
-
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         @include('layouts.product-card', ['product' => $product])
                     </div>
                 @endforeach
+            </div>
+            <div class="no-margin pull-right">
+                {{ $products->links() }}
             </div>
         </div>
     </div>

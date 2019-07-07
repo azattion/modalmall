@@ -31,7 +31,8 @@ Route::namespace('Site')->group(function () {
 //    Route::get('/cart-del/{id}', 'ProductController@cart_del')->name('site.products.cart-del');
 //    Route::get('/cabinet/order', 'ProductController@orders')->name('user.orders');
 
-    Route::resource('cabinet/order', 'OrderController', ['as' => 'user']);
+    Route::resource('order', 'OrderController', ['as' => 'user']);
+    Route::post('/order/create', 'OrderController@create')->name('user.order.create');
     Route::resource('cart', 'CartController', ['as' => 'user']);
     Route::get('cart/delete/{id}', 'CartController@destroy')->name('user.cart.delete')->middleware('auth');
     Route::resource('cabinet/review', 'ReviewController', ['as' => 'user']);

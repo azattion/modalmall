@@ -29,17 +29,26 @@ class ProductController extends Controller
 
         $category = Category::find($id);
         $categories = Category::where('status', 1)->where('pid', $id)->get();
-        $products = Product::with('images')->with('reviews')->orderBy($sort, $order)->where('cats', 'LIKE', "%|{$id}|%");
+        $products = Product::with('images')->with('reviews')->orderBy($sort, $order);
         $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
+
+        if ($id) {
+            $products = $products->where('cats', 'LIKE', "%|{$id}|%");
+        }
 
         if (isset($_GET['brand']) && $_GET['brand']) {
             $products = $products->where('brand', $_GET['brand']);
         }
-        if (isset($_GET['promotion'])) {
-            $products = $products->where('sale_start_date', '>', date('Y-m-d H:i:s'))
-                ->where('sale_end_date', '<', date('Y-m-d H:i:s'));
+        if (isset($_GET['q']) && $_GET['q']) {
+            $products = $products->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
+                ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
         }
-        $products = $products->get();
+        if (isset($_GET['promotion'])) {
+            $products = $products->where('sale_start_date', '<', date('Y-m-d H:i:s'))
+                ->where('sale_end_date', '>', date('Y-m-d H:i:s'))
+                ->where('sale_percent', '>', 0);
+        }
+        $products = $products->paginate(config('services.pagination'));
 
         return view('site.products.category',
             [

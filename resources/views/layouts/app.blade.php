@@ -190,7 +190,7 @@
 
         nav {
             background-color: #ee6688;
-            padding: 5px 0;
+            padding: 8px 0;
         }
 
         nav a {
@@ -254,7 +254,7 @@
         .product__img {
             padding: 53px 61px 51px;
             display: inline-block;
-            height: 280px;
+            /*height: 280px;*/
             background: url(/img/cart-3.png) top/100% no-repeat;
         }
 
@@ -520,7 +520,8 @@
             margin-right: 10px;
             position: relative;
         }
-        .product__review-img div{
+
+        .product__review-img div {
             height: 25px;
             background: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDMwNiAzMDYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwNiAzMDY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0ic3Rhci1yYXRlIj4KCQk8cG9seWdvbiBwb2ludHM9IjE1MywyMzAuNzc1IDI0Ny4zNSwyOTkuNjI1IDIxMS42NSwxODcuNDI1IDMwNiwxMjEuMTI1IDE5MS4yNSwxMjEuMTI1IDE1Myw2LjM3NSAxMTQuNzUsMTIxLjEyNSAwLDEyMS4xMjUgICAgIDk0LjM1LDE4Ny40MjUgNTguNjUsMjk5LjYyNSAgICIgZmlsbD0iIzU4OTBmZiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=) left bottom;
             background-size: 25px;
@@ -585,7 +586,8 @@
         .product__qt {
             width: 50px !important;
         }
-        #cart-product__qt{
+
+        #cart-product__qt {
             position: absolute;
             top: 0;
             right: 5px;
@@ -600,7 +602,7 @@
                 <a href="{{route('home')}}"><img style="width: 245px" src="/img/logo.png" alt=""></a>
             </div>
             <div class="col-md-4">
-                <form style="margin-top: 20px" action="{{route('products.search')}}" method="get">
+                <form style="margin-top: 20px" action="{{route('products.category', 0)}}" method="get">
                     <div class="form-row">
                         <div class="col-md-10">
                             <input style="margin: 5px 0; border: 2px solid #411979; border-radius: 15px;" name="q"
@@ -825,8 +827,15 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
             qt.val(item_qt);
             cart_update($(this), item_qt, '+');
         });
+        $('.product__cart-form input[type=radio], #size').change(function () {
+            $('.product__cart-form button[type=submit]').attr('data-link', 0).text('В корзину');
+        });
         $('.product__cart-form').submit(function () {
             var _this = $(this);
+            if (_this.find('button[type=submit]').attr('data-link')==1) {
+                window.location = '/cart';
+                return false;
+            }
             $.ajax({
                 method: 'post',
                 url: _this.attr('action'),
@@ -836,11 +845,8 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                 }
             }).done(function (data) {
                 if (data.success) {
-                    _this.find('button[type=submit]')
-                            .text('Перейти в корзину')
-                            .click(function () {
-                                window.location = '/cart';
-                            });
+                    _this.find('button[type=submit]').attr('data-link', 1)
+                            .text('Перейти в корзину');
                     $('#cart-product__qt').text(data.qt);
                 }
             });

@@ -50,7 +50,7 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -61,7 +61,7 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -73,36 +73,45 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        return redirect()->route('admin.order.index');
+        return redirect()->route('admin.orders.index');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        return redirect()->route('admin.order.index');
+        $this->validate($request, [
+                'status' => 'required|numeric',
+            ]
+        );
+
+        $order = Order::findOrFail($id);
+        $order->status = $request->get('status');
+        $order->save();
+
+        return redirect()->route('admin.orders.show', $id)->with('success', 'Запись успешно обновлена');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return redirect()->route('admin.order.index')->with('success', 'Запись удалена');
+        return redirect()->route('admin.orders.index')->with('success', 'Запись удалена');
     }
 }

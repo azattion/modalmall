@@ -17,9 +17,10 @@
     @endif
 
     @if(count($cart))
-        <div class="row">
-            <div class="col-md-9">
-                <form method="post" action="{{route('user.order.store')}}">
+        <form method="post" action="{{route('user.order.create')}}">
+            <div class="row">
+                <div class="col-md-9">
+
                     @csrf
                     @php $colors = config('services.colors'); @endphp
                     @php $sizes = config('services.sizes'); @endphp
@@ -82,15 +83,11 @@
                                 {{----}}
                                 {{--</td>--}}
                                 <td>
-                                    {{--<input style="width: 100px" name="qt[{{$product['id']}}]" class="form-control"--}}
-                                    {{--value="{{$product['qt']}}"--}}
-                                    {{--type="number" min="1"--}}
-                                    {{--step="1">--}}
                                     <div class="input-group">
                                         <input type="hidden" name="key[]" class="product__key" value="{{$key}}">
                                         <input type="hidden" name="cost[]" class="product__cost" value="{{$cost}}">
                                         <input type="button" value="-" class="product__qt-minus btn">
-                                        <input data-action="{{route('user.cart.update', $key)}}" type="text"
+                                        <input aria-label="qt" data-action="{{route('user.cart.update', $key)}}" type="text"
                                                pattern="\d+" value="{{$product['qt']}}"
                                                name="qt[]"
                                                class="product__qt form-control text-center"
@@ -112,7 +109,7 @@
                                     <a href="{{route('user.cart.delete', $key)}}" class="btn btn-link">Удалить</a>
                                 </td>
                             </tr>
-                            @php $product_count += 1 * $product['qt']; @endphp
+                            @php $product_count += $product['qt']; @endphp
                         @endforeach
                         </tbody>
                     </table>
@@ -121,58 +118,28 @@
                             vertical-align: middle;
                         }
                     </style>
-                    <div class="row hide">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="phone">Номер телефона</label>
-                                <input name="phone" required value="{{old('phone', auth()->user()['phone'])}}"
-                                       class="form-control @error('phone') is-invalid @enderror" type="phone" id="phone"
-                                       placeholder="Введите номер телефона">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Электронная почта</label>
-                                <input name="email" required value="{{old('email', auth()->user()['email'])}}"
-                                       type="email"
-                                       class="form-control @error('email') is-invalid @enderror" id="email"
-                                       placeholder="Введите электронную почту">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Адрес доставки</label>
-                                <input name="address" required value="{{old('address', auth()->user()['address'])}}"
-                                       type="text"
-                                       class="form-control @error('address') is-invalid @enderror" id="address"
-                                       placeholder="Введите адрес доставки">
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" required name="agree" value="1">
-                                    Я согласен с условиями Публичной оферты
-                                </label>
-                            </div>
-                            <button class="btn btn-success" type="submit">Оформить заказ</button>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            Сумма заказа
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        Сумма заказа
-                    </div>
-                    <div class="card-body  text-right">
-                        <h4 class="card-title">
-                            <div id="product__total">
-                                <b>Итого:</b>
-                                <span>{{number_format($total, 0, '.', ' ')}}</span> руб.
-                                <input type="hidden" value="{{$total}}">
-                            </div>
-                        </h4>
-                        <p class="card-text">товаров: <span id="product__cart-qt">{{$product_count}}</span></p>
-                        <a href="" class="btn btn-success">Перейти к оформлению</a>
+                        <div class="card-body  text-right">
+                            <h4 class="card-title">
+                                <div id="product__total">
+                                    <b>Итого:</b>
+                                    <span>{{number_format($total, 0, '.', ' ')}}</span> руб.
+                                    <input type="hidden" value="{{$total}}">
+                                </div>
+                            </h4>
+                            <p class="card-text">товаров: <span id="product__cart-qt">{{$product_count}}</span></p>
+                            <button type="submit" class="btn btn-success">Перейти к оформлению</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     @else
         <div class="row">
             <div class="col-md-12">
