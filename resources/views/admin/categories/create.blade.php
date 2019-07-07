@@ -38,13 +38,13 @@
                                 Активный
                             </label>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input {{old('inc_menu', $category->inc_menu)?'checked':''}} name="inc_menu" value="1"
-                                       type="checkbox">
-                                Включить в меню
-                            </label>
-                        </div>
+                        {{--<div class="checkbox">--}}
+                            {{--<label>--}}
+                                {{--<input {{old('inc_menu', $category->inc_menu)?'checked':''}} name="inc_menu" value="1"--}}
+                                       {{--type="checkbox">--}}
+                                {{--Включить в меню--}}
+                            {{--</label>--}}
+                        {{--</div>--}}
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group @error('pid') has-error @enderror">

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
-@section('title', "Category item")
+@section('page_title', $category['meta_title']??$category['name'])
+@section('page_desc', $category['meta_desc'])
+@section('page_url', route('products.category', $category['id']))
+@section('page_keywords', $category['meta_keywords'])
 
 @section('content')
     <div class="row">

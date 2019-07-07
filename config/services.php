@@ -44,6 +44,12 @@ return [
         ],
     ],
 
+    'page_title' => 'Тут заголовок страницы',
+    'page_desc' => 'Тут описание страницы',
+    'page_keywords' => 'Тут ключевые слова страницы',
+    'page_img' => 'https://modalmall.ru/img/logo.png',
+    'page_url' => 'https://modalmall.ru',
+
     'product_categories' => [
         1 => 'Мужское',
         2 => 'Женское'

@@ -32,7 +32,7 @@
                             <th></th>
                             <th>Название</th>
                             <th>Статус</th>
-                            <th>В меню</th>
+                            {{--<th>В меню</th>--}}
                             <th></th>
                         </tr>
                         @if(count($categories))
@@ -58,13 +58,13 @@
                                             <span class="label label-default">Невидим</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        @if($category['inc_menu'])
-                                            <span class="label label-success">Включен</span>
-                                        @else
-                                            <span class="label label-default">Невидим</span>
-                                        @endif
-                                    </td>
+                                    {{--<td>--}}
+                                        {{--@if($category['inc_menu'])--}}
+                                            {{--<span class="label label-success">Включен</span>--}}
+                                        {{--@else--}}
+                                            {{--<span class="label label-default">Невидим</span>--}}
+                                        {{--@endif--}}
+                                    {{--</td>--}}
                                     <td>
                                         <form action="{{route('admin.categories.destroy', $category['id'])}}"
                                               method="post">

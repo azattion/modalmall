@@ -20,7 +20,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::orderBy('id', 'desc')->where('uid', auth()->id())->paginate();
+        $reviews = Review::with('product')->orderBy('id', 'desc')->where('uid', auth()->id())->paginate();
         return view('site.reviews.index', ['reviews' => $reviews]);
     }
 

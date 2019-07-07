@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Мои заказы')
+@section('page_title', 'Мои заказы')
 
 @section('content')
     <div class="col-md-12">
@@ -51,7 +51,7 @@
                                          src="/storage{{$item->product->images[0]['path']}}/sm/{{$item->product->images[0]['name']}}.{{$item->product->images[0]['ext']}}">
                                 @else
                                     <img class="img-fluid" style="width: 50px"
-                                         src="http://www.scppa.org/image.axd?picture=/2018/04/photo_not_available.png">
+                                         src="/img/image-404.png">
                                 @endif
                             </td>
                             <td>

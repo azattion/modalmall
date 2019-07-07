@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $type)
+@section('page_title', $type)
 
 @section('content')
     <h1>{{$type}}</h1>

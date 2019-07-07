@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->string('avatar')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

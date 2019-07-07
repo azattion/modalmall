@@ -59,6 +59,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:255',
@@ -71,6 +73,8 @@ class OrderController extends Controller
 //            'cost.*' => 'nullable|numeric|max:255',
         ]);
         $order = new Order;
+        $order->name = $request->get('name');
+        $order->surname = $request->get('surname');
         $order->email = $request->get('email');
         $order->phone = $request->get('phone');
         $order->address = $request->get('address');
@@ -78,41 +82,51 @@ class OrderController extends Controller
         $order->uid = auth()->id();
         $order->save();
 
-        $qt = $request->get('qt');
-        $pid = $request->get('id');
-        $color = $request->get('color');
-        $size = $request->get('size');
+//        $qt = $request->get('qt');
+//        $pid = $request->get('id');
+//        $color = $request->get('color');
+//        $size = $request->get('size');
 
         $cart = $request->session()->get('cart', []);
         if (count($cart)) {
-//            foreach(){
-//
-//            }
-            dd($cart);
-        }
-        $request->session()->forget('cart');
-
-        if ($request->has('id')) {
-            foreach ($pid as $key => $id) {
-                $product = Product::find($id);
+            foreach ($cart as $item) {
+                $product = Product::find($item['id']);
                 $orderItem = [
-                    'pid' => $id,
+                    'pid' => $item['id'],
                     'uid' => auth()->id(),
                     'oid' => $order->id,
-                    'qt' => isset($qt[$key]) ? $qt[$key] : 1,
-                    'color' => isset($color[$key]) ? $color[$key] : 0,
+                    'qt' => $item['qt'],
+                    'color' => $item['color'],
                     'status' => $product['available'] ? 1 : 2,
-                    'size' => isset($size[$key]) ? $size[$key] : 0,
+                    'size' => $item['size'],
                     'cost' => ($product->is_sale) ? $product->cost_with_sale : $product['cost'],
                 ];
 
                 OrderItem::create($orderItem);
             }
+//            dd($cart);
+        } else {
+            return redirect()->route('user.cart.index')->with('error', 'В корзине нету товаров');
         }
-
-
-        return redirect()->route('user.order.index')->with('success', 'Ваш заказ успешно добавлен в заказы');
-
+        $request->session()->forget('cart');
+        //        if ($request->has('id')) {
+//            foreach ($pid as $key => $id) {
+//                $product = Product::find($id);
+//                $orderItem = [
+//                    'pid' => $id,
+//                    'uid' => auth()->id(),
+//                    'oid' => $order->id,
+//                    'qt' => isset($qt[$key]) ? $qt[$key] : 1,
+//                    'color' => isset($color[$key]) ? $color[$key] : 0,
+//                    'status' => $product['available'] ? 1 : 2,
+//                    'size' => isset($size[$key]) ? $size[$key] : 0,
+//                    'cost' => ($product->is_sale) ? $product->cost_with_sale : $product['cost'],
+//                ];
+//
+//                OrderItem::create($orderItem);
+//            }
+//        }
+        return redirect()->route('user.order.index')->with('success', 'Ваш заказ успешно добавлен');
     }
 
     /**

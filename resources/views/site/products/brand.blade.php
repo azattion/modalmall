@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
-@section('title', "Бренды")
+@section('page_title', $brand['meta_title']??$brand['name'])
+@section('page_desc', $post['meta_desc'])
+@section('page_url', route('posts.show', $post['id']))
+@section('page_keywords', $post['meta_keywords'])
 
 @section('content')
     <h1>Бренды</h1>

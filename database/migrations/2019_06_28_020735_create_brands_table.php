@@ -25,6 +25,7 @@ class CreateBrandsTable extends Migration
             $table->string('meta_desc')->nullable(true);
             $table->integer('uid')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

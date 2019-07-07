@@ -361,9 +361,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('admin.menu.index')}}">
-                        <i class="fa fa-list-alt"></i>
-                        <span>Меню</span>
+                    <a href="{{route('admin.categories.index')}}">
+                        <i class="fa fa-list"></i>
+                        <span>Категории товаров</span>
                     </a>
                 </li>
                 <li>
@@ -373,12 +373,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('admin.categories.index')}}">
-                        <i class="fa fa-list"></i>
-                        <span>Категории</span>
-            {{--<span class="pull-right-container">--}}
-              {{--<span class="label label-primary pull-right">34</span>--}}
-            {{--</span>--}}
+                    <a href="{{route('admin.orders.index')}}">
+                        <i class="fa fa-cart-plus"></i>
+                        <span>Заказы</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('admin.menu.index')}}">
+                        <i class="fa fa-list-alt"></i>
+                        <span>Меню</span>
                     </a>
                 </li>
                 <li>
@@ -391,12 +394,6 @@
                     <a href="{{route('admin.users.index')}}">
                         <i class="fa fa-users"></i>
                         <span>Пользователи</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('admin.orders.index')}}">
-                        <i class="fa fa-cart-plus"></i>
-                        <span>Заказы</span>
                     </a>
                 </li>
                 <li>

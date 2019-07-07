@@ -23,6 +23,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('size')->default(0);
             $table->integer('status')->default(0);
             $table->integer('cost')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

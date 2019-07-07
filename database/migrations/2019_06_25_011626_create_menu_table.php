@@ -22,6 +22,7 @@ class CreateMenuTable extends Migration
             $table->integer('type')->default(0);
             $table->integer('uid')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

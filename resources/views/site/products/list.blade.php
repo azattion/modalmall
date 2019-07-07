@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Category list")
+@section('page_title', "Category list")
 
 @section('sidebar')
     <p>this is sidebar</p>

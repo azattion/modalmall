@@ -27,9 +27,11 @@
             @endif
         </div>
         <div class="product-card__name text-center">{{$product['name']}}</div>
-        <div class="product__review-value">@if($product->average_rating) {{number_format($product->average_rating, 1)}} @endif</div>
-        <div class="product__review-img">
-            <div style="width: @if($product->average_rating) {{$product->average_rating*100/5}}% @else 0% @endif"></div>
+        <div class="product-card__review">
+            <div class="product__review-value">@if($product->average_rating) {{number_format($product->average_rating, 1)}} @endif</div>
+            <div class="product__review-img">
+                <div style="width: @if($product->average_rating) {{$product->average_rating*100/5}}% @else 0% @endif"></div>
+            </div>
         </div>
     </a>
 </div>

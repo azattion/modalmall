@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $post['title'])
+@section('page_title', $post['meta_title']??$post['title'])
+@section('page_desc', $post['meta_desc'])
+@section('page_url', route('posts.show', $post['id']))
+@section('page_keywords', $post['meta_keywords'])
 
 @section('content')
     <h1>{{$post['title']}}</h1>

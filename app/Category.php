@@ -3,12 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    private $list = [];
-    private $tree = [];
-
+    use SoftDeletes;
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -21,7 +20,6 @@ class Category extends Model
     {
         $tree = [];
         foreach ($query->get() as $v) {
-//            $this->list[$v["id"]] = array("id" => $v["id"], "pid" => $v["pid"], "title" => $v["title"]);
             $tree[$v["pid"]][] = $v;
         }
         return $tree;
