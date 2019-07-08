@@ -57,6 +57,17 @@ class User extends Authenticatable
         return $this->morphMany('App\Image', 'imageable');
     }
 
+    /**
+     * Отправка уведомления об изменении пароля.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
 //    /***
 //     * @param string $role
 //     * @return $this

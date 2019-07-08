@@ -9,5 +9,8 @@
   "Confirm Password": "Пароль еще раз",
   "Register": "Регистрация",
   "Reset Password": "Сбросить пароль",
-  "Send Password Reset Link": "Отправить ссылку для сброса"
+  "Send Password Reset Link": "Отправить ссылку для сброса",
+  "Hello": "Здравствуйте",
+  "Regards": "С уважением",
+  "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser: [:actionURL](:actionURL)": "Если у вас возникли проблемы с нажатием кнопки \":actionText\", скопируйте и вставьте приведенный ниже URL-адрес в веб-браузер: [:actionURL](:actionURL)"
 }

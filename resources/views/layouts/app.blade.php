@@ -627,7 +627,7 @@
             <div class="col-md-5 text-center">
                 <ul class="header-nav list-unstyled row" style="margin-bottom: 0">
                     @php $menu = App\Menu::with('images')->where('type', 1)->where('status', 1)->get(); @endphp
-                    <li class="header-nav__item col-sm">
+                    <li class="header-nav__item col">
                         @if(auth()->check())
                             <a class="header-nav__link" href="/cabinet">
                                 <img style="width: 60px" class="header-nav__icon"
@@ -642,7 +642,7 @@
                             </a>
                         @endif
                     </li>
-                    <li class="header-nav__item col-sm">
+                    <li class="header-nav__item col">
                         <a class="header-nav__link" href="/cart">
                             <img style="width: 60px" class="header-nav__icon"
                                  src="https://modalmall.ru/storage/images/21/F7WTYZw3shpqfv1uzIVbSbszXjvUoHispHWfvf0O.png">
@@ -653,7 +653,7 @@
                         </a>
                     </li>
                     @foreach($menu as $item)
-                        <li class="header-nav__item col-sm">
+                        <li class="header-nav__item col">
                             <a class="header-nav__link" href="{{$item['link']}}">
                                 @if(isset($item->images[0]))
                                     <img class="header-nav__icon" alt="{{$item['title']}}" style="width: 60px"
@@ -676,12 +676,12 @@
                 <ul class="main-nav list-unstyled row" style="margin-bottom: 0">
                     @php $menu = App\Menu::where('type', 2)->where('status', 1)->get(); @endphp
                     @foreach($menu as $item)
-                        <li class="main-nav__item col-sm">
+                        <li class="main-nav__item col">
                             <a class="main-nav__link text-uppercase" href="{{$item['link']}}">{{$item['title']}}</a>
                         </li>
                     @endforeach
                     @if(auth()->user()['role']==1)
-                        <li class="main-nav__item col-sm">
+                        <li class="main-nav__item col">
                             <a target="_blank" class="main-nav__link text-uppercase" href="/admin">Админка</a>
                         </li>
                     @endif
@@ -744,7 +744,7 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                     <ul class="footer-nav list-unstyled row">
                         @php $menu = App\Menu::with('images')->where('type', 3)->where('status', 1)->get(); @endphp
                         @foreach($menu as $item)
-                            <li class="footer-nav__item col-sm">
+                            <li class="footer-nav__item col">
                                 <a class="footer-nav__link" href="{{$item['link']}}">
                                     @if(isset($item->images[0]))
                                         <img class="footer-nav__icon" alt="{{$item['title']}}" style="width: 40px"

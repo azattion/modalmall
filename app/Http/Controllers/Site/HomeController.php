@@ -24,6 +24,7 @@ class HomeController extends Controller
         $categories = Category::with('images')->orderBy('id')->where('inc_menu', 1)->where('status', 1)->where('pid', 0)->get();
         $products = Product::with('images')->with('reviews')->orderBy('id', 'desc')->get();
         $posts = Post::with('images')->where('status', 1)->where('type', 2)->orderBy('date', 'desc')->take(5)->get();
+
         return view('home', ['categories' => $categories, 'products' => $products, 'posts' => $posts]);
     }
 
@@ -38,6 +39,7 @@ class HomeController extends Controller
 
             $this->validate($request, [
                 'name' => 'required|string|max:255',
+                'surname' => 'nullable|string|max:255',
 //                'email' => 'required|email',
                 'password' => 'required|string|min:8',
                 'address' => 'nullable|string',
@@ -46,13 +48,14 @@ class HomeController extends Controller
 
             $password = $request->input('password');
 
-            $user = User::where('id', Auth::id())->where('password', Hash::make($password))->get();
+            $user = User::where('status', 1)->where('id', Auth::id())->where('password', Hash::make($password))->get();
             $message_type = 'success';
             $message = 'Данные успешно сохранены';
             if ($user) {
                 $user = User::findOrFail(Auth::id());
 //                $user->password = $password;
-//                $user->email = $request->input('email');
+                $user->name = $request->input('name');
+                $user->surname = $request->input('surname');
                 $user->phone = $request->input('phone');
                 $user->address = $request->input('address');
                 $user->save();
@@ -81,7 +84,7 @@ class HomeController extends Controller
 
             $password = $request->input('password');
 
-            $user = User::where('id', Auth::id())->where('password', bcrypt($password))->get();
+            $user = User::where('status', 1)->where('id', Auth::id())->where('password', bcrypt($password))->get();
             $message_type = 'success';
             $message = 'Данные успешно сохранены';
             if ($user) {
@@ -108,11 +111,4 @@ class HomeController extends Controller
     {
         return view('site.user.cabinet');
     }
-
-
-//    public function logout()
-//    {
-//        Auth::logout();
-//        return redirect()->route('home');
-//    }
 }

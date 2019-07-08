@@ -14,13 +14,13 @@
                         <!-- Slides -->
                         @foreach($posts as $post)
                             @foreach($post->images as $image)
-                                <div class="swiper-slide" style="background-image: url(/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}})">
+                                <a href="{{route('posts.show', $post['id'])}}" class="swiper-slide" style="background-image: url(/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}})">
                                     {{--<a href="{{route('posts.show', $post['id'])}}">--}}
                                         {{--<img class="img-fluid"--}}
                                              {{--src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"--}}
                                              {{--alt="{{$post['title']}}">--}}
                                     {{--</a>--}}
-                                </div>
+                                </a>
                             @endforeach
                         @endforeach
                     </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="row">
                 @foreach($categories as $category)
-                    <div class="col-sm">
+                    <div class="col-md text-md-center">
                         @include('layouts.category-card', ['category' => $category])
                     </div>
                 @endforeach

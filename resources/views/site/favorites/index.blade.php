@@ -67,7 +67,7 @@
                         <form method="post" action="{{route('user.favorite.destroy', $favorite['id'])}}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-link">Удалить</button>
+                            <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit" class="btn btn-link">Удалить</button>
                         </form>
                     </td>
                 </tr>

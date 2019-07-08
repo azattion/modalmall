@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+//use App\Mail\OrderShipped;
+use App\Notifications\OrderCreated;
 use App\Order;
 use App\OrderItem;
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class OrderController extends Controller
 {
@@ -104,11 +109,14 @@ class OrderController extends Controller
 
                 OrderItem::create($orderItem);
             }
-//            dd($cart);
+
         } else {
             return redirect()->route('user.cart.index')->with('error', 'В корзине нету товаров');
         }
         $request->session()->forget('cart');
+
+        Notification::send(User::find(auth()->id()), new OrderCreated(User::find(auth()->id()), $order));
+
         //        if ($request->has('id')) {
 //            foreach ($pid as $key => $id) {
 //                $product = Product::find($id);

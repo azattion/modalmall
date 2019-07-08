@@ -33,12 +33,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-        if (isset($_GET['mail'])) {
-//            mail('razatt23@gmail.com', 'test', 'test');
-            $dd = Mail::to('razatt23@gmail.com')
-                ->send(new OrderShipped());
-        }
-//        dd($dd);
         $data = [
             'orders' => Order::count(),
             'products' => Product::count(),

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Notifications\OrderStatusChanged;
 use App\Order;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Notification;
 
 class OrderController extends Controller
 {
@@ -98,6 +101,8 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $order->status = $request->get('status');
         $order->save();
+
+        Notification::send(User::find($order->uid), new OrderStatusChanged(User::find($order->uid), $order));
 
         return redirect()->route('admin.orders.show', $id)->with('success', 'Запись успешно обновлена');
     }
