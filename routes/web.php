@@ -11,7 +11,7 @@
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 
 Route::namespace('Site')->group(function () {
@@ -34,12 +34,12 @@ Route::namespace('Site')->group(function () {
     Route::resource('order', 'OrderController', ['as' => 'user']);
     Route::post('/order/create', 'OrderController@create')->name('user.order.create');
     Route::resource('cart', 'CartController', ['as' => 'user']);
-    Route::get('cart/delete/{id}', 'CartController@destroy')->name('user.cart.delete')->middleware('auth');
+    Route::get('cart/delete/{id}', 'CartController@destroy')->name('user.cart.delete')->middleware(['auth', 'verified']);
     Route::resource('cabinet/review', 'ReviewController', ['as' => 'user']);
     Route::resource('cabinet/favorite', 'FavoriteController', ['as' => 'user']);
-    Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet')->middleware('auth');
-    Route::any('/cabinet/settings', 'HomeController@settings')->name('user.settings')->middleware('auth');
-    Route::any('/cabinet/settings/password', 'HomeController@password')->name('user.settings.password')->middleware('auth');
+    Route::get('/cabinet', 'HomeController@cabinet')->name('user.cabinet')->middleware(['auth', 'verified']);
+    Route::any('/cabinet/settings', 'HomeController@settings')->name('user.settings')->middleware(['auth', 'verified']);
+    Route::any('/cabinet/settings/password', 'HomeController@password')->name('user.settings.password')->middleware(['auth', 'verified']);
 
     Route::get('/rss.xml', 'HomeController@rss')->name('rss');
     Route::get('/sitemap.xml', 'HomeController@sitemap')->name('sitemap');

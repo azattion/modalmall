@@ -74,7 +74,7 @@
                     <div style="width: @if($product->average_rating) {{$product->average_rating*100/5}}% @else 0% @endif"></div>
                 </div>
                 @if(count($product->reviews))
-                    Отзывов: {{count($product->reviews)}}
+                    <a href="#product-reviews">Отзывов: {{count($product->reviews)}}</a>
                 @endif
                 <a href="#product-reviews">Оценить</a>
                 <div class="clearfix"></div>

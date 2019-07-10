@@ -49,7 +49,7 @@ class OrderStatusChanged extends Notification
             ->greeting('Здравствуйте ' . $this->user->name . '!')
             ->subject('Статус вашего заказа изменен')
             ->line('Ваш заказ № ' . $this->order->id . '.')
-            ->line('Товаров: ' . count($this->order->items) . '.')
+            ->line('Товаров: ' . count($this->order->items))
             ->line('Статус вашего заказа изменен.')
             ->action('Открыть заказ', route('user.order.index'))
             ->line('Спасибо, что вы с нами!');
