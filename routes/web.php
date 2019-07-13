@@ -17,7 +17,7 @@ Auth::routes(['verify' => true]);
 Route::namespace('Site')->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
-//    Route::get('/logout', 'HomeController@logout')->name('logout');
+    Route::get('/1c_exchange.php', 'HomeController@exchange')->name('exchange');
 
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');

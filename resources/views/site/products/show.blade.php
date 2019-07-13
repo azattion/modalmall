@@ -76,7 +76,9 @@
                 @if(count($product->reviews))
                     <a href="#product-reviews">Отзывов: {{count($product->reviews)}}</a>
                 @endif
-                <a href="#product-reviews">Оценить</a>
+                @if(auth()->check())
+                    <a href="#product-reviews">Оценить</a>
+                @endif
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
@@ -153,31 +155,31 @@
                     </div>
                 @endif
 
-
-                <div class="row">
-                    @csrf
-                    <input type="hidden" name="id" value="{{$product['id']}}">
-                    {{--<input type="hidden" name="status" value="{{$product['available'] ? 1 : 2}}">--}}
-                    {{--<div class="col-sm-3">--}}
-                    {{--<div class="input-group">--}}
-                    {{--<div class="input-group-prepend">--}}
-                    {{--<input type="button" value="-" class="product__qt-minus btn">--}}
+                <div class="product__field">
+                    {{--<div class="row">--}}
+                        @csrf
+                        <input type="hidden" name="id" value="{{$product['id']}}">
+                        {{--<input type="hidden" name="status" value="{{$product['available'] ? 1 : 2}}">--}}
+                        {{--<div class="col-sm-3">--}}
+                        {{--<div class="input-group">--}}
+                        {{--<div class="input-group-prepend">--}}
+                        {{--<input type="button" value="-" class="product__qt-minus btn">--}}
+                        {{--</div>--}}
+                        <input type="hidden" pattern="\d+" name="qt"
+                               class="product__qt form-control text-center" value="1" min="1" required="">
+                        {{--<div class="input-group-append">--}}
+                        {{--<input type="button" value="+" class="product__qt-plus btn">--}}
+                        {{--</div>--}}
+                        {{--<input class="form-control" type="number" name="qt" min="1" value="1">--}}
+                        {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-sm-3">--}}
+                            <button type="submit" class="btn btn-success">
+                                @if($product['available'])В корзину @else Предзаказать @endif
+                            </button>
+                        {{--</div>--}}
+                        {{--<div>Нет в наличии</div>--}}
                     {{--</div>--}}
-                    <input type="hidden" pattern="\d+" name="qt"
-                           class="product__qt form-control text-center" value="1" min="1" required="">
-                    {{--<div class="input-group-append">--}}
-                    {{--<input type="button" value="+" class="product__qt-plus btn">--}}
-                    {{--</div>--}}
-                    {{--<input class="form-control" type="number" name="qt" min="1" value="1">--}}
-                    {{--</div>--}}
-                    {{--</div>--}}
-                    <div class="col-sm-3">
-                        <button type="submit" class="btn btn-success">
-                            @if($product['available'])В корзину @else Предзаказать @endif
-                        </button>
-                    </div>
-
-                    {{--<div>Нет в наличии</div>--}}
                 </div>
             </form>
 
@@ -422,6 +424,7 @@
             </div>
         </div>
 
+
         <div class="col-md-6">
             <div class="product__reviews" id="product-reviews">
                 <h5>Отзывы</h5>
@@ -452,7 +455,7 @@
                         </div>
                     </div>
                 @endforeach
-                @if(!$hasUserReview)
+                @if(auth()->check() && !$hasUserReview)
                     <form action="{{route('user.review.store')}}" method="post">
                         @csrf
                         <input type="hidden" name="pid" value="{{$product['id']}}">

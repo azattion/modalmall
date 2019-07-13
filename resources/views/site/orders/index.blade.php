@@ -92,5 +92,10 @@
                 {{ $orders->links() }}
             </div>
         </div>
+        <style>
+            .table td{
+                vertical-align: middle;
+            }
+        </style>
     </div>
 @endsection
