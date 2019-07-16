@@ -64,12 +64,13 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:255',
-            'agree' => 'required',
+            'name'     => 'required|string|max:255',
+            'surname'  => 'required|string|max:255',
+            'address'  => 'required|string|max:255',
+            'delivery' => 'required|string|max:255',
+            'email'    => 'required|email|max:255',
+            'phone'    => 'required|string|max:255',
+            'agree'    => 'required',
 //            'id.*' => 'required|numeric|max:255',
 //            'qt.*' => 'required|numeric|max:255',
 //            'status.*' => 'required|numeric|max:255',
@@ -83,6 +84,7 @@ class OrderController extends Controller
         $order->email = $request->get('email');
         $order->phone = $request->get('phone');
         $order->address = $request->get('address');
+        $order->delivery = $request->get('delivery');
         $order->status = 0;
         $order->uid = auth()->id();
         $order->save();

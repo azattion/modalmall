@@ -47,6 +47,13 @@
                             <th>Адрес:</th>
                             <td>{{$order['address']}}</td>
                         </tr>
+                        @if($order['delivery'])
+                            <tr>
+                                <th>Доставка:</th>
+                                @php $delivery_type = config('services.delivery_type'); @endphp
+                                <td>{{$delivery_type[$order['delivery']]}}</td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>

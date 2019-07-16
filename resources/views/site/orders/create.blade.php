@@ -62,6 +62,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="delivery_type">Служба доставки</label>
+                                <select required class="form-control" name="delivery" id="delivery_type">
+                                    @php $delivery_type = config('services.delivery_type'); @endphp
+                                    @foreach($delivery_type as $key => $type)
+                                        <option value="{{$key}}">{{$type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="address">Адрес доставки</label>
                         <input name="address" required value="{{old('address', auth()->user()['address'])}}"
