@@ -426,12 +426,16 @@
 
         <div class="col-md-12">
             <h4 class="text-center">Похожие товары</h4>
-            <div class="row">
-                @foreach($related_products as $product)
-                    <div class="col-md-3">
-                        @include('layouts.product-card', ['product' => $product])
+            <div class="row product-row">
+                <div class="related-swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach($related_products as $product)
+                            <div class="col">
+                                @include('layouts.product-card', ['product' => $product])
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
 
@@ -526,6 +530,23 @@
                 "autoPlay": false,
                 // autoplay interval in milliseconds
                 "autoPlayTimeout": 2000
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+    <style>
+        .top-swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            new Swiper('.related-swiper-container', {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                freeMode: true,
             });
         });
     </script>

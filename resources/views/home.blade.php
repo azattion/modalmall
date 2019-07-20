@@ -4,52 +4,59 @@
 
 @section('content')
     {{--<div class="container">--}}
-        <div class="row">
-            <div class="col-md-12">
-                @if($posts)
-                        <!-- Slider main container -->
-                <div class="swiper-container">
-                    <!-- Additional required wrapper -->
-                    <div class="swiper-wrapper">
-                        <!-- Slides -->
-                        @foreach($posts as $post)
-                            @foreach($post->images as $image)
-                                <a href="{{route('posts.show', $post['id'])}}" class="swiper-slide" style="background-image: url(/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}})">
-                                    {{--<a href="{{route('posts.show', $post['id'])}}">--}}
-                                        {{--<img class="img-fluid"--}}
-                                             {{--src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"--}}
-                                             {{--alt="{{$post['title']}}">--}}
-                                    {{--</a>--}}
-                                </a>
-                            @endforeach
+    <div class="row">
+        <div class="col-md-12">
+            @if($posts)
+                    <!-- Slider main container -->
+            <div class="swiper-container">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    @foreach($posts as $post)
+                        @foreach($post->images as $image)
+                            <a href="{{route('posts.show', $post['id'])}}" class="swiper-slide"
+                               style="background-image: url(/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}})">
+                                {{--<a href="{{route('posts.show', $post['id'])}}">--}}
+                                {{--<img class="img-fluid"--}}
+                                {{--src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"--}}
+                                {{--alt="{{$post['title']}}">--}}
+                                {{--</a>--}}
+                            </a>
                         @endforeach
-                    </div>
-                    {{--<div class="swiper-pagination"></div>--}}
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
+                    @endforeach
                 </div>
-                @endif
+                {{--<div class="swiper-pagination"></div>--}}
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
-            <div class="row">
-                @foreach($categories as $category)
-                    <div class="col-md text-md-center">
-                        @include('layouts.category-card', ['category' => $category])
-                    </div>
-                @endforeach
-            </div>
-            <div class="row" style="margin-top: 30px">
-                <div class="col-md-12">
-                    <h2 style="margin-bottom: 0" class="header-title__italic text-center">Бестселлеры</h2>
-                    <div class="row product-row">
-                        @foreach($products as $product)
-                            <div class="col-md-3">
-                                @include('layouts.product-card', ['product' => $product])
-                            </div>
-                        @endforeach
+            @endif
+        </div>
+        <div class="row">
+            @foreach($categories as $category)
+                <div class="col-md text-md-center">
+                    @include('layouts.category-card', ['category' => $category])
+                </div>
+            @endforeach
+        </div>
+        <div class="row" style="margin-top: 30px">
+            <div class="col-md-12">
+                <h2 style="margin-bottom: 0" class="header-title__italic text-center">Бестселлеры</h2>
+                <div class="row product-row">
+                    <div class="top-swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach($products as $product)
+                                <div class="col">
+                                    {{--<div class="col">--}}
+                                        @include('layouts.product-card', ['product' => $product])
+                                    {{--</div>--}}
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     {{--</div>--}}
 @endsection
 
@@ -63,11 +70,15 @@
             border-radius: 3px;
             margin: 15px auto;
         }
+        .top-swiper-container {
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script>
         $(document).ready(function () {
-            var mySwiper = new Swiper('.swiper-container', {
+            new Swiper('.swiper-container', {
                 // Optional parameters
                 loop: true,
 
@@ -82,16 +93,22 @@
                     prevEl: '.swiper-button-prev',
                 }
             });
+            new Swiper('.top-swiper-container', {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                freeMode: true,
+            });
         });
     </script>
     <style>
-        .swiper-slide{
+        .swiper-slide {
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
             position: relative;
         }
-        .swiper-slide:after{
+
+        .swiper-slide:after {
             content: '';
             display: block;
             padding-top: 33.25%;
