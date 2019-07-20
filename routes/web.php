@@ -13,23 +13,18 @@
 
 Auth::routes(['verify' => true]);
 
-
-Route::namespace('Site')->group(function () {
-
-    Route::get('/', 'HomeController@index')->name('home');
+Route::group(['namespace' => 'Site'], function() {
     Route::get('/1c_exchange.php', 'HomeController@exchange')->name('exchange');
+});
 
+Route::group(['namespace' => 'Site', 'middleware' => ['access']], function () {
+    Route::get('/', 'HomeController@index')->name('home');
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
     Route::get('/catalog/new', 'ProductController@novelty')->name('products.novelty');
     Route::get('/brands', 'ProductController@brands')->name('brands');
     Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
     Route::get('/catalog/product/{id}', 'ProductController@show')->name('products.show');
-
-//    Route::get('/cart', 'ProductController@cart')->name('site.products.cart');
-//    Route::post('/cart-add', 'ProductController@cart_add')->name('site.products.cart-add');
-//    Route::get('/cart-del/{id}', 'ProductController@cart_del')->name('site.products.cart-del');
-//    Route::get('/cabinet/order', 'ProductController@orders')->name('user.orders');
 
     Route::resource('order', 'OrderController', ['as' => 'user']);
     Route::post('/order/create', 'OrderController@create')->name('user.order.create');
@@ -57,20 +52,20 @@ Route::namespace('Site')->group(function () {
         ->where('name', '[A-Za-z0-9]+');
 });
 
-Route::namespace('Admin')->group(function () {
-    Route::get('/admin', 'AdminController@index')->name('admin.index');
-    Route::get('/admin/profile', 'AdminController@profile')->name('admin.profile');
-    Route::get('/admin/search', 'AdminController@search')->name('admin.search');
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['access', 'admin']], function () {
+    Route::get('/', 'AdminController@index')->name('index');
+    Route::get('/profile', 'AdminController@profile')->name('profile');
+    Route::get('/search', 'AdminController@search')->name('search');
 
-    Route::post('admin/products/import', 'ProductController@import')->name('admin.products.import');
-    Route::get('admin/products/multiple', 'ProductController@multiple')->name('admin.products.multiple');
-    Route::resource('admin/products', 'ProductController', ['as' => 'admin']);
+    Route::post('products/import', 'ProductController@import')->name('products.import');
+    Route::get('products/multiple', 'ProductController@multiple')->name('products.multiple');
 
-    Route::resource('admin/menu', 'MenuController', ['as' => 'admin']);
-    Route::resource('admin/brands', 'BrandController', ['as' => 'admin']);
-    Route::resource('admin/posts', 'PostController', ['as' => 'admin']);
-    Route::resource('admin/users', 'UserController', ['as' => 'admin']);
-    Route::resource('admin/categories', 'CategoryController', ['as' => 'admin']);
-    Route::resource('admin/orders', 'OrderController', ['as' => 'admin']);
-    Route::resource('admin/reviews', 'ReviewController', ['as' => 'admin']);
+    Route::resource('products', 'ProductController');
+    Route::resource('menu', 'MenuController');
+    Route::resource('brands', 'BrandController');
+    Route::resource('posts', 'PostController');
+    Route::resource('users', 'UserController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('orders', 'OrderController');
+    Route::resource('reviews', 'ReviewController');
 });

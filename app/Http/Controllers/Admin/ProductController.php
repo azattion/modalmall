@@ -12,31 +12,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-/*
- *    Название/наименование
-
-       цена (возможность показать диапазон от и до)
-
-       количество в упаковке (1,2,3,4,5,6,12)
-
-       количество (к покупке +/)
-
-       доступен к заказу/в корзину
-
-Ф    размер
-
-       цвет (в квадратиках)
-
-       таблица размеров (таблиц будет несколько, во-первых на детское, женское и мужское, плюс на разные категории товаров)
-
-Ф     сезон (весна-лето, осень-зима)
-
-Ф     бренд
-
-        производитель (Турция, Россия, Польша, Украина...)
-
-        состав
- */
 
 class ProductController extends Controller
 {
@@ -50,7 +25,7 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin');
+//        $this->middleware('admin');
     }
 
     /**
