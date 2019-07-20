@@ -94,23 +94,32 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('id', $id)->where('status', 1)->first();
         $categories = Category::where('status', 1)->where('pid', $id)->get();
         $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
 
         $category = '';
+        $related_products = new Product();
         if ($product['cats']) {
             $category_exploded = explode('|', trim($product['cats'], '|'));
+//            dd($category_exploded);
 //            $category = $category_exploded[0];
-            $category = Category::where('status', 1)
-                ->where('id', $category_exploded[0])->first();
+            if (isset($category_exploded[0])) {
+                $category = Category::where('status', 1)
+                    ->where('id', $category_exploded[0])->first();
+                $related_products = Product::where('status', 1)
+//                    ->where('cats', 'LIKE', '%|' . $category_exploded[0] . '|%')
+                    ->get();
+            }
         }
+
 
         return view('site.products.show',
             [
                 'product' => $product,
                 'category' => $category,
                 'categories' => $categories,
+                'related_products' => $related_products,
                 'brands' => $brands
             ]);
     }

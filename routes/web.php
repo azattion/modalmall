@@ -17,7 +17,7 @@ Route::group(['namespace' => 'Site'], function() {
     Route::get('/1c_exchange.php', 'HomeController@exchange')->name('exchange');
 });
 
-Route::group(['namespace' => 'Site', 'middleware' => ['access']], function () {
+Route::group(['namespace' => 'Site', 'middleware' => ['dev']], function () {
     Route::get('/', 'HomeController@index')->name('home');
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
@@ -52,7 +52,7 @@ Route::group(['namespace' => 'Site', 'middleware' => ['access']], function () {
         ->where('name', '[A-Za-z0-9]+');
 });
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['access', 'admin']], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['dev', 'admin']], function () {
     Route::get('/', 'AdminController@index')->name('index');
     Route::get('/profile', 'AdminController@profile')->name('profile');
     Route::get('/search', 'AdminController@search')->name('search');
