@@ -67,10 +67,11 @@ class OrderController extends Controller
             'name'     => 'required|string|max:255',
             'surname'  => 'required|string|max:255',
             'address'  => 'required|string|max:255',
-            'delivery' => 'required|string|max:255',
+            'delivery' => 'required|numeric|min:1',
             'email'    => 'required|email|max:255',
             'phone'    => 'required|string|max:255',
             'agree'    => 'required',
+            'city_id'  => 'required|numeric|min:1'
 //            'id.*' => 'required|numeric|max:255',
 //            'qt.*' => 'required|numeric|max:255',
 //            'status.*' => 'required|numeric|max:255',
@@ -85,6 +86,7 @@ class OrderController extends Controller
         $order->phone = $request->get('phone');
         $order->address = $request->get('address');
         $order->delivery = $request->get('delivery');
+        $order->city_id = $request->get('city_id');
         $order->status = 0;
         $order->uid = auth()->id();
         $order->save();

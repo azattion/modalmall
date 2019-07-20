@@ -102,8 +102,6 @@ class ProductController extends Controller
         $related_products = new Product();
         if ($product['cats']) {
             $category_exploded = explode('|', trim($product['cats'], '|'));
-//            dd($category_exploded);
-//            $category = $category_exploded[0];
             if (isset($category_exploded[0])) {
                 $category = Category::where('status', 1)
                     ->where('id', $category_exploded[0])->first();

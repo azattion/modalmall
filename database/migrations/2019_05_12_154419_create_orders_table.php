@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('delivery')->nullable(true);
             $table->string('address')->nullable(true);
             $table->integer('status')->default(0);
+            $table->integer('city_id')->default(0)->index(0);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -62,25 +62,45 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="city_id">Город</label>
+                                @php $cities = config('services.cities'); @endphp
+                                <select required class="form-control" name="city_id" id="city">
+                                    <option value="0">..</option>
+                                    @foreach($cities as $key => $city)
+                                        <option value="{{$key}}">{{$city}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address">Адрес доставки</label>
+                                <input name="address" required value="{{old('address', auth()->user()['address'])}}"
+                                       type="text"
+                                       class="form-control @error('address') is-invalid @enderror" id="address"
+                                       placeholder="Введите адрес доставки">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="delivery_type">Служба доставки</label>
                                 <select required class="form-control" name="delivery" id="delivery_type">
                                     @php $delivery_type = config('services.delivery_type'); @endphp
+                                    <option value="0">..</option>
                                     @foreach($delivery_type as $key => $type)
                                         <option value="{{$key}}">{{$type}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Адрес доставки</label>
-                        <input name="address" required value="{{old('address', auth()->user()['address'])}}"
-                               type="text"
-                               class="form-control @error('address') is-invalid @enderror" id="address"
-                               placeholder="Введите адрес доставки">
                     </div>
                     <div class="form-group">
                         <label>

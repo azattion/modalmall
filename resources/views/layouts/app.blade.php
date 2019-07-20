@@ -571,6 +571,7 @@
             border: 2px solid #411979;
             border-radius: 15px;
             padding: 0 10px;
+            font-size: 18px;
         }
 
         .product__category {
