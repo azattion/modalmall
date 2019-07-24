@@ -28,4 +28,5 @@ class Review extends Model
     {
         return $this->belongsTo('App\User', 'uid');
     }
+
 }

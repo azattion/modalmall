@@ -185,6 +185,7 @@
         .footer-nav__name {
             display: block;
             text-transform: uppercase;
+            font-size: 0.80rem;
         }
 
         .footer-nav__icon {
@@ -636,13 +637,13 @@
                             <a class="header-nav__link" href="/cabinet">
                                 <img style="width: 60px" class="header-nav__icon"
                                      src="https://modalmall.ru/storage/images/45/LuPg4a9AkZ3ovDVWGIXwDpGghAGqY2T4JLVJmP93.png">
-                                <span  class="header-nav__name">Личный кабинет</span>
+                                <span class="header-nav__name">Личный кабинет</span>
                             </a>
                         @else
                             <a class="header-nav__link" href="/login">
                                 <img style="width: 60px" class="header-nav__icon"
                                      src="https://modalmall.ru/storage/images/45/LuPg4a9AkZ3ovDVWGIXwDpGghAGqY2T4JLVJmP93.png">
-                                <span  class="header-nav__name">Вход</span>
+                                <span class="header-nav__name">Вход</span>
                             </a>
                         @endif
                     </li>
@@ -766,6 +767,8 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                         @endforeach
                     </ul>
                 </div>
+            </div>
+            <div class="col-md-12">
                 <div class="footer-copyright text-center">
                     ModalMall - интернет магазин качественных трикотажных, насочно-чулочных изделий и белья. Все права
                     зашищены. Доставка по всей России.
@@ -788,18 +791,20 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
 <script>
     $(document).ready(function () {
         var header = $('nav');
-        $(window).on('scroll load resize', function () {
-            var scrolled = $(window).scrollTop();
-            if (scrolled > 200) {
-                header.addClass('fixed');
-                setTimeout(function () {
-                    header.addClass('show')
-                }, 50);
-            }
-            if (scrolled < 200) {
-                header.removeClass('fixed show');
-            }
-        });
+        if ($(document).height() - $(window).height() > 400) {
+            $(window).on('scroll load resize', function () {
+                var scrolled = $(window).scrollTop();
+                if (scrolled > 200) {
+                    header.addClass('fixed');
+                    setTimeout(function () {
+                        header.addClass('show')
+                    }, 50);
+                }
+                if (scrolled < 200) {
+                    header.removeClass('fixed show');
+                }
+            });
+        }
         function cart_update(_this, qt, md) {
             $.ajax({
                 method: 'post',

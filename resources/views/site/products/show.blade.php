@@ -73,8 +73,9 @@
                 <div class="product__review-img">
                     <div style="width: @if($product->average_rating) {{$product->average_rating*100/5}}% @else 0% @endif"></div>
                 </div>
-                @if(count($product->reviews))
-                    / <a href="#product-reviews">Отзывов: {{count($product->reviews)}}</a>
+                @php $count = count($product->reviews); @endphp
+                @if($count)
+                    / {{$count}} @numtoworder($count, отзыв, отзыва, отзывов)
                 @endif
                 @if(auth()->check())
                     <a href="#product-reviews">Оценить</a>
@@ -427,14 +428,19 @@
         <div class="col-md-12">
             <h4 class="text-center">Похожие товары</h4>
             <div class="row product-row">
-                <div class="related-swiper-container">
+                <div class="swiper-container">
                     <div class="swiper-wrapper">
                         @foreach($related_products as $product)
-                            <div class="col">
+                            <div class="swiper-slide">
+                                @include('layouts.product-card', ['product' => $product])
+                            </div>
+                            <div class="swiper-slide">
                                 @include('layouts.product-card', ['product' => $product])
                             </div>
                         @endforeach
                     </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
             </div>
         </div>
@@ -466,7 +472,6 @@
                             <div class="product__field product__review-text">
                                 {{$review['text']}}
                             </div>
-
                         </div>
                     </div>
                 @endforeach
@@ -535,18 +540,29 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
     <style>
-        .top-swiper-container {
+        .swiper-container {
             width: 100%;
             height: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            z-index: 1
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script>
         $(document).ready(function () {
-            new Swiper('.related-swiper-container', {
-                slidesPerView: 3,
+            new Swiper('.swiper-container', {
+                slidesPerView: 4,
                 spaceBetween: 30,
+                slidesPerGroup: 4,
                 freeMode: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                }
             });
         });
     </script>
