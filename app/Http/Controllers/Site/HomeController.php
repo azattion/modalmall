@@ -121,28 +121,35 @@ class HomeController extends Controller
         $csrf = csrf_token();
         $date = date('Y-m-d H:m:s');
 
-        Log::info('Log message', array('context' => $request->all()));
+//        Log::info('Log message', array('context' => $request->all()));
 
 //        if ($request->get('type') == 'catalog') {
-            switch ($request->mode) {
-                case 'checkauth':
-                    $user = $_SERVER['PHP_AUTH_USER'];
-                    $pass = $_SERVER['PHP_AUTH_PW'];
-                    if ($user == 'emaleigh' && '7US7x8CJCU{C6>W' == $pass)
-                        return response("success\n$cookieName\n$cookieID\n$csrf\n$date")
-                            ->header("Content-Type", "text/plane; charset=UTF-8");
-                    break;
-                case 'init':
-                    return response("no\nfile_limit=100000000000\nsessid=$cookieID\nversion=3.1")
+        switch ($request->mode) {
+            case 'checkauth':
+                $user = $_SERVER['PHP_AUTH_USER'];
+                $pass = $_SERVER['PHP_AUTH_PW'];
+                if ($user == 'emaleigh' && '7US7x8CJCU{C6>W' == $pass)
+                    return response("success\n$cookieName\n$cookieID\n$csrf\n$date")
                         ->header("Content-Type", "text/plane; charset=UTF-8");
+                break;
 
-                case 'file':
-                    file_get_contents('php://input');
+            case 'init':
+                return response("zip=no\nfile_limit=100000000000\nsessid=$cookieID\nversion=3.1")
+                    ->header("Content-Type", "text/plane; charset=UTF-8");
+
+            case 'file':
+//                file_get_contents('php://input');
+                $response = "failure";
+                if ($request->hasFile('filename')) {
                     $filename = $request->get('filename');
-                    $file_content = file_get_contents($filename);
-//                    dump($file_content);
-                    Log::info('Log message', array('context' => $file_content));
-            }
+                    $name = $request->{$filename}->getClientOriginalName();
+                    $path = $request->{$filename}->storeAs('/public/import', $name);
+                    Log::info('Log message', array('context' => $path));
+                    $response = "success";
+                }
+                return response($response)
+                    ->header("Content-Type", "text/plane; charset=UTF-8");
+        }
 //        }
     }
 }
