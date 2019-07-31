@@ -6,7 +6,7 @@
                      src="/storage{{$product->images[0]['path']}}/{{$product->images[0]['name']}}.{{$product->images[0]['ext']}}">
             @else
                 <img class="product-card__img img-fluid"
-                     src="/img/image-404.png">
+                     src="/img/notfoundphoto.jpg">
             @endif
             @if(time() > strtotime($product['as_new_start_date']) && time() < strtotime($product['as_new_end_date']))
                 <div class="product-card__new">

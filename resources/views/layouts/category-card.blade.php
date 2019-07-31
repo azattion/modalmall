@@ -6,7 +6,7 @@
                      src="/storage{{$category->images[0]['path']}}/{{$category->images[0]['name']}}.{{$category->images[0]['ext']}}">
             @else
                 <img class="category-card__img img-fluid"
-                     src="http://www.scppa.org/image.axd?picture=/2018/04/photo_not_available.png">
+                     src="/img/notfoundphoto.jpg">
             @endif
         </div>
         <div class="category-card__caption">

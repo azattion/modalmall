@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Brand;
@@ -325,29 +326,21 @@ class ProductController extends Controller
     public function import(Request $request)
     {
         $this->validate($request, [
-            'files.*' => 'required|file|max:10240'
+            'file' => 'required|file|max:51200'
         ]);
 
-        $file = $request->get('files');
+        $file = $request->get('file');
+        $path = $request->file->path();
+//        $extension = $request->file->extension();
 
-        $row = 1;
-        $insert_data = [];
-        if (($handle = fopen($file, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                $num = count($data);
-//                echo "<p> $num fields in line $row: <br /></p>\n";
-                $row++;
-                for ($c = 0; $c < $num; $c++) {
-                    echo $data[$c] . "<br />\n";
-                }
-                $insert_data[] = [];
-            }
-            fclose($handle);
-        }
-
-        Product::insert($insert_data);
-
-        return redirect()->route('admin.products.index')->with('success', 'Данные успешно сохранены');
+//        if (in_array($extension, ['xls', 'xlsx'])) {
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+//        dd($sheetData);
+//        }
+        $sheetData = array_splice($sheetData, 10);
+        return view('admin.products.multiple', ['data' => $sheetData]);
+        //->with('success', 'Данные успешно сохранены');
     }
 
 

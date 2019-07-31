@@ -51,9 +51,6 @@
                                 <div class="top-swiper-slide">
                                     @include('layouts.product-card', ['product' => $product])
                                 </div>
-                                <div class="top-swiper-slide">
-                                    @include('layouts.product-card', ['product' => $product])
-                                </div>
                             @endforeach
                         </div>
                         <div class="swiper-pagination"></div>

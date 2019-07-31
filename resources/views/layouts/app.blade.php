@@ -392,15 +392,15 @@
         }
 
         .footer-copyright {
-            padding: 5px 15px 5px 100px;
-            color: #fff;
-            background: -moz-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* FF3.6+ */
-            background: -webkit-gradient(linear, 90deg, color-stop(0, FFFFFF), color-stop(28%, F7B5BD)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* IE10+ */
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1301FE', endColorstr='#F4F60C', GradientType='1'); /* for IE */
-            background: linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); /* W3C */
+            margin: 10px 0;
+            color: #000;
+            /*background: -moz-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); !* FF3.6+ *!*/
+            /*background: -webkit-gradient(linear, 90deg, color-stop(0, FFFFFF), color-stop(28%, F7B5BD)); !* Chrome,Safari4+ *!*/
+            /*background: -webkit-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); !* Chrome10+,Safari5.1+ *!*/
+            /*background: -o-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); !* Opera 11.10+ *!*/
+            /*background: -ms-linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); !* IE10+ *!*/
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1301FE', endColorstr='#F4F60C', GradientType='1'); !* for IE *!*/
+            /*background: linear-gradient(90deg, #FFFFFF 0, #F7B5BD 28%); !* W3C *!*/
         }
 
         .category-nav {
@@ -769,10 +769,10 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="footer-copyright text-center">
+                <div class="footer-copyright">
                     ModalMall - интернет магазин качественных трикотажных, насочно-чулочных изделий и белья. Все права
                     зашищены. Доставка по всей России.
-                    © ModalMall 2017 - {{date('Y')}}
+                    <br>© ModalMall 2017 - {{date('Y')}}
                 </div>
             </div>
         </div>
