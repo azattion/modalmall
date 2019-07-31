@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['namespace' => 'Api', 'middleware' => []], function () {
+    Route::get('parse', 'ImportController@parse');
+    Route::any('1c_exchange.php', 'ImportController@exchange')->name('exchange');
+});

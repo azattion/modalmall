@@ -13,10 +13,6 @@
 
 Auth::routes(['verify' => true]);
 
-Route::group(['namespace' => 'Site'], function() {
-    Route::get('/1c_exchange.php', 'HomeController@exchange')->name('exchange');
-});
-
 Route::group(['namespace' => 'Site', 'middleware' => ['dev']], function () {
     Route::get('/', 'HomeController@index')->name('home');
 //    Route::get('/catalog', 'ProductController@index')->name('products.list');
