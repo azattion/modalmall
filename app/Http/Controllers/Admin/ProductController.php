@@ -329,17 +329,62 @@ class ProductController extends Controller
             'file' => 'required|file|max:51200'
         ]);
 
-        $file = $request->get('file');
-        $path = $request->file->path();
+//        $file = $request->get('file');
+
+//        dd($request->file);
+        $file = $request->file;
 //        $extension = $request->file->extension();
 
 //        if (in_array($extension, ['xls', 'xlsx'])) {
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->path());
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+        $filteredData = array_slice($sheetData, 0, 20);
+        $header_row = 0;
+
+        foreach ($filteredData as $i => $row) {
+            if (mb_substr(trim($row['A']), 0, 1) == '№') {
+                $header_row = $i;
+                break;
+            }
+        }
+
+        $filteredHeader = [];
+
+        if (isset($sheetData[$header_row + 1])) {
+            $sheetHeaderData = $sheetData[$header_row + 1];
+            $filteredHeader['vendor_code'] = array_search('Артикул', $sheetHeaderData);
+            $filteredHeader['barcode'] = array_search('Штрихкод', $sheetHeaderData);
+            $filteredHeader['name'] = array_search('Наименование номенклатуры', $sheetHeaderData);
+            $filteredHeader['desc'] = array_search('Текстовое описание', $sheetHeaderData);
+            $filteredHeader['cost'] = array_search('Цена за ед.', $sheetHeaderData);
+            $filteredHeader['unit'] = array_search('Единица измерения', $sheetHeaderData);
+            $filteredHeader['quantity'] = array_search('Количество в упаповке', $sheetHeaderData);
+            $sheetData = array_slice($sheetData, $header_row + 1);
+        }
+//        }
+//        $sheetData = array_splice($sheetData, 10);
+//        $worksheet = $spreadsheet->getActiveSheet();
+
+//        echo '<table>' . PHP_EOL;
+//        foreach ($worksheet->getRowIterator() as $row) {
+//            echo '<tr>' . PHP_EOL;
+//            $cellIterator = $row->getCellIterator();
+//            $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
+//            foreach ($cellIterator as $cell) {
+//                echo '<td>' .
+//                    $cell->getValue() .
+//                    '</td>' . PHP_EOL;
+//            }
+//            echo '</tr>' . PHP_EOL;
+//        }
+//        echo '</table>' . PHP_EOL;
+        return view('admin.products.multiple', ['file' => $file, 'data' => $sheetData, 'header' => $filteredHeader]);
+
 //        dd($sheetData);
 //        }
-        $sheetData = array_splice($sheetData, 10);
-        return view('admin.products.multiple', ['data' => $sheetData]);
+//        $sheetData = array_splice($sheetData, 10);
+//        return view('admin.products.multiple', ['data' => $sheetData]);
         //->with('success', 'Данные успешно сохранены');
     }
 
