@@ -32,8 +32,8 @@ class CreateProductsTable extends Migration
             $table->integer('brand')->default(0);
             $table->integer('producer')->default(0);
 
-            $table->integer('quantity')->nullable(true);
-            $table->integer('unit')->nullable(true);
+            $table->string('quantity')->nullable(true);
+            $table->string('unit')->nullable(true);
             $table->integer('pack_cost')->nullable(true);
             $table->integer('cost')->default(0);
             $table->integer('tax')->nullable(true);

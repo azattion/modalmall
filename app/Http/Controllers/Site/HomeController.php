@@ -9,6 +9,7 @@ use App\Category;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -21,9 +22,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('images')->orderBy('id')->where('inc_menu', 1)->where('status', 1)->where('pid', 0)->get();
-        $products = Product::with('images')->with('reviews')->orderBy('id', 'desc')->get();
+        $categories = Category::with('images')->orderBy('id')->where('inc_menu', 1)->where('status', 1)->where('pid', 0)->take(5)->get();
+        $products = Product::with('images')->with('reviews')->where('status', 1)->orderBy('id', 'desc')->take(8)->get();
         $posts = Post::with('images')->where('status', 1)->where('type', 2)->orderBy('date', 'desc')->take(5)->get();
+
+        $products = Product::with('images')->with('reviews')
+            ->join('order_items', 'order_items.pid', '=', 'products.id', 'right')
+            ->select('products.*', DB::raw("count(order_items.id) as count"))
+//            ->where('status', 1)
+            ->groupBy('products.id')
+            ->orderBy('count', 'DESC')
+            ->take(10)
+            ->get();
+//        dd($merged);
 
         return view('home', ['categories' => $categories, 'products' => $products, 'posts' => $posts]);
     }

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+{{--@php dump($product); @endphp--}}
+
 @section('page_title', $product['meta_title']??$product['name'])
 @section('page_desc', $product['meta_desc'])
 @section('page_url', route('products.show', $product['id']))
@@ -7,7 +9,9 @@
 
 @section('content')
 
-    <div class="product__field product__category">{{$category['name']}}</div>
+    @if(isset($category) && $category)
+        <div class="product__field product__category">{{$category['name']}}</div>
+    @endif
     <div class="row">
         <div class="col-md-4">
             <div class="product__field product__cover text-center">
@@ -56,6 +60,10 @@
             </div>
         </div>
         <div class="col-md-8">
+            @if($product['status'] != 1)
+                <h2>Товар в черновике</h2>
+                <style>section{opacity: 0.5;}</style>
+            @endif
             <div class="product__field product__admin">
                 <a target="_blank" href="{{route('admin.products.edit', $product['id'])}}">
                     Редактировать товар
@@ -425,25 +433,25 @@
             </div>
         </div>
 
-        <div class="col-md-12">
-            <h4 class="text-center">Похожие товары</h4>
-            <div class="row product-row">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        @foreach($related_products as $product)
-                            <div class="swiper-slide">
-                                @include('layouts.product-card', ['product' => $product])
-                            </div>
-                            <div class="swiper-slide">
-                                @include('layouts.product-card', ['product' => $product])
-                            </div>
-                        @endforeach
+        {{--@php dd($related_products); @endphp--}}
+        @if(isset($related_products) && count($related_products))
+            <div class="col-md-12">
+                <h4 class="text-center">Похожие товары</h4>
+                <div class="row product-row">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach($related_products as $product)
+                                <div class="swiper-slide">
+                                    @include('layouts.product-card', ['product' => $product])
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
                 </div>
             </div>
-        </div>
+        @endif
 
 
         <div class="col-md-6">

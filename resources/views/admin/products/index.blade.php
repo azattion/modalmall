@@ -6,6 +6,16 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
+                <div class="box-body text-right">
+                    <a style="margin-right: 5px;" href="{{route('admin.products.create')}}" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Добавить
+                    </a>
+                    <a href="{{route('admin.products.multiple')}}" class="btn btn-default">
+                        <i class="fa fa-upload"></i> Импорт из файла
+                    </a>
+                </div>
+            </div>
+            <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Список товаров</h3>
 
@@ -29,6 +39,7 @@
                         <tr>
                             <th>#</th>
                             <th></th>
+                            <th>Штрих-код</th>
                             <th>Название</th>
                             <th>Дата</th>
                             <th>Статус</th>
@@ -50,8 +61,9 @@
                                             </a>
                                         @endif
                                     </td>
+                                    <td>{{$product['barcode']}}</td>
                                     <td>{{$product['name']}}</td>
-                                    <td>{{date('d-n-Y', strtotime($product['updated_at']))}}</td>
+                                    <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
                                     <td>
                                         @if($product['status'])
                                             <span class="label label-success">Активный</span>
@@ -86,12 +98,6 @@
                     </table>
                 </div>
                 <div class="box-footer clearfix">
-                    <a style="margin-right: 5px;" href="{{route('admin.products.create')}}" class="btn btn-default">
-                        <i class="fa fa-plus"></i> Добавить
-                    </a>
-                    <a href="{{route('admin.products.multiple')}}" class="btn btn-default">
-                        <i class="fa fa-upload"></i> Импорт из файла
-                    </a>
                     <div class="no-margin pull-right">
                         {{ $products->links() }}
                     </div>

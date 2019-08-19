@@ -53,8 +53,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::get('/profile', 'AdminController@profile')->name('profile');
     Route::get('/search', 'AdminController@search')->name('search');
 
-    Route::post('products/import', 'ProductController@import')->name('products.import');
-    Route::get('products/multiple', 'ProductController@multiple')->name('products.multiple');
+    Route::match(['get', 'post'], 'products/import/{name}', 'ProductController@import')->name('products.import');
+    Route::match(['get', 'post'], 'products/multiple/', 'ProductController@multiple')->name('products.multiple');
 
     Route::resource('products', 'ProductController');
     Route::resource('menu', 'MenuController');

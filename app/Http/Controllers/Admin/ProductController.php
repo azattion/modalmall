@@ -12,6 +12,7 @@ use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class ProductController extends Controller
@@ -46,8 +47,8 @@ class ProductController extends Controller
             'composition' => 'nullable|string',
             'unit' => 'nullable|string',
 
-            'available' => 'nullable|numeric|max:1',
-            'status' => 'nullable|numeric|max:1',
+            'available' => 'nullable|numeric',
+            'status' => 'nullable|numeric',
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',
             'collection' => 'nullable|string|max:255',
@@ -310,58 +311,64 @@ class ProductController extends Controller
     /**
      * Show the form for creating multiple form.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function multiple()
-    {
-        return view('admin.products.multiple');
-    }
-
-    /**
-     * Import a few products
-     *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function import(Request $request)
+    public function multiple(Request $request)
     {
-        $this->validate($request, [
-            'file' => 'required|file|max:51200'
-        ]);
+        if ($request->isMethod('post')) {
 
-//        $file = $request->get('file');
+            $this->validate($request, [
+                'file' => 'required|file|max:51200'
+            ]);
 
-//        dd($request->file);
-        $file = $request->file;
-//        $extension = $request->file->extension();
+            $file = $request->file;
 
-//        if (in_array($extension, ['xls', 'xlsx'])) {
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->path());
-        $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            if (in_array($file->getClientMimeType(), ['application/vnd.ms-excel'])) {
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->path());
+                $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-        $filteredData = array_slice($sheetData, 0, 20);
-        $header_row = 0;
+                $filteredData = array_slice($sheetData, 0, 20);
+                $header_row = 0;
 
-        foreach ($filteredData as $i => $row) {
-            if (mb_substr(trim($row['A']), 0, 1) == '№') {
-                $header_row = $i;
-                break;
-            }
-        }
+                foreach ($filteredData as $i => $row) {
+                    if (mb_substr(trim($row['A']), 0, 1) == '№') {
+                        $header_row = $i;
+                        break;
+                    }
+                }
 
-        $filteredHeader = [];
+                $filteredHeader = [];
 
-        if (isset($sheetData[$header_row + 1])) {
-            $sheetHeaderData = $sheetData[$header_row + 1];
-            $filteredHeader['vendor_code'] = array_search('Артикул', $sheetHeaderData);
-            $filteredHeader['barcode'] = array_search('Штрихкод', $sheetHeaderData);
-            $filteredHeader['name'] = array_search('Наименование номенклатуры', $sheetHeaderData);
-            $filteredHeader['desc'] = array_search('Текстовое описание', $sheetHeaderData);
-            $filteredHeader['cost'] = array_search('Цена за ед.', $sheetHeaderData);
-            $filteredHeader['unit'] = array_search('Единица измерения', $sheetHeaderData);
-            $filteredHeader['quantity'] = array_search('Количество в упаповке', $sheetHeaderData);
-            $sheetData = array_slice($sheetData, $header_row + 1);
-        }
+                if (isset($sheetData[$header_row + 1])) {
+                    $sheetHeaderData = $sheetData[$header_row + 1];
+                    $filteredHeader['vendor_code'] = array_search('Артикул', $sheetHeaderData);
+                    $filteredHeader['barcode'] = array_search('Штрихкод', $sheetHeaderData);
+                    $filteredHeader['name'] = array_search('Наименование номенклатуры', $sheetHeaderData);
+                    $filteredHeader['desc'] = array_search('Текстовое описание', $sheetHeaderData);
+                    $filteredHeader['cost'] = array_search('Цена за ед.', $sheetHeaderData);
+                    $filteredHeader['pack_cost'] = array_search('Цена за упаковку', $sheetHeaderData);
+                    $filteredHeader['unit'] = array_search('Единица измерения', $sheetHeaderData);
+                    $filteredHeader['tax'] = array_search('Номенклатура.Ставка НДС', $sheetHeaderData);
+                    $filteredHeader['quantity'] = array_search('Количество в упаповке', $sheetHeaderData);
+                }
+                if (isset($sheetData[$header_row + 2])) {
+                    $sheetHeaderData = $sheetData[$header_row + 2];
+                    $filteredHeader['sizes'] = array_search('Размер', $sheetHeaderData);
+                    $filteredHeader['num_sizes'] = array_search('Ростовка', $sheetHeaderData);
+                    $filteredHeader['colors'] = array_search('Характеристика.Расшифровка ассорти (Справочник "Характеристики номенклатуры" (Общие))', $sheetHeaderData);
+                    if (!$filteredHeader['colors'])
+                        $filteredHeader['colors'] = array_search('Цвет', $sheetHeaderData);
+                    $filteredHeader['composition'] = array_search('Характеристика.Состав (Справочник "Характеристики номенклатуры" (Общие))', $sheetHeaderData);
+                    $filteredHeader['available'] = array_search('Доступно', $sheetHeaderData);
+//            $sheetData = array_slice($sheetData, $header_row + 2);
+                }
+
+                if (isset($sheetData[$header_row + 2])) {
+                    $sheetData = array_slice($sheetData, $header_row + 2);
+                } elseif (isset($sheetData[$header_row + 1])) {
+                    $sheetData = array_slice($sheetData, $header_row + 1);
+                }
 //        }
 //        $sheetData = array_splice($sheetData, 10);
 //        $worksheet = $spreadsheet->getActiveSheet();
@@ -379,13 +386,116 @@ class ProductController extends Controller
 //            echo '</tr>' . PHP_EOL;
 //        }
 //        echo '</table>' . PHP_EOL;
-        return view('admin.products.multiple', ['file' => $file, 'data' => $sheetData, 'header' => $filteredHeader]);
 
-//        dd($sheetData);
-//        }
-//        $sheetData = array_splice($sheetData, 10);
-//        return view('admin.products.multiple', ['data' => $sheetData]);
-        //->with('success', 'Данные успешно сохранены');
+                $data['header']['count'] = count($filteredHeader) + 1;
+                $data['header']['content'] = $filteredHeader;
+                $data['header']['filename'] = $file->getClientOriginalName();
+                $data['header']['filesize'] = round($file->getClientSize() / 1024 / 1024, 2);
+
+                $data['body']['count'] = count($sheetData);
+                $i = 0;
+                foreach ($sheetData as $key => $row) {
+                    if (!$row['A']) continue;
+                    foreach ($filteredHeader as $k => $item) {
+                        if (!$item) continue;
+                        if ($k == "cost") $row[$item] = (int)strtr(',', '', $row[$item]);
+                        if ($k == "pack_cost") $row[$item] = (int)str_replace(',', '', $row[$item]);
+                        if ($k == "tax") $row[$item] = (int)str_replace('%', '', $row[$item]);
+                        if ($k == "available") $row[$item] = (int)str_replace(',', '', $row[$item]);
+                        if ($k == "colors") $row[$item] = preg_replace('/([A-Za-z()])/', '', $row[$item]);
+                        if ($k == "colors") $row[$item] = $this->find_color($row[$item]);
+                        if ($k == "sizes") $row[$item] = $this->find_size($row[$item]);
+                        $data['body']['content'][$i][$k] = $row[$item];
+                    }
+                    $i++;
+                }
+                $uuid = (string)Str::uuid();
+                Storage::put("/public/temp/{$uuid}.json", json_encode($data));
+
+                return redirect()->route('admin.products.import', $uuid)
+                    ->with('success', 'Файл успешно обработан');
+
+            } else {
+                return redirect()->route('admin.products.multiple')->with('error', 'Формат файла не распознан');
+            }
+        }
+
+        return view('admin.products.multiple');
+    }
+
+    private function find_color($str)
+    {
+        $find_colors = explode(', ', $str);
+        $colors = config('services.colors');
+        $found = [];
+        foreach ($find_colors as $find) {
+            $find = trim($find);
+            if (in_array($find, $colors))
+                $found[] = array_search($find, $colors);
+        }
+        $found_rep = implode('|', $found);
+        return $found_rep ? "|{$found_rep}|" : "";
+    }
+
+    private function find_size($str)
+    {
+        $find_colors = explode(', ', $str);
+        $sizes = config('services.sizes');
+        $found = [];
+        foreach ($find_colors as $find) {
+            $find = trim($find);
+            if (in_array($find, $sizes))
+                $found[] = array_search($find, $sizes);
+        }
+        $found_rep = implode('|', $found);
+        return $found_rep ? "|{$found_rep}|" : "";
+    }
+
+    /**
+     * Import a few products
+     * @param Request $request
+     * @param $uuid
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function import(Request $request, $uuid)
+    {
+
+        $file = Storage::get("/public/temp/{$uuid}.json");
+        if ($file) {
+            if (isset($_GET['cancel'])) {
+                Storage::delete("/public/temp/{$uuid}.json");
+                $message = "Импорт отменен";
+                return redirect()->route('admin.products.multiple')
+                    ->with('success', $message);
+            }
+            $data = json_decode($file, true);
+            if ($request->isMethod('post')) {
+                $insert = [];
+                foreach ($data['body']['content'] as $key => $row) {
+                    if (!$row['name']) continue;
+                    foreach ($row as $k => $item) {
+                        $insert[$key][$k] = $item;
+                    }
+                    $insert[$key]['status'] = 2;
+                    Product::updateOrCreate(
+                        ['barcode' => $insert[$key]['barcode']],
+                        $insert[$key]
+                    );
+//                    dump($insert[$key]);
+                }
+
+                $message = "Импорт успешно выполнен";
+//                Product::insert($insert);
+//                Storage::delete("/public/temp/{$uuid}.json");
+                return redirect()->route('admin.products.multiple')
+                    ->with('success', $message);
+            } else {
+                return view('admin.products.result', ['data' => $data, 'name' => $uuid]);
+            }
+        }
+
+        return redirect()->route('admin.products.multiple');
     }
 
 

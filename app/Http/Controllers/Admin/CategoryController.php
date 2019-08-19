@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -137,7 +138,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('images')->orderBy('ordr');
+        $categories = Category::with('images')->orderBy('ordr')->orderBy('level');
         if (isset($_GET['q'])) {
             $categories = $categories->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
                 ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
@@ -180,8 +181,14 @@ class CategoryController extends Controller
         $category->desc = $request->get('desc');
         $category->pid = $request->get('pid');
         $parent_category = Category::find($request->get('pid'));
-        $category->level = $parent_category['level'] + 1;
-        $category->ordr = $parent_category['id'] + 1;
+        if ($parent_category) {
+            $category->level = $parent_category['level'] + 1;
+            $category->ordr = $parent_category['ordr'] + 1;
+            Category::where('ordr', '>', $parent_category['ordr'])
+                ->update([
+                    'ordr' => DB::raw('ordr+1')
+                ]);
+        }
         $category->status = $request->get('status') ? 1 : 0;
         $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
         $category->uid = auth()->id();
@@ -267,12 +274,24 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
         $category->desc = $request->get('desc');
         $category->pid = $request->get('pid');
-        $parent_category = Category::find($request->get('pid'));
-        $category->level = $parent_category['level'] + 1;
-        $category->ordr = $request->get('pid')?$parent_category['ordr']:1;
         $category->status = $request->get('status') ? 1 : 0;
         $category->inc_menu = $request->get('inc_menu') ? 1 : 0;
         $category->uid = auth()->id();
+        $category->level = 1;
+        $category->ordr = 1;
+
+        $parent_category = Category::where('id', $request->get('pid'))->first();
+        if ($parent_category) {
+            $category->level = $parent_category['level'] + 1;
+            $category->ordr = $parent_category['ordr'] + 1;
+            $new_order = $category->ordr;
+
+            $cat = Category::where('ordr', '>=', $parent_category['ordr'])
+                ->orderBy('ordr')->orderBy('level')->get();
+            foreach ($cat as $one) {
+                Category::find($one['id'])->update(['ordr' => $new_order++]);
+            }
+        }
 
         $category->meta_title = $request->get('meta_title');
         $category->meta_desc = $request->get('meta_desc');
@@ -324,6 +343,10 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+        Category::where('ordr', '>=', $category['ordr'])
+            ->update([
+                'ordr' => DB::raw('ordr-1')
+            ]);
         $category->delete();
         return redirect()->route('admin.categories.index')->with('success', 'Запись удалена');
     }

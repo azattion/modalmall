@@ -3,6 +3,14 @@
 @section('title', 'Категории товаров')
 
 @section('content')
+    {{--@php--}}
+        {{--dump($categories);--}}
+        {{--$list =(\App\Category::nestedtree());--}}
+        {{--foreach($list as $item){--}}
+            {{--dump($item);--}}
+        {{--}--}}
+    {{--@endphp--}}
+
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -25,20 +33,23 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
-
+                    <style>
+                        td {vertical-align: middle !important;}
+                    </style>
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
                             <th></th>
                             <th>Название</th>
                             <th>Статус</th>
-                            {{--<th>В меню</th>--}}
+                            <th>Порядок</th>
                             <th></th>
                         </tr>
                         @if(count($categories))
                             @foreach($categories as $category)
                                 <tr>
-                                    <td><a target="_blank"
+                                    <td>
+                                        <a target="_blank"
                                            href="{{route('products.category', $category['id'])}}">{{$category['id']}}</a>
                                     </td>
                                     <td>
@@ -50,7 +61,7 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>{{str_repeat("—", $category['level']-1)}} {{$category->name}}</td>
+                                    <td data-pid="{{$category['pid']}}" data-level="{{$category['level']}}"  data-ordr="{{$category['ordr']}}">{{str_repeat("—", $category['level']-1)}} {{$category->name}}</td>
                                     <td>
                                         @if($category['status'])
                                             <span class="label label-success">Активный</span>
@@ -59,13 +70,16 @@
                                         @endif
                                     </td>
                                     {{--<td>--}}
+                                        {{--{{$category['ordr']}}--}}
+                                    {{--</td>--}}
+                                    {{--<td>--}}
                                         {{--@if($category['inc_menu'])--}}
                                             {{--<span class="label label-success">Включен</span>--}}
                                         {{--@else--}}
                                             {{--<span class="label label-default">Невидим</span>--}}
                                         {{--@endif--}}
                                     {{--</td>--}}
-                                    <td>
+                                    <td class="text-right">
                                         <form action="{{route('admin.categories.destroy', $category['id'])}}"
                                               method="post">
                                             @csrf

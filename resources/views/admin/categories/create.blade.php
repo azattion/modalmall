@@ -52,6 +52,7 @@
                                     <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid" size="20">
                                         <option @if(old('pid', $category->pid)==0) selected @endif value="0">Корень</option>
                                         @foreach($categories as $cat)
+                                            @if($category->id == $cat->id) @continue @endif
                                             <option @if(old('pid', $category->pid) == $cat->id) selected
                                                     @endif value="{{$cat->id}}">{{str_repeat("—", $cat['level'])}} {{$cat['name']}}</option>
                                         @endforeach

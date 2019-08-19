@@ -94,12 +94,17 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::where('id', $id)->where('status', 1)->first();
+        $product = Product::findOrFail($id);
+
+        if (!(auth()->user()['role'] == 1 || $product->status == 1)) {
+            abort(404);
+        }
+
         $categories = Category::where('status', 1)->where('pid', $id)->get();
         $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
 
         $category = '';
-        $related_products = new Product();
+        $related_products = [];
         if ($product['cats']) {
             $category_exploded = explode('|', trim($product['cats'], '|'));
             if (isset($category_exploded[0])) {

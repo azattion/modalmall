@@ -1,39 +1,39 @@
 @extends('layouts.app')
 
-@section('page_title', "Home page")
+@section('page_title', "Главная страница")
 
 @section('content')
     {{--<div class="container">--}}
     <div class="row">
         <div class="col-md-12">
             @if($posts)
-                    <!-- Slider main container -->
-            <div class="swiper-container post-swiper">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper">
-                    <!-- Slides -->
-                    @foreach($posts as $post)
-                        @foreach($post->images as $image)
-                            <a href="{{route('posts.show', $post['id'])}}" class="swiper-slide"
-                               style="background-image: url(/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}})">
-                                {{--<a href="{{route('posts.show', $post['id'])}}">--}}
-                                {{--<img class="img-fluid"--}}
-                                {{--src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"--}}
-                                {{--alt="{{$post['title']}}">--}}
-                                {{--</a>--}}
-                            </a>
+            <!-- Slider main container -->
+                <div class="swiper-container post-swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        @foreach($posts as $post)
+                            @foreach($post->images as $image)
+                                <a href="{{route('posts.show', $post['id'])}}" class="swiper-slide"
+                                   style="background-image: url(/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}})">
+                                    {{--<a href="{{route('posts.show', $post['id'])}}">--}}
+                                    {{--<img class="img-fluid"--}}
+                                    {{--src="/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"--}}
+                                    {{--alt="{{$post['title']}}">--}}
+                                    {{--</a>--}}
+                                </a>
+                            @endforeach
                         @endforeach
-                    @endforeach
+                    </div>
+                    {{--<div class="swiper-pagination"></div>--}}
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
-                {{--<div class="swiper-pagination"></div>--}}
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
             @endif
         </div>
         <div class="row">
             @foreach($categories as $category)
-                <div class="col-md text-md-center">
+                <div class="col-md text-center">
                     @include('layouts.category-card', ['category' => $category])
                 </div>
             @endforeach
@@ -46,9 +46,7 @@
                         <div class="swiper-wrapper">
                             @foreach($products as $product)
                                 <div class="top-swiper-slide">
-                                    @include('layouts.product-card', ['product' => $product])
-                                </div>
-                                <div class="top-swiper-slide">
+{{--                                    {{$product['count']}}--}}
                                     @include('layouts.product-card', ['product' => $product])
                                 </div>
                             @endforeach
@@ -140,7 +138,6 @@
             background-size: cover;
             position: relative;
         }
-
         .swiper-slide:after {
             content: '';
             display: block;

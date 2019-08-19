@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api', 'middleware' => []], function () {
     Route::get('parse', 'ImportController@parse');
-    Route::any('1c_exchange.php', 'ImportController@exchange')->name('exchange');
+    Route::match(['get', 'post'], '1c_exchange.php', 'ImportController@exchange')->name('exchange');
 });

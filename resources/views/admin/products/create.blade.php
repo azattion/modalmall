@@ -11,8 +11,7 @@
                     <h3 class="box-title">{{$product->id?"Изменить":"Добавить"}} товар</h3>
                 </div>
                 <!-- /.box-header -->
-                {{--                {{dd($product)}}--}}
-                        <!-- form start -->
+                <!-- form start -->
                 <form role="form" method="post" enctype="multipart/form-data"
                       action="{{$product->id ? route('admin.products.update', $product->id) : route('admin.products.store')}}">
                     @csrf
@@ -32,12 +31,17 @@
                             <input type="text" name="name" class="form-control" id="name" placeholder="Введите название"
                                    value="{{ old('name', $product->name) }}">
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input {{old('status', $product->status)?'checked':''}} name="status" value="1"
-                                       type="checkbox">
-                                Активный
-                            </label>
+                        <div class="form-group @error('status') has-error @enderror">
+                            <label for="status">Статус</label>
+                            {{--<input {{old('status', $product->status)?'checked':''}} name="status" value="1"--}}
+                                   {{--type="checkbox">--}}
+                            <select name="status" class="form-control" id="status">
+                                <?php $statues = config('services.product_status'); ?>
+                                @foreach($statues as $key => $status)
+                                    <option @if(($key == old('status', $product->status))) selected
+                                            @endif value="{{$key}}">{{$status}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -71,7 +75,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group @error('quantity') has-error @enderror">
                                     <label for="quantity">Количество в упаковке</label>
-                                    <input type="number" min="0" name="quantity" class="form-control" id="quantity"
+                                    <input type="text" name="quantity" class="form-control" id="quantity"
                                            placeholder="Введите количество"
                                            value="{{ old('quantity', $product->quantity) }}">
                                 </div>

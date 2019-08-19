@@ -16,7 +16,6 @@ class CheckAccess
     public function handle($request, Closure $next)
     {
         $access = isset($_COOKIE['asdfgfggh']) ? $_COOKIE['asdfgfggh'] : "";
-
         if ($access !== 'tyunbdgcsxl') {
             abort(404, 'Сайт в разработке');
         }
