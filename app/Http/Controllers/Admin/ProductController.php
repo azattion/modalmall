@@ -51,7 +51,7 @@ class ProductController extends Controller
             'status' => 'nullable|numeric',
             'vendor_code' => 'nullable|string|max:255',
             'barcode' => 'nullable|string|max:255',
-            'collection' => 'nullable|string|max:255',
+//            'collection' => 'nullable|string|max:255',
 
             'meta_title' => 'nullable|string|max:255',
             'meta_desc' => 'nullable|string|max:255',
@@ -128,12 +128,12 @@ class ProductController extends Controller
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
-        $product->collection = $request->get('collection');
+//        $product->collection = $request->get('collection');
 
         $product->quantity = $request->get('quantity');
         $product->available = $request->get('available');
-        $product->colors = "|" . implode("|", $request->get('colors')) . "|";
-        $product->sizes = "|" . implode("|", $request->get('sizes')) . "|";
+        $product->colors = $request->get('colors') ? ("|" . implode("|", $request->get('colors')) . "|") : "";
+        $product->sizes = $request->get('sizes') ? ("|" . implode("|", $request->get('sizes')) . "|") : '';
         $product->brand = $request->get('brand');
         $product->composition = $request->get('composition');
         $product->producer = $request->get('producer');
@@ -238,7 +238,7 @@ class ProductController extends Controller
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
-        $product->collection = $request->get('collection');
+//        $product->collection = $request->get('collection');
 
         $product->available = $request->get('available');
         $product->quantity = $request->get('quantity');

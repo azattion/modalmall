@@ -22,12 +22,13 @@
         </div>
         <div class="col-sm-10">
             <h3 class="text-left">{{isset($category['name'])?$category['name']:''}}</h3>
-            <form action="{{route('products.category', isset($category['id'])?$category['id']:'')}}" method="get">
+            <form action="{{route('products.category', isset($category['id'])?$category['id']:0)}}" method="get">
                 <div class="row">
                     @if($category)
                         <div class="col-sm text-left">
                             <label for="sort">Сортировать по:
                                 <select id="sort">
+                                    <option value="0">...</option>
                                     <option @if(isset($_GET['sort']) && $_GET['sort'] == 'top' && isset($_GET['order']) && $_GET['order'] == "asc") selected @endif value="{{route('products.category', $category['id'])}}?sort=top&order=asc">
                                         Популярные
                                     </option>

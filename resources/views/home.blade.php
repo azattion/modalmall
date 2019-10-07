@@ -25,7 +25,7 @@
                             @endforeach
                         @endforeach
                     </div>
-                    {{--<div class="swiper-pagination"></div>--}}
+                    <div class="swiper-pagination"></div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
                 </div>
@@ -38,26 +38,26 @@
                 </div>
             @endforeach
         </div>
-        {{--<div class="row" style="margin-top: 30px">--}}
-            <h2 style="margin-bottom: 0" class="col-md-12 header-title__italic text-center">Бестселлеры</h2>
-            {{--<div class="col-md-12">--}}
-                {{--<div class="row product-row">--}}
-                    <div class="top-swiper-container">
-                        <div class="swiper-wrapper">
-                            @foreach($products as $product)
-                                <div class="top-swiper-slide">
-{{--                                    {{$product['count']}}--}}
-                                    @include('layouts.product-card', ['product' => $product])
-                                </div>
-                            @endforeach
+    </div>
+    <div class="row" style="margin-top: 30px">
+        <h2 style="margin-bottom: 0" class="col-md-12 header-title__italic text-center">Бестселлеры</h2>
+        <div class="col-md-12">
+            {{--<div class="row product-row">--}}
+            <div class="top-swiper-container">
+                <div class="swiper-wrapper product-row">
+                    @foreach($products as $product)
+                        <div class="swiper-slide">
+                            {{--                                    {{$product['count']}}--}}
+                            @include('layouts.product-card', ['product' => $product])
                         </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                {{--</div>--}}
+                    @endforeach
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
             {{--</div>--}}
-        {{--</div>--}}
+        </div>
     </div>
     {{--</div>--}}
 @endsection
@@ -92,6 +92,7 @@
             display: -ms-flexbox;
             display: -webkit-flex;
             display: flex;
+            width: 400px;
             -webkit-box-pack: center;
             -ms-flex-pack: center;
             -webkit-justify-content: center;
@@ -105,30 +106,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
     <script>
         $(document).ready(function () {
-            var swiper1 = new Swiper('.swiper-container', {
+            new Swiper('.swiper-container', {
                 loop: true,
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev'
                 }
             });
-            var swiper2 = new Swiper('.top-swiper-container', {
+            new Swiper('.top-swiper-container', {
                 slidesPerView: 4,
                 spaceBetween: 30,
                 slidesPerGroup: 4,
                 freeMode: true,
-                loop: true,
+                // loop: true,
                 loopFillGroupWithBlank: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
+                // pagination: {
+                //     el: '.swiper-pagination',
+                //     clickable: true,
+                // },
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        slidesPerGroup: 1,
+                    },
+                    990: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                        slidesPerGroup: 2,
+                    }
                 }
             });
-            console.log(swiper2);
         });
     </script>
     <style>
@@ -142,6 +154,9 @@
             content: '';
             display: block;
             padding-top: 33.25%;
+        }
+        .top-swiper-container .swiper-button-next, .top-swiper-container .swiper-button-prev{
+            top: 30%;
         }
     </style>
 @endsection

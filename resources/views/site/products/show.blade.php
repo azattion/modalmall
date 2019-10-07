@@ -38,7 +38,7 @@
                 @else
                     <div class="product__field product__img">
                         <img class="img-fluid"
-                             src="/img/image-404.png">
+                             src="/img/notfoundphoto.jpg">
                     </div>
                 @endif
 
@@ -458,31 +458,36 @@
             <div class="product__reviews" id="product-reviews">
                 <h5>Отзывы</h5>
                 <?php $hasUserReview = 0; ?>
-                @foreach($product->reviews as $review)
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="product__field product__review-img">
-                                <div style="width:{{$review['star']*100/5}}%"></div>
+                @if(count($product->reviews))
+                    @foreach($product->reviews as $review)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="product__field product__review-img">
+                                    <div style="width:{{$review['star']*100/5}}%"></div>
+                                </div>
+{{--                                {{$review['pid']}}--}}
+                                @if(auth()->id() && $review['uid']==auth()->id())
+                                    <?php $hasUserReview = 1; ?>
+                                    <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="return confirm('Вы действительно хотите удалить?')"
+                                                class="btn btn-link"
+                                                type="submit">Удалить мой отзыв
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
-                            @if(auth()->id() && $review['uid']==auth()->id())
-                                <?php $hasUserReview = 1; ?>
-                                <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('Вы действительно хотите удалить?')"
-                                            class="btn btn-link"
-                                            type="submit">Удалить мой отзыв
-                                    </button>
-                                </form>
-                            @endif
-                        </div>
-                        <div class="col-md-12">
-                            <div class="product__field product__review-text">
-                                {{$review['text']}}
+                            <div class="col-md-12">
+                                <div class="product__field product__review-text">
+                                    {{$review['text']}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <p>Отзывов пока нет</p>
+                @endif
                 @if(auth()->check() && !$hasUserReview)
                     <form action="{{route('user.review.store')}}" method="post">
                         @csrf
@@ -570,6 +575,18 @@
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        slidesPerGroup: 1,
+                    },
+                    990: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                        slidesPerGroup: 2,
+                    }
                 }
             });
         });

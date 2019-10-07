@@ -31,17 +31,21 @@
                             <input type="text" name="name" class="form-control" id="name" placeholder="Введите название"
                                    value="{{ old('name', $product->name) }}">
                         </div>
-                        <div class="form-group @error('status') has-error @enderror">
-                            <label for="status">Статус</label>
-                            {{--<input {{old('status', $product->status)?'checked':''}} name="status" value="1"--}}
-                                   {{--type="checkbox">--}}
-                            <select name="status" class="form-control" id="status">
-                                <?php $statues = config('services.product_status'); ?>
-                                @foreach($statues as $key => $status)
-                                    <option @if(($key == old('status', $product->status))) selected
-                                            @endif value="{{$key}}">{{$status}}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group @error('status') has-error @enderror">
+                                    <label for="status">Статус</label>
+                                    {{--<input {{old('status', $product->status)?'checked':''}} name="status" value="1"--}}
+                                    {{--type="checkbox">--}}
+                                    <select name="status" class="form-control" id="status">
+                                        <?php $statues = config('services.product_status'); ?>
+                                        @foreach($statues as $key => $status)
+                                            <option @if(($key == old('status', $product->status))) selected
+                                                    @endif value="{{$key}}">{{$status}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -61,16 +65,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group @error('collection') has-error @enderror">
-                                    <label for="collection">Коллекция</label>
-                                    <input type="text" name="collection" class="form-control" id="collection"
-                                           placeholder="Введите коллекцию"
-                                           value="{{ old('collection', $product->collection) }}">
-                                </div>
-                            </div>
-                        </div>
+                        {{--<div class="row">--}}
+                            {{--<div class="col-sm-6">--}}
+                                {{--<div class="form-group @error('collection') has-error @enderror">--}}
+                                    {{--<label for="collection">Коллекция</label>--}}
+                                    {{--<input type="text" name="collection" class="form-control" id="collection"--}}
+                                           {{--placeholder="Введите коллекцию"--}}
+                                           {{--value="{{ old('collection', $product->collection) }}">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group @error('quantity') has-error @enderror">
@@ -122,7 +126,7 @@
                                         <option value="0">Выберите..</option>
                                         <?php $units = config('services.units'); ?>
                                         @foreach($units as $key => $unit)
-                                            <option @if(($product->unit == old('unit', $product->unit))) selected
+                                            <option @if(($key == old('unit', $product->unit))) selected
                                                     @endif value="{{$key}}">{{$unit}}</option>
                                         @endforeach
                                     </select>
@@ -251,10 +255,10 @@
                             <div class="box-body" style="display: none;">
                                 <div class="checkbox">
                                     {{--<label>--}}
-                                        {{--<input {{$product->as_new || old('as_new')?'checked':''}} name="as_new"--}}
-                                        {{--value="1"--}}
-                                        {{--type="checkbox">--}}
-                                        Новинка
+                                    {{--<input {{$product->as_new || old('as_new')?'checked':''}} name="as_new"--}}
+                                    {{--value="1"--}}
+                                    {{--type="checkbox">--}}
+                                    Новинка
                                     {{--</label>--}}
                                 </div>
 
@@ -282,10 +286,10 @@
                                 </div>
                                 <div class="checkbox">
                                     {{--<label>--}}
-                                        {{--<input {{$product->sale || old('sale')?'checked':''}} name="sale"--}}
-                                        {{--value="1"--}}
-                                        {{--type="checkbox">--}}
-                                        Скидка
+                                    {{--<input {{$product->sale || old('sale')?'checked':''}} name="sale"--}}
+                                    {{--value="1"--}}
+                                    {{--type="checkbox">--}}
+                                    Скидка
                                     {{--</label>--}}
                                 </div>
                                 <div class="row">

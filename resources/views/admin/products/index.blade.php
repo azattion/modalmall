@@ -39,9 +39,9 @@
                         <tr>
                             <th>#</th>
                             <th></th>
-                            <th>Штрих-код</th>
+                            <th>Артикул</th>
                             <th>Название</th>
-                            <th>Дата</th>
+                            <th>Стоимость</th>
                             <th>Статус</th>
                             <th>Бренд</th>
                             <th>Количество</th>
@@ -61,9 +61,10 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>{{$product['barcode']}}</td>
+                                    <td>{{$product['vendor_code']}}</td>
                                     <td>{{$product['name']}}</td>
-                                    <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
+                                    <td>{{$product['cost']}}</td>
+{{--                                    <td>{{date('d-m-Y', strtotime($product['created_at']))}}</td>--}}
                                     <td>
                                         @if($product['status'])
                                             <span class="label label-success">Активный</span>

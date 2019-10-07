@@ -20,6 +20,7 @@ class PostController extends Controller
             header('Location: /page/' . $post['slug']);
             exit();
         }
+        $post->increment('views');
         return view('site.posts.show', ['post' => $post]);
     }
 

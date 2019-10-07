@@ -104,13 +104,12 @@ class OrderController extends Controller
                     'pid' => $item['id'],
                     'uid' => auth()->id(),
                     'oid' => $order->id,
-                    'qt' => $item['qt'],
-                    'color' => $item['color'],
+                    'qt' => $item['qt'] ? $item['qt'] : 0,
+                    'color' => $item['color'] ? $item['color'] : 0,
                     'status' => $product['available'] ? 1 : 2,
-                    'size' => $item['size'],
+                    'size' => $item['size']? $item['size'] : 0,
                     'cost' => ($product->is_sale) ? $product->cost_with_sale : $product['cost'],
                 ];
-
                 OrderItem::create($orderItem);
             }
 

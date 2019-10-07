@@ -62,7 +62,7 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="{{route('home')}}" target="_blank">
-                            <i class="fa fa-external-link-square"></i> <span>Перейти на сайт</span>
+                            <i class="fa fa-external-link-square"></i> <span>Открыть сайт</span>
                         </a>
                     </li>
                     <!-- Messages: style can be found in dropdown.less-->

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,6 +39,16 @@ class OrderCreated extends Notification
     }
 
     /**
+     * Build the message.
+     *
+     * @return $this
+     */
+//    public function build()
+//    {
+//        return $this->view('emails.orders.shipped', ['items' => $this->order->items]);
+//    }
+
+    /**
      * Get the mail representation of the notification.
      *
      * @param  mixed $notifiable
@@ -48,11 +59,12 @@ class OrderCreated extends Notification
         return (new MailMessage)
             ->greeting('Здравствуйте ' . $this->user->name . '!')
             ->subject('Нам поступил ваш заказ')
-            ->line('Ваш заказ № ' . $this->order->id . '.')
-            ->line('Товаров: ' . count($this->order->items) . '.')
+            ->line('Ваш заказ № ' . $this->order->id)
+            ->line('Товаров: ' . count($this->order->items))
             ->line('Нам поступил ваш заказ. В настоящее время Ваш заказ проверяется. После проверки продавец приступит к обработке Вашего заказа. ')
             ->action('Открыть заказ', route('user.order.index'))
             ->line('Спасибо, что вы с нами!');
+//            ->markdown('emails.orders.shipped', ['items' => $this->order->items]);
     }
 
     /**

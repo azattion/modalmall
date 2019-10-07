@@ -52,6 +52,7 @@ class CreateProductsTable extends Migration
             $table->string('meta_title')->nullable();
             $table->string('meta_desc')->nullable();
             $table->string('meta_keywords')->nullable();
+            $table->string('views')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

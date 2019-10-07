@@ -121,7 +121,7 @@
                         </div>
                         <div class="form-group @error('text') has-error @enderror">
                             <label for="desc">Текст</label>
-                            <textarea rows="5" name="text" class="form-control wysihtml5" id="text"
+                            <textarea rows="20" name="text" class="form-control wysihtml5" id="text"
                                       placeholder="Текст">{{ old('text', $post->text) }}
                             </textarea>
                         </div>

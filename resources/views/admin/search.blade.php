@@ -39,7 +39,7 @@
                                 <tr>
                                     <td>{{$product['id']}}</td>
                                     <td>{{$product['name']}}</td>
-                                    <td>{{date('d-n-Y', strtotime($product['created_at']))}}</td>
+                                    <td>{{date('d-m-Y', strtotime($product['created_at']))}}</td>
                                     <td>
                                         @if($product['status'])
                                             <span class="label label-success">Активный</span>

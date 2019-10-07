@@ -20,11 +20,14 @@ class ProductController extends Controller
     {
         $sort = 'id';
         $order = 'desc';
+        $get_params = [];
         if (isset($_GET['sort']) && in_array($_GET['sort'], array('cost', 'top'))) {
-            $sort = 'cost';
+            $sort = $_GET['sort'] == 'top' ? 'views' : 'cost';
+            $get_params[] = "sort={$sort}";
         }
         if (isset($_GET['order']) && in_array($_GET['order'], array('desc', 'asc'))) {
             $order = $_GET['order'];
+            $get_params[] = "order={$order}";
         }
 
         $category = Category::find($id);
@@ -36,19 +39,37 @@ class ProductController extends Controller
             $products = $products->where('cats', 'LIKE', "%|{$id}|%");
         }
 
+        if (isset($_GET['size']) && $_GET['size']) {
+            $size = $_GET['size'];
+            $products = $products->where('sizes', 'LIKE', "%|{$size}|%");
+            $get_params[] = "size={$size}";
+        }
         if (isset($_GET['brand']) && $_GET['brand']) {
-            $products = $products->where('brand', $_GET['brand']);
+            $brand = $_GET['brand'];
+            $products = $products->where('brand', $brand);
+            $get_params[] = "brand={$brand}";
+        }
+        if (isset($_GET['producer']) && $_GET['producer']) {
+            $producer = $_GET['producer'];
+            $products = $products->where('producer', $producer);
+            $get_params[] = "producer={$producer}";
         }
         if (isset($_GET['q']) && $_GET['q']) {
-            $products = $products->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
-                ->orWhere('desc', 'LIKE', '%' . e($_GET['q']) . '%');
+            $q = e($_GET['q']);
+            $products = $products->where('name', 'LIKE', '%' . $q . '%')
+                ->orWhere('desc', 'LIKE', '%' . $q . '%');
+            $get_params[] = "q={$q}";
         }
         if (isset($_GET['promotion'])) {
             $products = $products->where('sale_start_date', '<', date('Y-m-d H:i:s'))
                 ->where('sale_end_date', '>', date('Y-m-d H:i:s'))
                 ->where('sale_percent', '>', 0);
+            $get_params[] = "promotion";
         }
+//        $products->dd();
         $products = $products->paginate(config('services.pagination'));
+        if(count($get_params))
+            $products->withPath("?".implode("&", $get_params));
 
         return view('site.products.category',
             [
@@ -79,7 +100,7 @@ class ProductController extends Controller
         $category = new Category();
         $categories = Category::where('status', 1)->get();
         $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
-        $products = New Product();
+        $products = [];
         if ($word) {
             $products = Product::orderBy('id', 'desc')->where('name', 'LIKE', "%{$word}%")->get();
         }
@@ -102,6 +123,7 @@ class ProductController extends Controller
 
         $categories = Category::where('status', 1)->where('pid', $id)->get();
         $brands = Brand::where('status', 1)->orderBy('id', 'desc')->get();
+        $product->increment('views');
 
         $category = '';
         $related_products = [];

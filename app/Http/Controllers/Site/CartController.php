@@ -91,7 +91,6 @@ class CartController extends Controller
         } else {
             return redirect()->route('user.cart.index')->with('success', 'Данные успешно обновлены');
         }
-
     }
 
     /**

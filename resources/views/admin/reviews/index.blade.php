@@ -40,7 +40,7 @@
                                 <tr>
                                     <td>{{$review['id']}}</td>
                                     <td>{{$review->user['name']}}</td>
-                                    <td>{{$review->product['name']}}</td>
+                                    <td><a target="_blank" href="{{route('products.show', $review['pid'])}}">{{$review->product['name']}}</a></td>
                                     <td>{{$review['star']}}</td>
                                     <td>{{$review['text']}}</td>
                                     <td>{{$review['created_at']}}</td>
