@@ -116,11 +116,11 @@
                         </div>
                         <div class="form-group @error('desc') has-error @enderror">
                             <label for="desc">Описание</label>
-                        <textarea rows="5" name="desc" class="form-control" id="desc"
+                            <textarea rows="5" name="desc" class="form-control" id="desc"
                                   placeholder="Характеристика">{{ old('desc', $post->desc) }}</textarea>
                         </div>
                         <div class="form-group @error('text') has-error @enderror">
-                            <label for="desc">Текст</label>
+                            <label for="text">Текст</label>
                             <textarea rows="20" name="text" class="form-control wysihtml5" id="text"
                                       placeholder="Текст">{{ old('text', $post->text) }}
                             </textarea>

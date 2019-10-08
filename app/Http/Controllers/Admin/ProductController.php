@@ -65,7 +65,8 @@ class ProductController extends Controller
             'sale_start_date' => 'nullable|date',
             'sale_end_date' => 'nullable|date',
 
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images-ord.*' => 'nullable|numeric',
         ];
     }
 
@@ -198,6 +199,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        $product->images = $product->images()->orderBy('order')->get();
         $product->cats = explode("|", trim($product->cats, '|'));
         $categories = Category::where('status', 1)->orderBy('ordr')->orderBy('pid')->get();
         $brands = Brand::where('status', 1)->orderBy('ordr')->get();
@@ -273,9 +275,17 @@ class ProductController extends Controller
         }
         if ($request->has('image-del')) {
             foreach ($request->get('image-del') as $id) {
-                $image = ImageModel::findOrFail($id);
+                $image = ImageModel::find($id);
                 ImageModel::delete_image($image);
                 $image->delete();
+            }
+        }
+
+        if ($request->has('images-ord')) {
+            foreach ($request->get('images-ord') as $key => $id) {
+                $image = ImageModel::find($id);
+                $image->order = $key;
+                $image->save();
             }
         }
 
@@ -306,6 +316,19 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Запись удалена');
+    }
+
+    public function multi_selection(Request $request)
+    {
+        if ($request->has('delete')) {
+            if ($request->has('id')) {
+                foreach ($request->get('id') as $id) {
+                    Product::find($id)->delete();
+                }
+                return redirect()->back()->with('success', 'Выбранные записи удалены');
+            }
+        }
+        return redirect()->route('admin.products.index');
     }
 
     /**

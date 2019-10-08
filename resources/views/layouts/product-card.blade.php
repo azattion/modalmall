@@ -21,7 +21,7 @@
         </div>
         <div class="product-card__cost text-center">
             @if($product->is_sale)
-                {{$product->cost_with_sale}} руб. <span class="product__cost_sale">{{$product['cost']}}  руб.</span> <span class="badge badge-danger">{{$product['sale_percent']}} %</span>
+                <span class="product__cost_sale">{{$product['cost']}}  руб.</span> {{$product->cost_with_sale}} руб. <span class="badge badge-modal">{{$product['sale_percent']}} %</span>
             @else
                 <span>{{$product['cost']}}</span> руб.
             @endif

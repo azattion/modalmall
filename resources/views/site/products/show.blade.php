@@ -62,7 +62,9 @@
         <div class="col-md-8">
             @if($product['status'] != 1)
                 <h2>Товар в черновике</h2>
-                <style>section{opacity: 0.5;}</style>
+                <style>section {
+                        opacity: 0.5;
+                    }</style>
             @endif
             <div class="product__field product__admin">
                 <a target="_blank" href="{{route('admin.products.edit', $product['id'])}}">
@@ -93,10 +95,9 @@
             <div class="clearfix"></div>
             <div class="product__field product__cost">
                 @if($product->is_sale)
+                    <span class="product__field product__cost_sale">{{$product['cost']}} руб.</span>
                     {{$product->cost_with_sale}} руб.
-                    <span class="product__field product__cost_sale">{{$product['cost']}} руб.</span> <span
-                            class="badge badge-danger">{{$product['sale_percent']}}
-                        %</span>
+                    <span class="badge badge-modal">{{$product['sale_percent']}}%</span>
                 @else
                     <span>{{number_format($product['cost'], 0, '.', ' ')}}</span> руб.
                 @endif
@@ -116,8 +117,8 @@
                 @endif
 
                 @php
-                $colors = config('services.colors');
-                $product_colors = explode('|', trim($product['colors'], '|'));
+                    $colors = config('services.colors');
+                    $product_colors = explode('|', trim($product['colors'], '|'));
                 @endphp
                 {{--@php dump($product_colors) @endphp--}}
                 @if($product['colors'] && count($product_colors))
@@ -135,8 +136,8 @@
                 @endif
 
                 @php
-                $sizes = config('services.sizes');
-                $product_sizes = explode('|', trim($product['sizes'], '|'));
+                    $sizes = config('services.sizes');
+                    $product_sizes = explode('|', trim($product['sizes'], '|'));
                 @endphp
 
                 @if($product['sizes'] && count($product_sizes))
@@ -396,7 +397,7 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-bottom: 30px">
             <table class="table table-bordered">
                 @if($product['brand'])
                     <tr>
@@ -426,23 +427,21 @@
             </table>
         </div>
 
-        <div class="col-md-12 text-center">
-            <div>
+        <div class="col-md-12 text-center" style="margin-bottom: 30px">
                 <img style="width: 35px" src="/img/no-refund.png" alt="Товар возврату не подлежит">
-                <a href="/post/1/">Товар возврату не подлежит</a>
-            </div>
+                <a href="{{route('posts.page-show', 'purchase-returns')}}">Товар возврату не подлежит</a>
         </div>
 
         {{--@php dd($related_products); @endphp--}}
         @if(isset($related_products) && count($related_products))
-            <div class="col-md-12">
-                <h4 class="text-center">Похожие товары</h4>
+            <div class="col-md-12" style="margin-bottom: 30px">
+                <h4 class="text-left">Похожие товары</h4>
                 <div class="row product-row">
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            @foreach($related_products as $product)
+                            @foreach($related_products as $one)
                                 <div class="swiper-slide">
-                                    @include('layouts.product-card', ['product' => $product])
+                                    @include('layouts.product-card', ['product' => $one])
                                 </div>
                             @endforeach
                         </div>
@@ -452,35 +451,51 @@
                 </div>
             </div>
         @endif
-
-
         <div class="col-md-6">
             <div class="product__reviews" id="product-reviews">
-                <h5>Отзывы</h5>
+                <h4>Отзывы</h4>
                 <?php $hasUserReview = 0; ?>
                 @if(count($product->reviews))
                     @foreach($product->reviews as $review)
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="product__field product__review-img">
-                                    <div style="width:{{$review['star']*100/5}}%"></div>
-                                </div>
-{{--                                {{$review['pid']}}--}}
-                                @if(auth()->id() && $review['uid']==auth()->id())
-                                    <?php $hasUserReview = 1; ?>
-                                    <form method="post" action="{{route('user.review.destroy', $review['id'])}}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Вы действительно хотите удалить?')"
-                                                class="btn btn-link"
-                                                type="submit">Удалить мой отзыв
-                                        </button>
-                                    </form>
-                                @endif
                             </div>
                             <div class="col-md-12">
-                                <div class="product__field product__review-text">
-                                    {{$review['text']}}
+                                <div class="row product__review-row">
+                                    <div class="col-md-2">
+                                        <div class="product__review-author-img">
+                                            <img src="https://images.wbstatic.net/img/0/small/PersonalPhoto.png?2">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="">
+                                            <span class="product__review-author">
+                                                {{$review->user['name']}}
+                                            </span>
+                                            <span class="product__review-date">
+                                                {{$review['created_at']}}
+                                            </span>
+
+                                            @if(auth()->id() && $review['uid']==auth()->id())
+                                                <?php $hasUserReview = 1; ?>
+                                                <form style="display: inline-block" method="post" action="{{route('user.review.destroy', $review['id'])}}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button onclick="return confirm('Вы действительно хотите удалить?')"
+                                                            class="btn btn-link"
+                                                            type="submit">Удалить мой отзыв
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                        <div class="product__review-img product__review-img-sm">
+                                            <div style="width:{{$review['star']*100/5}}%"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="product__review-text">
+                                            {{$review['text']}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -489,6 +504,7 @@
                     <p>Отзывов пока нет</p>
                 @endif
                 @if(auth()->check() && !$hasUserReview)
+                    <h5>Написать отзыв</h5>
                     <form action="{{route('user.review.store')}}" method="post">
                         @csrf
                         <input type="hidden" name="pid" value="{{$product['id']}}">
@@ -518,7 +534,7 @@
                         </div>
                         <div class="form-group">
                             {{--<label for="review-text" class="col-form-label"></label>--}}
-                            <textarea id="review-text" placeholder="Введите отзыв" required name="text"
+                            <textarea id="review-text" placeholder="Напишите ваш отзыв" required name="text"
                                       class="form-control">{{old('text')}}</textarea>
 
                         </div>
@@ -529,67 +545,66 @@
                 @endif
             </div>
         </div>
-    </div>
-@endsection
+        @endsection
 
-@section('script')
-    <link href="/css/jquery.exzoom.css" rel="stylesheet">
-    <script src="/js/jquery.exzoom.js"></script>
-    <script>
-        $(function () {
-            $("#exzoom").exzoom({
-                // thumbnail nav options
-                "navWidth": 60,
-                "navHeight": 60,
-                "navItemNum": 5,
-                "navItemMargin": 7,
-                "navBorder": 1,
-                // autoplay
-                "autoPlay": false,
-                // autoplay interval in milliseconds
-                "autoPlayTimeout": 2000
-            });
-        });
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
-    <style>
-        .swiper-container {
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            list-style: none;
-            padding: 0;
-            z-index: 1
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            new Swiper('.swiper-container', {
-                slidesPerView: 4,
-                spaceBetween: 30,
-                slidesPerGroup: 4,
-                freeMode: true,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                breakpoints: {
-                    480: {
-                        slidesPerView: 1,
-                        spaceBetween: 20,
-                        slidesPerGroup: 1,
-                    },
-                    990: {
-                        slidesPerView: 2,
-                        spaceBetween: 30,
-                        slidesPerGroup: 2,
-                    }
+        @section('script')
+            <link href="/css/jquery.exzoom.css" rel="stylesheet">
+            <script src="/js/jquery.exzoom.js"></script>
+            <script>
+                $(function () {
+                    $("#exzoom").exzoom({
+                        // thumbnail nav options
+                        "navWidth": 60,
+                        "navHeight": 60,
+                        "navItemNum": 5,
+                        "navItemMargin": 7,
+                        "navBorder": 1,
+                        // autoplay
+                        "autoPlay": false,
+                        // autoplay interval in milliseconds
+                        "autoPlayTimeout": 2000
+                    });
+                });
+            </script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+            <style>
+                .swiper-container {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0 auto;
+                    position: relative;
+                    overflow: hidden;
+                    list-style: none;
+                    padding: 0;
+                    z-index: 1
                 }
-            });
-        });
-    </script>
+            </style>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    new Swiper('.swiper-container', {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                        slidesPerGroup: 4,
+                        freeMode: true,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        breakpoints: {
+                            480: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                                slidesPerGroup: 1,
+                            },
+                            990: {
+                                slidesPerView: 2,
+                                spaceBetween: 30,
+                                slidesPerGroup: 2,
+                            }
+                        }
+                    });
+                });
+            </script>
 @endsection
 

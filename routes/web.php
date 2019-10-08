@@ -19,7 +19,7 @@ Route::group(['namespace' => 'Site', 'middleware' => ['dev']], function () {
     Route::get('/catalog/search', 'ProductController@search')->name('products.search');
     Route::get('/catalog/new', 'ProductController@novelty')->name('products.novelty');
     Route::get('/brands', 'ProductController@brands')->name('brands');
-    Route::get('/catalog/{id}', 'ProductController@category')->name('products.category');
+    Route::get('/catalog/{id}/', 'ProductController@category')->where('id', '[0-9]+')->name('products.category');
     Route::get('/catalog/product/{id}', 'ProductController@show')->name('products.show');
 
     Route::resource('order', 'OrderController', ['as' => 'user']);
@@ -57,6 +57,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::match(['get', 'post'], 'products/multiple/', 'ProductController@multiple')->name('products.multiple');
 
     Route::resource('products', 'ProductController');
+    Route::post('/products', 'ProductController@multi_selection')->name('products.multi_selection');
     Route::resource('menu', 'MenuController');
     Route::resource('brands', 'BrandController');
     Route::resource('posts', 'PostController');

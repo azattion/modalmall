@@ -10,7 +10,7 @@
     {{--TODO - Добавить актуальные данные--}}
     <script src="/js/app.js"></script>
     <link rel="stylesheet" href="/css/app.css">
-    <link href="http://allfont.ru/allfont.css?fonts=ag_futura-bold" rel="stylesheet" type="text/css" />
+    <link href="http://allfont.ru/allfont.css?fonts=ag_futura-bold" rel="stylesheet" type="text/css"/>
     <meta name="keywords" content="@yield('page_keywords', config('services.page_keywords'))"/>
     <meta name="description" content="@yield('page_desc', config('services.page_desc'))"/>
     {{--<meta name="subject" content="your website's subject">--}}
@@ -119,6 +119,7 @@
         body {
             overflow-x: hidden;
         }
+
         main {
             background-image: url(/img/content-bg-left.png), url(/img/content-bg-right.png), url(/img/footer-left-bottom-bg.png);
             background-repeat: no-repeat, no-repeat, no-repeat;
@@ -173,11 +174,12 @@
             line-height: 0.8;
         }
 
-        .main-nav__list .main-nav__link.main-nav__header{
+        .main-nav__list .main-nav__link.main-nav__header {
             color: #fff;
             font-weight: bold;
         }
-        .main-nav__list .main-nav__link{
+
+        .main-nav__list .main-nav__link {
             color: #e9e9e9;
         }
 
@@ -209,11 +211,16 @@
             width: 45px;
         }
 
+        .footer-soc-btn__header {
+            margin-bottom: 5px;
+        }
+
         nav {
             background-color: #ee6688;
             padding: 0;
         }
-        .main-nav > .main-nav__item{
+
+        .main-nav > .main-nav__item {
             padding: 8px 0;
         }
 
@@ -240,7 +247,7 @@
             padding: 0 20px;
         }
 
-        @media(min-width: 990px) {
+        @media (min-width: 990px) {
             .category-card__cover {
                 height: 200px;
             }
@@ -335,13 +342,15 @@
             border-radius: 5px;
         }
 
-        .exzoom .exzoom_img_ul_outer .exzoom_img_ul li{
+        .exzoom .exzoom_img_ul_outer .exzoom_img_ul li {
             /*padding: 42px 52px 42px;*/
             background: url(/img/frame-left.png) top/100% no-repeat;
         }
+
         .exzoom div.exzoom_nav {
             margin-top: 80px;
         }
+
         .product-row > div {
             padding: 0;
         }
@@ -368,9 +377,9 @@
             position: absolute;
             right: 0;
             top: 0;
-            margin-top: -30px;
-            margin-right: -30px;
-            width: 60px;
+            margin-top: -25px;
+            margin-right: -25px;
+            width: 50px;
             z-index: 1;
         }
 
@@ -540,15 +549,15 @@
         }
 
         .review > input:checked ~ label {
-            color: #005f8e
+            color: #f5800b
         }
 
         .review:not(:checked) > label:hover, .review:not(:checked) > label:hover ~ label {
-            color: #0095da
+            color: #f5800b
         }
 
         .review > input:checked + label:hover, .review > input:checked + label:hover ~ label, .review > input:checked ~ label:hover, .review > input:checked ~ label:hover ~ label, .review > label:hover ~ input:checked ~ label {
-            color: #0095da
+            color: #f5800b
         }
 
         .review > label:active {
@@ -559,6 +568,10 @@
 
         .product__review {
             margin-bottom: 30px
+        }
+
+        .product__review-row {
+            margin-bottom: 15px;
         }
 
         .product__review-img {
@@ -575,8 +588,23 @@
 
         .product__review-img div {
             height: 25px;
-            background: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDMwNiAzMDYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwNiAzMDY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0ic3Rhci1yYXRlIj4KCQk8cG9seWdvbiBwb2ludHM9IjE1MywyMzAuNzc1IDI0Ny4zNSwyOTkuNjI1IDIxMS42NSwxODcuNDI1IDMwNiwxMjEuMTI1IDE5MS4yNSwxMjEuMTI1IDE1Myw2LjM3NSAxMTQuNzUsMTIxLjEyNSAwLDEyMS4xMjUgICAgIDk0LjM1LDE4Ny40MjUgNTguNjUsMjk5LjYyNSAgICIgZmlsbD0iIzU4OTBmZiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=) left bottom;
+            background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxOS40ODEgMTkuNDgxIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxOS40ODEgMTkuNDgxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PGc+PGc+CiAgICA8cGF0aCBkPSJtMTAuMjAxLC43NThsMi40NzgsNS44NjUgNi4zNDQsLjU0NWMwLjQ0LDAuMDM4IDAuNjE5LDAuNTg3IDAuMjg1LDAuODc2bC00LjgxMiw0LjE2OSAxLjQ0Miw2LjIwMmMwLjEsMC40MzEtMC4zNjcsMC43Ny0wLjc0NSwwLjU0MWwtNS40NTItMy4yODgtNS40NTIsMy4yODhjLTAuMzc5LDAuMjI4LTAuODQ1LTAuMTExLTAuNzQ1LTAuNTQxbDEuNDQyLTYuMjAyLTQuODEzLTQuMTdjLTAuMzM0LTAuMjg5LTAuMTU2LTAuODM4IDAuMjg1LTAuODc2bDYuMzQ0LS41NDUgMi40NzgtNS44NjRjMC4xNzItMC40MDggMC43NDktMC40MDggMC45MjEsMHoiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiMwMDAwMDAiIHN0eWxlPSJmaWxsOiNGNTgwMEIiPjwvcGF0aD4KICA8L2c+PC9nPiA8L3N2Zz4=) left bottom;
             background-size: 25px;
+        }
+
+        .product__review-img.product__review-img-sm {
+            width: 90px;
+        }
+
+        .product__review-img-sm div {
+            height: 18px;
+            background-size: 18px;
+        }
+
+        .product__review-img.product__review-img-sm:after {
+            height: 18px;
+            background-size: 18px;
+            width: 90px;
         }
 
         .product__review-img:after {
@@ -589,7 +617,7 @@
             height: 25px;
             width: 125px;
             opacity: .3;
-            background: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDMwNiAzMDYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMwNiAzMDY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8ZyBpZD0ic3Rhci1yYXRlIj4KCQk8cG9seWdvbiBwb2ludHM9IjE1MywyMzAuNzc1IDI0Ny4zNSwyOTkuNjI1IDIxMS42NSwxODcuNDI1IDMwNiwxMjEuMTI1IDE5MS4yNSwxMjEuMTI1IDE1Myw2LjM3NSAxMTQuNzUsMTIxLjEyNSAwLDEyMS4xMjUgICAgIDk0LjM1LDE4Ny40MjUgNTguNjUsMjk5LjYyNSAgICIgZmlsbD0iIzU4OTBmZiIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=) left bottom;
+            background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxOS40ODEgMTkuNDgxIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxOS40ODEgMTkuNDgxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PGc+PGc+CiAgICA8cGF0aCBkPSJtMTAuMjAxLC43NThsMi40NzgsNS44NjUgNi4zNDQsLjU0NWMwLjQ0LDAuMDM4IDAuNjE5LDAuNTg3IDAuMjg1LDAuODc2bC00LjgxMiw0LjE2OSAxLjQ0Miw2LjIwMmMwLjEsMC40MzEtMC4zNjcsMC43Ny0wLjc0NSwwLjU0MWwtNS40NTItMy4yODgtNS40NTIsMy4yODhjLTAuMzc5LDAuMjI4LTAuODQ1LTAuMTExLTAuNzQ1LTAuNTQxbDEuNDQyLTYuMjAyLTQuODEzLTQuMTdjLTAuMzM0LTAuMjg5LTAuMTU2LTAuODM4IDAuMjg1LTAuODc2bDYuMzQ0LS41NDUgMi40NzgtNS44NjRjMC4xNzItMC40MDggMC43NDktMC40MDggMC45MjEsMHoiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiMwMDAwMDAiIHN0eWxlPSJmaWxsOiNGNTgwMEIiPjwvcGF0aD4KICA8L2c+PC9nPiA8L3N2Zz4=) left bottom;
             background-size: 25px
         }
 
@@ -615,8 +643,9 @@
             padding: 0 10px;
             font-size: 18px;
         }
-        @media(max-width: 990px){
-            .product__name{
+
+        @media (max-width: 990px) {
+            .product__name {
                 display: block;
             }
         }
@@ -641,6 +670,14 @@
             margin-bottom: 15px;
         }
 
+        .product__review-date {
+            color: #8b8b8b;
+        }
+
+        .product__review-author {
+            margin-right: 30px;
+        }
+
         .product__qt {
             width: 50px !important;
         }
@@ -650,25 +687,52 @@
             top: 0;
             right: 5px;
         }
-        #cart-product__qt{
+
+        #cart-product__qt {
             background-color: #ee6688;
         }
-        .pagination{
+
+        .pagination {
             margin-top: 16px;
+        }
+
+        .badge-modal {
+            color: #fff;
+            background-color: #ee6688;
+        }
+
+        .brand-card {
+            margin-bottom: 15px;
+        }
+
+        .brand-card__name {
+            color: #ee6688;
+            font-weight: bold;
+        }
+
+        .brand-card__img {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
         }
     </style>
 </head>
 <body>
 @php
-$cats = App\Category::where('status', 1)->nestedtree();
+    $cats = App\Category::where('status', 1)->nestedtree();
 @endphp
 <style>
-    .mob-sub ul{
-       /*display: none;*/
+    .mob-sub ul {
+        /*display: none;*/
     }
-    .mob-sub.active>ul{
+
+    .mob-sub.active > ul {
         display: list-item;
     }
+
     .mob-nav {
         width: 100%;
         height: 100%;
@@ -907,11 +971,12 @@ $cats = App\Category::where('status', 1)->nestedtree();
         </li>
         <li>
             <a href="/cart">
-                Корзина <span class="badge badge-success">@if(count(session()->get('cart', []))){{count(session()->get('cart', []))}}@endif</span>
+                Корзина <span
+                        class="badge badge-success">@if(count(session()->get('cart', []))){{count(session()->get('cart', []))}}@endif</span>
             </a>
         </li>
         @foreach($cats[0] as $item)
-            <li  class="mob-sub active">
+            <li class="mob-sub active">
                 <a href="{{route('products.category', $item['id'])}}">{{$item['name']}}
                     @if(isset($cats[$item['id']]))<span class="caret"></span>@endif
                 </a>
@@ -924,7 +989,8 @@ $cats = App\Category::where('status', 1)->nestedtree();
                                     <ul>
                                         @foreach($cats[$item2['id']] as $item3)
                                             <li>
-                                                <a href="{{route('products.category', $item3['id'])}}">{{$item3['name']}}</a></li>
+                                                <a href="{{route('products.category', $item3['id'])}}">{{$item3['name']}}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @endif
@@ -993,7 +1059,7 @@ $cats = App\Category::where('status', 1)->nestedtree();
                             <a class="header-nav__link" href="/cart">
                                 <img style="width: 60px" class="header-nav__icon"
                                      src="https://modalmall.ru/storage/images/21/F7WTYZw3shpqfv1uzIVbSbszXjvUoHispHWfvf0O.png">
-                            <span class="header-nav__name">
+                                <span class="header-nav__name">
                                 Корзина <span id="cart-product__qt"
                                               class="badge badge-success">@if(count(session()->get('cart', []))){{count(session()->get('cart', []))}}@endif</span>
                             </span>
@@ -1021,7 +1087,7 @@ $cats = App\Category::where('status', 1)->nestedtree();
             <div class="row">
                 <div class="col-md-12 text-center">
                     <ul class="main-nav list-unstyled row" style="margin-bottom: 0">
-                         {{--$menu = App\Menu::where('type', 2)->where('status', 1)->get()--}}
+                        {{--$menu = App\Menu::where('type', 2)->where('status', 1)->get()--}}
                         <li class="main-nav__item col">
                             <a class="main-nav__link text-uppercase" href="/page/about">О нас</a>
                         </li>
@@ -1083,9 +1149,10 @@ $cats = App\Category::where('status', 1)->nestedtree();
                     </div>
                 @endif
             </div>
-
-            <div class="col-md-12">
-                @yield('content')
+            <div class="row">
+                <div class="col-md-12">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </section>
@@ -1094,9 +1161,8 @@ $cats = App\Category::where('status', 1)->nestedtree();
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    Связаться с нами
-                    <br/>
                     <div class="footer-soc-btn">
+                        <div class="footer-soc-btn__header">Связаться с нами</div>
                         <div class="row">
                             {{--<img class="img-fluid" src="/img/social-buttons.png" alt="Мы в соц сетях">--}}
                             <a class="footer-soc-btn__link col" href="https://t.me/Modalmall">
@@ -1143,7 +1209,8 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                 </div>
                 <div class="col-md-12">
                     <div class="footer-copyright">
-                        ModalMall - интернет-магазин носочно-чулочных изделий и белья. Доставка по всей России. Все права защищены.
+                        ModalMall - интернет-магазин носочно-чулочных изделий и белья. Доставка по всей России. Все
+                        права защищены.
                         <br>© ModalMall 2017 - {{date('Y')}}
                     </div>
                 </div>
@@ -1238,6 +1305,7 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                     }
                 });
             }
+
             function cart_update(_this, qt, md) {
                 $.ajax({
                     method: 'post',
@@ -1300,7 +1368,7 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                     if (data.success) {
                         _this.find('button[type=submit]').attr('data-link', 1)
 
-                                .text('Перейти в корзину');
+                            .text('Перейти в корзину');
                         $('#cart-product__qt').text(data.qt);
                     }
                 });

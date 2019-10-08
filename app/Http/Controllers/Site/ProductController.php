@@ -134,10 +134,10 @@ class ProductController extends Controller
                     ->where('id', $category_exploded[0])->first();
                 $related_products = Product::where('status', 1)
 //                    ->where('cats', 'LIKE', '%|' . $category_exploded[0] . '|%')
-                    ->get();
+                        ->take(12)->get();
             }
         }
-
+        $product->images = $product->images()->orderBy('order')->get();
 
         return view('site.products.show',
             [

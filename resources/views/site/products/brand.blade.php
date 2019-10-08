@@ -11,13 +11,15 @@
         @foreach($brands as $brand)
             <div class="col-sm-4">
                 <div class="brand-card text-center">
-                    <a href="{{route('products.category', 0)}}?brand={{$brand['id']}}">
+                    <a title="{{$brand['name']}}" href="{{route('products.category', 0)}}?brand={{$brand['id']}}">
                         @if(isset($brand->images[0]))
-                            <img style="width: 100px"
-                                 src="/storage{{$brand->images[0]['path']}}/md/{{$brand->images[0]['name']}}.{{$brand->images[0]['ext']}}">
+                            <div class="brand-card__img" style="background-image: url(/storage{{$brand->images[0]['path']}}/md/{{$brand->images[0]['name']}}.{{$brand->images[0]['ext']}})"></div>
+                            {{--<img class="img-fluid" style="width: 200px"--}}
+                                 {{--src="/storage{{$brand->images[0]['path']}}/md/{{$brand->images[0]['name']}}.{{$brand->images[0]['ext']}}">--}}
                         @else
-                            <img class="img-fluid" style="width: 120px"
-                                 src="/img/notfoundphoto.jpg">
+                            <div class="brand-card__img" style="background-image: url(/img/notfoundphoto.jpg)"></div>
+                            {{--<img class="brand-card__img img-fluid" style="width: 120px"--}}
+                                 {{--src="/img/notfoundphoto.jpg">--}}
                         @endif
                         <div class="brand-card__name">{{$brand['name']}}</div>
                     </a>

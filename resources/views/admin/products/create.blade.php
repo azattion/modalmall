@@ -218,7 +218,7 @@
                             <input accept="image/*" type="file" name="images[]" multiple id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
                             @if(count($product->images))
-                                <div class="row">
+                                <div class="row" id="sortable">
                                     @foreach($product->images as $image)
                                         <div class="col-sm-2">
                                             <a target="_blank"
@@ -228,6 +228,7 @@
                                             <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}"
                                                                                 name="image-del[{{$image['id']}}]">
                                                     Удалить</label></div>
+                                            <input type="hidden" value="{{$image['id']}}" name="images-ord[]">
                                         </div>
                                     @endforeach
                                 </div>
@@ -397,6 +398,11 @@
         });
         $(document).ready(function () {
             $('.select2').select2();
+        });
+        $( function() {
+            $("#sortable").sortable({
+                revert: true
+            });
         });
     </script>
 @endsection
