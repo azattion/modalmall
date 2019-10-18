@@ -384,7 +384,7 @@
                 <li>
                     <a href="{{route('admin.menu.index')}}">
                         <i class="fa fa-list-alt"></i>
-                        <span>Меню</span>
+                        <span>Навигации</span>
                     </a>
                 </li>
                 <li>

@@ -46,8 +46,7 @@
                                 <div class="col-md-6">
                                     <br>
                                     <a style="margin-top: 10px; display: inline-block" target="_blank"
-                                       href="{{$_SERVER['APP_URL']}}/page/{{$post['slug']}}">{{$_SERVER['APP_URL']}}
-                                        /page/{{$post['slug']}}</a>
+                                       href="{{route('posts.page-show', $post->slug)}}">{{route('posts.page-show', $post->slug)}}</a>
                                 </div>
                             @endif
                         </div>

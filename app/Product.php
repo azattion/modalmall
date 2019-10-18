@@ -20,7 +20,7 @@ class Product extends Model
 
     public function favorite()
     {
-        return $this->hasOne('App\Favorite', 'pid');
+        return $this->hasMany('App\Favorite', 'pid');
     }
 
     public function isFavorite()

@@ -138,6 +138,8 @@ class ProductController extends Controller
             }
         }
         $product->images = $product->images()->orderBy('order')->get();
+//        dd(auth()->id());
+        $product->favorite = $product->favorite()->where('uid', auth()->id())->first();
 
         return view('site.products.show',
             [

@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="product__field product__cover text-center">
-                @if(count($product->images))
+                @if(false and count($product->images))
                     <div class="exzoom" id="exzoom">
                         <!-- Images -->
                         <div class="exzoom_img_box">
@@ -34,6 +34,26 @@
                             <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
                             <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
                         </p>
+                    </div>
+                @elseif(count($product->images))
+                    <div class="swiper-container-top gallery-top">
+                        <div class="swiper-wrapper">
+                            @foreach($product->images as $image)
+                                <div class="swiper-slide"
+                                     style="background-image:url(/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}})"></div>
+                            @endforeach
+                        </div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next swiper-button-white"></div>
+                        <div class="swiper-button-prev swiper-button-white"></div>
+                    </div>
+                    <div class="swiper-container-top gallery-thumbs">
+                        <div class="swiper-wrapper">
+                            @foreach($product->images as $image)
+                                <div class="swiper-slide"
+                                     style="background-image:url(/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}})"></div>
+                            @endforeach
+                        </div>
                     </div>
                 @else
                     <div class="product__field product__img">
@@ -102,10 +122,11 @@
                     <span>{{number_format($product['cost'], 0, '.', ' ')}}</span> руб.
                 @endif
             </div>
-            <div class="product__field product__collection">Коллекция: {{$product['collection']}}</div>
+            {{--<div class="product__field product__collection">Коллекция: {{$product['collection']}}</div>--}}
             <div class="product__field product__quantity">Количество в упаковке: {{$product['quantity']}}</div>
 
-            <form class="product__cart-form" method="post" action="{{route('user.cart.store')}}">
+            <form class="product__cart-form" style="display: inline-block" method="post"
+                  action="{{route('user.cart.store')}}">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -117,8 +138,8 @@
                 @endif
 
                 @php
-                    $colors = config('services.colors');
-                    $product_colors = explode('|', trim($product['colors'], '|'));
+                $colors = config('services.colors');
+                $product_colors = explode('|', trim($product['colors'], '|'));
                 @endphp
                 {{--@php dump($product_colors) @endphp--}}
                 @if($product['colors'] && count($product_colors))
@@ -136,8 +157,8 @@
                 @endif
 
                 @php
-                    $sizes = config('services.sizes');
-                    $product_sizes = explode('|', trim($product['sizes'], '|'));
+                $sizes = config('services.sizes');
+                $product_sizes = explode('|', trim($product['sizes'], '|'));
                 @endphp
 
                 @if($product['sizes'] && count($product_sizes))
@@ -184,7 +205,7 @@
                     {{--</div>--}}
                     {{--</div>--}}
                     {{--<div class="col-sm-3">--}}
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-success btn-cart">
                         @if($product['available'])В корзину @else Предзаказать @endif
                     </button>
                     {{--</div>--}}
@@ -195,7 +216,8 @@
 
             @if(auth()->check())
                 @if($product->favorite)
-                    <form action="{{route('user.favorite.destroy', $product->favorite['id'])}}" method="post">
+                    <form style="display: inline-block"
+                          action="{{route('user.favorite.destroy', $product->favorite['id'])}}" method="post">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="pid" value="{{$product['id']}}">
@@ -207,7 +229,7 @@
                         </button>
                     </form>
                 @else
-                    <form action="{{route('user.favorite.store')}}" method="post">
+                    <form style="display: inline-block" action="{{route('user.favorite.store')}}" method="post">
                         @csrf
                         <input type="hidden" name="pid" value="{{$product['id']}}">
                         <button type="submit" class="btn btn-link">
@@ -428,17 +450,17 @@
         </div>
 
         <div class="col-md-12 text-center" style="margin-bottom: 30px">
-                <img style="width: 35px" src="/img/no-refund.png" alt="Товар возврату не подлежит">
-                <a href="{{route('posts.page-show', 'purchase-returns')}}">Товар возврату не подлежит</a>
+            <img style="width: 35px" src="/img/no-refund.png" alt="Товар возврату не подлежит">
+            <a href="{{route('posts.page-show', 'purchase-returns')}}">Товар возврату не подлежит</a>
         </div>
 
         {{--@php dd($related_products); @endphp--}}
         @if(isset($related_products) && count($related_products))
             <div class="col-md-12" style="margin-bottom: 30px">
                 <h4 class="text-left">Похожие товары</h4>
-                <div class="row product-row">
+                <div class="row">
                     <div class="swiper-container">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper product-row-4">
                             @foreach($related_products as $one)
                                 <div class="swiper-slide">
                                     @include('layouts.product-card', ['product' => $one])
@@ -451,24 +473,23 @@
                 </div>
             </div>
         @endif
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="product__reviews" id="product-reviews">
-                <h4>Отзывы</h4>
+                @php $review_count = count($product->reviews); @endphp
+                <h4>Отзывы @if($review_count){{$review_count}}@endif</h4>
                 <?php $hasUserReview = 0; ?>
-                @if(count($product->reviews))
-                    @foreach($product->reviews as $review)
-                        <div class="row">
-                            <div class="col-md-12">
-                            </div>
-                            <div class="col-md-12">
+                @if($review_count)
+                    <div class="row">
+                        <div class="col-md-12">
+                            @foreach($product->reviews as $review)
                                 <div class="row product__review-row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <div class="product__review-author-img">
                                             <img src="https://images.wbstatic.net/img/0/small/PersonalPhoto.png?2">
                                         </div>
                                     </div>
                                     <div class="col-md-10">
-                                        <div class="">
+                                        <div class="product__review-header">
                                             <span class="product__review-author">
                                                 {{$review->user['name']}}
                                             </span>
@@ -478,11 +499,12 @@
 
                                             @if(auth()->id() && $review['uid']==auth()->id())
                                                 <?php $hasUserReview = 1; ?>
-                                                <form style="display: inline-block" method="post" action="{{route('user.review.destroy', $review['id'])}}">
+                                                <form style="display: inline-block" method="post"
+                                                      action="{{route('user.review.destroy', $review['id'])}}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button onclick="return confirm('Вы действительно хотите удалить?')"
-                                                            class="btn btn-link"
+                                                            class="btn btn-link no-padding"
                                                             type="submit">Удалить мой отзыв
                                                     </button>
                                                 </form>
@@ -497,114 +519,181 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    </div>
                 @else
-                    <p>Отзывов пока нет</p>
+                    <p style="color: #8b8b8b">Отзывов пока нет</p>
                 @endif
                 @if(auth()->check() && !$hasUserReview)
-                    <h5>Написать отзыв</h5>
-                    <form action="{{route('user.review.store')}}" method="post">
-                        @csrf
-                        <input type="hidden" name="pid" value="{{$product['id']}}">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    {{--<input required type="range" name="star" min="1" max="5">--}}
-                                    <fieldset class="review">
-                                        <input type="radio" id="star5" name="star" value="5">
-                                        <label for="star5"
-                                               title="Отлично">5</label>
-                                        <input type="radio" id="star4" name="star" value="4">
-                                        <label for="star4"
-                                               title="Очень хорошо">4</label>
-                                        <input type="radio" id="star3" name="star" value="3">
-                                        <label for="star3"
-                                               title="Хорошо">3</label>
-                                        <input type="radio" id="star2" name="star" value="2">
-                                        <label for="star2"
-                                               title="Удовлетворительно">2</label>
-                                        <input type="radio" id="star1" name="star" value="1">
-                                        <label for="star1"
-                                               title="Плохо">1</label>
-                                    </fieldset>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Написать отзыв</h5>
+                            <form action="{{route('user.review.store')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="pid" value="{{$product['id']}}">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            {{--<input required type="range" name="star" min="1" max="5">--}}
+                                            <fieldset class="review">
+                                                <input type="radio" id="star5" name="star" value="5">
+                                                <label for="star5"
+                                                       title="Отлично">5</label>
+                                                <input type="radio" id="star4" name="star" value="4">
+                                                <label for="star4"
+                                                       title="Очень хорошо">4</label>
+                                                <input type="radio" id="star3" name="star" value="3">
+                                                <label for="star3"
+                                                       title="Хорошо">3</label>
+                                                <input type="radio" id="star2" name="star" value="2">
+                                                <label for="star2"
+                                                       title="Удовлетворительно">2</label>
+                                                <input type="radio" id="star1" name="star" value="1">
+                                                <label for="star1"
+                                                       title="Плохо">1</label>
+                                            </fieldset>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{--<label for="review-text" class="col-form-label"></label>--}}
-                            <textarea id="review-text" placeholder="Напишите ваш отзыв" required name="text"
-                                      class="form-control">{{old('text')}}</textarea>
+                                <div class="form-group">
+                                    {{--<label for="review-text" class="col-form-label"></label>--}}
+                                    <textarea rows="4" id="review-text" placeholder="Напишите ваш отзыв" required
+                                              name="text"
+                                              class="form-control">{{old('text')}}</textarea>
 
+                                </div>
+                                <button type="submit" class="btn btn-success">
+                                    Добавить
+                                </button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-success">
-                            Добавить
-                        </button>
-                    </form>
+                    </div>
                 @endif
             </div>
         </div>
-        @endsection
+    </div>
+@endsection
 
-        @section('script')
-            <link href="/css/jquery.exzoom.css" rel="stylesheet">
-            <script src="/js/jquery.exzoom.js"></script>
-            <script>
-                $(function () {
-                    $("#exzoom").exzoom({
-                        // thumbnail nav options
-                        "navWidth": 60,
-                        "navHeight": 60,
-                        "navItemNum": 5,
-                        "navItemMargin": 7,
-                        "navBorder": 1,
-                        // autoplay
-                        "autoPlay": false,
-                        // autoplay interval in milliseconds
-                        "autoPlayTimeout": 2000
-                    });
-                });
-            </script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
-            <style>
-                .swiper-container {
-                    width: 100%;
-                    height: 100%;
-                    margin: 0 auto;
-                    position: relative;
-                    overflow: hidden;
-                    list-style: none;
-                    padding: 0;
-                    z-index: 1
-                }
-            </style>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
-            <script>
-                $(document).ready(function () {
-                    new Swiper('.swiper-container', {
-                        slidesPerView: 4,
+@section('script')
+    <link href="/css/jquery.exzoom.css" rel="stylesheet">
+    <script src="/js/jquery.exzoom.js"></script>
+    <script>
+        $(function () {
+            $("#exzoom").exzoom({
+                // thumbnail nav options
+                "navWidth": 60,
+                "navHeight": 60,
+                "navItemNum": 5,
+                "navItemMargin": 7,
+                "navBorder": 1,
+                // autoplay
+                "autoPlay": false,
+                // autoplay interval in milliseconds
+                "autoPlayTimeout": 2000
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            z-index: 1
+        }
+
+        .swiper-button-next, .swiper-button-prev {
+            top: 40%;
+        }
+
+        .swiper-container-top {
+            overflow: hidden;
+            width: 100%;
+            height: 360px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-top {
+            height: 280px;
+            width: 100%;
+            padding: 40px;
+        }
+        .gallery-top .swiper-wrapper{
+            /*border: 5px solid #f7b5bd;*/
+            /*border-radius: 5px;*/
+            /*background: url(/img/frame-left.png) top/100% no-repeat;*/
+        }
+
+        .gallery-thumbs {
+            height: 80px;
+            box-sizing: border-box;
+            padding: 10px 0;
+        }
+
+        .gallery-thumbs .swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        .gallery-thumbs .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            new Swiper('.swiper-container', {
+                slidesPerView: 4,
+                spaceBetween: 30,
+                slidesPerGroup: 4,
+                freeMode: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        slidesPerGroup: 1,
+                    },
+                    990: {
+                        slidesPerView: 2,
                         spaceBetween: 30,
-                        slidesPerGroup: 4,
-                        freeMode: true,
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-                        breakpoints: {
-                            480: {
-                                slidesPerView: 1,
-                                spaceBetween: 20,
-                                slidesPerGroup: 1,
-                            },
-                            990: {
-                                slidesPerView: 2,
-                                spaceBetween: 30,
-                                slidesPerGroup: 2,
-                            }
-                        }
-                    });
-                });
-            </script>
+                        slidesPerGroup: 2,
+                    }
+                }
+            });
+            var galleryThumbs = new Swiper('.gallery-thumbs', {
+                spaceBetween: 10,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesVisibility: true,
+                watchSlidesProgress: true,
+            });
+            var galleryTop = new Swiper('.gallery-top', {
+                spaceBetween: 10,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                thumbs: {
+                    swiper: galleryThumbs
+                }
+            });
+        });
+    </script>
 @endsection
 

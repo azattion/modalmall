@@ -10,7 +10,9 @@
     {{--TODO - Добавить актуальные данные--}}
     <script src="/js/app.js"></script>
     <link rel="stylesheet" href="/css/app.css">
-    <link href="http://allfont.ru/allfont.css?fonts=ag_futura-bold" rel="stylesheet" type="text/css"/>
+    <link href="https://nomail.com.ua/api/font-face/2412.css" rel="stylesheet" type="text/css"/>
+    <link href="https://nomail.com.ua/api/font-face/2411.css" rel="stylesheet" type="text/css"/>
+    <link href="https://nomail.com.ua/api/font-face/2957.css" rel="stylesheet" type="text/css"/>
     <meta name="keywords" content="@yield('page_keywords', config('services.page_keywords'))"/>
     <meta name="description" content="@yield('page_desc', config('services.page_desc'))"/>
     {{--<meta name="subject" content="your website's subject">--}}
@@ -86,29 +88,29 @@
             width: 100%;
         }
 
-        @font-face {
-            font-family: 'AG_Futura';
-            font-style: normal;
-            font-weight: 400;
-            src: local('AG_Futura'), local('AG_Futura-Regular'),
-                /*url(/font/AG_Futura.woff) format('woff'),*/ url(/font/AG_Futura.ttf) format('truetype');
-        }
+        /*@font-face {*/
+            /*font-family: 'AG_Futura';*/
+            /*font-style: normal;*/
+            /*font-weight: 400;*/
+            /*src: local('AG_Futura'), local('AG_Futura-Regular'),*/
+                /*!*url(/font/AG_Futura.woff) format('woff'),*! url(/font/AG_Futura.ttf) format('truetype');*/
+        /*}*/
 
-        @font-face {
-            font-family: 'Aquarelle';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Aquarelle'), local('Aquarelle'),
-                /*url(/font/Aquarelle.woff) format('woff'),*/ url(/font/Aquarelle.ttf) format('truetype');
-        }
+        /*@font-face {*/
+            /*font-family: 'Aquarelle';*/
+            /*font-style: normal;*/
+            /*font-weight: 400;*/
+            /*src: local('Aquarelle'), local('Aquarelle'),*/
+                /*!*url(/font/Aquarelle.woff) format('woff'),*! url(/font/Aquarelle.ttf) format('truetype');*/
+        /*}*/
 
-        @font-face {
-            font-family: 'AG_Futura Bold';
-            font-style: normal;
-            font-weight: 700;
-            src: local('AG_Futura Bold'), local('AG_Futura Bold'),
-                /*url(/font/AG_Futura_Bold.woff) format('woff'),*/ url(/font/AG_Futura_Bold.ttf) format('truetype');
-        }
+        /*@font-face {*/
+            /*font-family: 'AG_Futura Bold';*/
+            /*font-style: normal;*/
+            /*font-weight: 700;*/
+            /*src: local('AG_Futura Bold'), local('AG_Futura Bold'),*/
+                /*!*url(/font/AG_Futura_Bold.woff) format('woff'),*! url(/font/AG_Futura_Bold.ttf) format('truetype');*/
+        /*}*/
 
         .header-title__italic {
             font-family: 'Aquarelle', arial;
@@ -225,7 +227,7 @@
         }
 
         nav a {
-            font-family: 'AG_Futura Bold', arial;
+            font-family: 'AGFutura', arial;
             font-weight: bold;
             color: #fff;
         }
@@ -283,6 +285,9 @@
             padding: 40px 40px 0;
             background: url(/img/frame-left.png) top/100% no-repeat;
         }
+        .col-md-4 .product-card{
+            padding: 50px 50px 0;
+        }
 
         .product__img {
             padding: 53px 61px 51px;
@@ -325,15 +330,45 @@
             background: url(/img/frame-right.png) top/100% no-repeat;
         }
 
-        .product-row > div:nth-child(2n+1) .product-card {
-            background-image: url("/img/frame-middle.png");
-        }
+
+        /*.product-row > div:nth-child(2n) .product-card {*/
+            /*background-image: url("/img/frame-middle.png");*/
+        /*}*/
+
+        /*.product-row > div:nth-child(2n+1) .product-card {*/
+            /*background-image: url("/img/frame-middle.png");*/
+        /*}*/
+
+        /*.product-row > div:nth-child(2n+1) .product-card {*/
+            /*background-image: url("/img/frame-middle.png");*/
+        /*}*/
 
         .product-row > div:nth-child(3n+1) .product-card {
+            background-image: url("/img/frame-left.png");
+        }
+
+        .product-row > div:nth-child(3n-1) .product-card {
             background-image: url("/img/frame-middle.png");
         }
 
-        .product-row > div:nth-child(4n+1) .product-card {
+        .product-row > div:nth-child(3n) .product-card {
+            background-image: url("/img/frame-right.png");
+        }
+
+
+        .product-row-4 > div:nth-child(4n+1) .product-card {
+            background-image: url("/img/frame-left.png");
+        }
+
+        .product-row-4 > div:nth-child(4n-1) .product-card {
+            background-image: url("/img/frame-middle.png");
+        }
+
+        .product-row-4 > div:nth-child(2n) .product-card {
+            background-image: url("/img/frame-middle.png");
+        }
+
+        .product-row-4 > div:nth-child(4n) .product-card {
             background-image: url("/img/frame-right.png");
         }
 
@@ -393,14 +428,14 @@
         .product-card__cost {
             color: #000;
             font-weight: 700;
-            font-family: 'AG_Futura Bold', arial;
+            font-family: 'AGFuturaBold', arial;
         }
 
         .product-card__name {
             color: #000;
             font-weight: 700;
             margin-bottom: 5px;
-            font-family: 'AG_Futura Bold', arial;
+            font-family: 'AGFuturaBold', arial;
         }
 
         .product__cost_sale {
@@ -571,11 +606,22 @@
         }
 
         .product__review-row {
-            margin-bottom: 15px;
+            padding-top: 20px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .product__review-row:last-child{
+            border-bottom: 0;
+        }
+        .product__review-header{
+            margin-bottom: 13px;
+            font-size: 14px;
+        }
+        .product__review-text{
+            margin-bottom: 25px;
         }
 
         .product__review-img {
-            width: 125px;
+            width: 100px;
             float: left;
             margin-right: 5px;
             position: relative;
@@ -587,13 +633,14 @@
         }
 
         .product__review-img div {
-            height: 25px;
+            height: 20px;
             background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxOS40ODEgMTkuNDgxIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxOS40ODEgMTkuNDgxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PGc+PGc+CiAgICA8cGF0aCBkPSJtMTAuMjAxLC43NThsMi40NzgsNS44NjUgNi4zNDQsLjU0NWMwLjQ0LDAuMDM4IDAuNjE5LDAuNTg3IDAuMjg1LDAuODc2bC00LjgxMiw0LjE2OSAxLjQ0Miw2LjIwMmMwLjEsMC40MzEtMC4zNjcsMC43Ny0wLjc0NSwwLjU0MWwtNS40NTItMy4yODgtNS40NTIsMy4yODhjLTAuMzc5LDAuMjI4LTAuODQ1LTAuMTExLTAuNzQ1LTAuNTQxbDEuNDQyLTYuMjAyLTQuODEzLTQuMTdjLTAuMzM0LTAuMjg5LTAuMTU2LTAuODM4IDAuMjg1LTAuODc2bDYuMzQ0LS41NDUgMi40NzgtNS44NjRjMC4xNzItMC40MDggMC43NDktMC40MDggMC45MjEsMHoiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiMwMDAwMDAiIHN0eWxlPSJmaWxsOiNGNTgwMEIiPjwvcGF0aD4KICA8L2c+PC9nPiA8L3N2Zz4=) left bottom;
-            background-size: 25px;
+            background-size: 20px;
         }
 
         .product__review-img.product__review-img-sm {
             width: 90px;
+            margin-bottom: 20px;
         }
 
         .product__review-img-sm div {
@@ -614,11 +661,11 @@
             right: 0;
             top: 0;
             bottom: 0;
-            height: 25px;
-            width: 125px;
+            height: 20px;
+            width: 100px;
             opacity: .3;
             background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxOS40ODEgMTkuNDgxIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxOS40ODEgMTkuNDgxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PGc+PGc+CiAgICA8cGF0aCBkPSJtMTAuMjAxLC43NThsMi40NzgsNS44NjUgNi4zNDQsLjU0NWMwLjQ0LDAuMDM4IDAuNjE5LDAuNTg3IDAuMjg1LDAuODc2bC00LjgxMiw0LjE2OSAxLjQ0Miw2LjIwMmMwLjEsMC40MzEtMC4zNjcsMC43Ny0wLjc0NSwwLjU0MWwtNS40NTItMy4yODgtNS40NTIsMy4yODhjLTAuMzc5LDAuMjI4LTAuODQ1LTAuMTExLTAuNzQ1LTAuNTQxbDEuNDQyLTYuMjAyLTQuODEzLTQuMTdjLTAuMzM0LTAuMjg5LTAuMTU2LTAuODM4IDAuMjg1LTAuODc2bDYuMzQ0LS41NDUgMi40NzgtNS44NjRjMC4xNzItMC40MDggMC43NDktMC40MDggMC45MjEsMHoiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiMwMDAwMDAiIHN0eWxlPSJmaWxsOiNGNTgwMEIiPjwvcGF0aD4KICA8L2c+PC9nPiA8L3N2Zz4=) left bottom;
-            background-size: 25px
+            background-size: 20px
         }
 
         .product__review-value {
@@ -675,7 +722,11 @@
         }
 
         .product__review-author {
-            margin-right: 30px;
+            margin-right: 20px;
+            border-bottom: 1px dotted #000;
+        }
+        .product__review-date{
+            margin-right: 20px;
         }
 
         .product__qt {
@@ -717,6 +768,18 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
+        }
+        .no-padding {
+            padding: 0 !important;
+        }
+        .no-margin{
+            margin: 0 !important;
+        }
+        .alert {
+            border-radius: 3px;
+            margin: 0 0 20px 0;
+            padding: 15px 30px 15px 15px;
+            border-left: 5px solid #ee6688;
         }
     </style>
 </head>
@@ -852,7 +915,7 @@
 
     .toggle-button .wolverine {
         display: inline-block;
-        padding: 15px 0px;
+        padding: 15px 0;
         cursor: pointer;
         -webkit-user-select: none;
         opacity: .97;
@@ -1030,7 +1093,7 @@
                                        placeholder="Введите слово..">
                             </div>
                             <div class="col-2">
-                                <button type="submit" class="btn btn-link" style="padding-left: 0; padding-right: 0">
+                                <button type="submit" class="btn no-padding btn-link" style="padding-left: 0; padding-right: 0">
                                     <img style="width: 35px" src="/img/search.png">
                                 </button>
                             </div>
@@ -1280,12 +1343,19 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
             padding: 20px;
             /*font-size: 0;*/
             background-color: #ee6688;
-            border-radius: 0 0 12px 12px;
-            -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-            box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+            border-radius: 0 0 5px 5px;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=7, Direction=0, Color=#000000)";/*IE 8*/
+            -moz-box-shadow: 0 6px 7px -5px #000000;/*FF 3.5+*/
+            -webkit-box-shadow: 0 6px 7px -5px #000000;/*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+            box-shadow: 0 6px 7px -5px #000000;/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=7, Direction=135, Color=#000000); /*IE 5.5-7*/
             z-index: 55;
             list-style: none;
             min-height: 540px;
+        }
+        .btn.btn-cart{
+            background-color: #5A009D;
+            border-color: #48009d;
         }
     </style>
     <script>
@@ -1367,7 +1437,6 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
                 }).done(function (data) {
                     if (data.success) {
                         _this.find('button[type=submit]').attr('data-link', 1)
-
                             .text('Перейти в корзину');
                         $('#cart-product__qt').text(data.qt);
                     }

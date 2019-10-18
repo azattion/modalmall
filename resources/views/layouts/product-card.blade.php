@@ -15,20 +15,22 @@
             @endif
             @if($product['sale_percent'] && time() > strtotime($product['sale_start_date']) && time() < strtotime($product['sale_end_date']))
                 <div class="product-card__sale">
-                    <img class="img-fluid" src="/img/sale.png" alt="">
+                    <img class="img-fluid" src="/img/sale.png" alt="Скидки">
                 </div>
             @endif
         </div>
         <div class="product-card__cost text-center">
-            @if($product->is_sale)
-                <span class="product__cost_sale">{{$product['cost']}}  руб.</span> {{$product->cost_with_sale}} руб. <span class="badge badge-modal">{{$product['sale_percent']}} %</span>
-            @else
-                <span>{{$product['cost']}}</span> руб.
+            @if($product['cost']>0)
+                @if($product->is_sale)
+                    <span class="product__cost_sale">{{$product['cost']}}  RUB</span> {{$product->cost_with_sale}} RUB <span class="badge badge-modal">{{$product['sale_percent']}} %</span>
+                @else
+                    <span>{{$product['cost']}}</span> RUB
+                @endif
             @endif
         </div>
         <div class="product-card__name text-center">{{$product['name']}}</div>
         <div class="product-card__review">
-            <div class="product__review-img">
+            <div class="product__review-img product__review-img-sm">
                 <div style="width: @if($product->average_rating) {{$product->average_rating*100/5}}% @else 0% @endif"></div>
             </div>
         </div>

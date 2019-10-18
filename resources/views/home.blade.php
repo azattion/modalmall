@@ -39,15 +39,14 @@
             @endforeach
         </div>
     </div>
-    <div class="row" style="margin-top: 30px">
+    <div class="row" style="margin-top: 40px">
         <h2 style="margin-bottom: 0" class="col-md-12 header-title__italic text-center">Бестселлеры</h2>
         <div class="col-md-12">
             {{--<div class="row product-row">--}}
             <div class="top-swiper-container">
-                <div class="swiper-wrapper product-row">
+                <div class="swiper-wrapper product-row-4">
                     @foreach($products as $product)
                         <div class="swiper-slide">
-                            {{--                                    {{$product['count']}}--}}
                             @include('layouts.product-card', ['product' => $product])
                         </div>
                     @endforeach

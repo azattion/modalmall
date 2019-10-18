@@ -27,6 +27,7 @@ class PostController extends Controller
     function category($id)
     {
         $posts = Post::where('status', 1)->where('type', $id)->get();
+//        dd($posts);
         $posts_type = config('services.posts_type');
         $type = $posts_type[$id];
         return view('site.posts.list', ['posts' => $posts, 'type' => $type]);

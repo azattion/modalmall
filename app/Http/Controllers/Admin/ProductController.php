@@ -77,6 +77,8 @@ class ProductController extends Controller
      */
     public function index()
     {
+        setcookie('last_list', url()->full(), time() + 3600 * 24 * 30);
+
         $products = Product::with('images')->with('brands')->orderBy('id', 'desc');
         if (isset($_GET['q'])) {
             $products = $products->where('name', 'LIKE', '%' . e($_GET['q']) . '%')
@@ -163,6 +165,7 @@ class ProductController extends Controller
             }
         }
 
+
         if ($request->get('save-2double')) {
             $categories = Category::where('status', 1)->orderBy('ordr')->get();
             $brands = Brand::where('status', 1)->orderBy('ordr')->get();
@@ -171,6 +174,10 @@ class ProductController extends Controller
                 'categories' => $categories,
                 'brands' => $brands
             ]);
+        }
+        $url = isset($_COOKIE['last_list']) && $_COOKIE['last_list'] ? $_COOKIE['last_list'] : false;
+        if ($url) {
+            return redirect($url)->with('success', 'Запись успешно изменена');
         } elseif ($request->get('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно добавлена');
         } else {
@@ -298,6 +305,12 @@ class ProductController extends Controller
                 'categories' => $categories,
                 'brands' => $brands
             ]);
+        }
+
+        $url = isset($_COOKIE['last_list']) && $_COOKIE['last_list'] ? $_COOKIE['last_list'] : false;
+//        dd($url);
+        if ($url) {
+            return redirect($url)->with('success', 'Запись успешно изменена');
         } elseif ($request->has('save-2new')) {
             return redirect()->route('admin.products.create')->with('success', 'Запись успешно изменена');
         } else {

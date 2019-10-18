@@ -10,9 +10,9 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
-//if(isset($_GET['fgfnjjhk'])){
-//    setcookie('asdfgfggh', 'tyunbdgcsxl', time()+3600*30, '/');
-//}
+if(isset($_GET['fgfnjjhk'])){
+    setcookie('asdfgfggh', 'tyunbdgcsxl', time()+3600*30, '/');
+}
 
 //if(!(isset($_COOKIE['asdfgfggh']) && $_COOKIE['asdfgfggh']=='tyunbdgcsxl')){
 ////    header('Location: /');
