@@ -13,6 +13,7 @@
     <link href="https://nomail.com.ua/api/font-face/2412.css" rel="stylesheet" type="text/css"/>
     <link href="https://nomail.com.ua/api/font-face/2411.css" rel="stylesheet" type="text/css"/>
     <link href="https://nomail.com.ua/api/font-face/2957.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Alegreya:400,700|Cuprum:400,700|Poiret+One|Yanone+Kaffeesatz:400,700&display=swap&subset=cyrillic" rel="stylesheet">
     <meta name="keywords" content="@yield('page_keywords', config('services.page_keywords'))"/>
     <meta name="description" content="@yield('page_desc', config('services.page_desc'))"/>
     {{--<meta name="subject" content="your website's subject">--}}
@@ -435,8 +436,21 @@
             color: #000;
             font-weight: 700;
             margin-bottom: 5px;
-            font-family: 'AGFuturaBold', arial;
+            /*font-family: 'AGFuturaBold', arial;*/
+            font-family: 'Cuprum', sans-serif;
         }
+        /*.product-row-4 > div:nth-child(4n) .product-card__name{*/
+            /*font-family: 'Yanone Kaffeesatz', sans-serif;*/
+        /*}*/
+        /*.product-row-4 > div:nth-child(4n+3) .product-card__name{*/
+            /*font-family: 'Cuprum', sans-serif;*/
+        /*}*/
+        /*.product-row-4 > div:nth-child(4n+2) .product-card__name{*/
+            /*font-family: 'Alegreya', serif;*/
+        /*}*/
+        /*.product-row-4 > div:nth-child(4n+1) .product-card__name{*/
+            /*font-family: 'Poiret One', cursive;*/
+        /*}*/
 
         .product__cost_sale {
             text-decoration: line-through;
@@ -682,6 +696,12 @@
         .product__review {
             vertical-align: middle;
             line-height: 28px
+        }
+        .product__review-content{
+            margin-left: 70px;
+        }
+        .product__review-author-img{
+            float: left;
         }
 
         .product__name {
@@ -1352,10 +1372,6 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
             z-index: 55;
             list-style: none;
             min-height: 540px;
-        }
-        .btn.btn-cart{
-            background-color: #5A009D;
-            border-color: #48009d;
         }
     </style>
     <script>

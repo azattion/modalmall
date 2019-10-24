@@ -1,6 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
+/public/js/ckfinder
+/public/js/admin/ckeditor
 /storage/*.key
 /storage/app
 /vendor

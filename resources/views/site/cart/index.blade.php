@@ -70,11 +70,11 @@
                                     $is_sale = $products[$product['id']]->is_sale;
                                     if($is_sale) $cost = $products[$product['id']]->cost_with_sale;
                                     @endphp
-                                    {{number_format($cost, 0, '.', ' ')}} руб. X <span
+                                    {{number_format($cost, 0, '.', ' ')}} RUB X <span
                                             class="product__qt-text">{{$product['qt']}}</span>
                                     @if($is_sale)
                                         <br/><span style="text-decoration: line-through">{{$products[$product['id']]['cost']}}
-                                            руб.</span>
+                                            RUB</span>
                                         Скидка {{ $products[$product['id']]['sale_percent'] }}%
                                     @endif
                                     @php $total += $cost * $product['qt']; @endphp
@@ -129,7 +129,7 @@
                             <h4 class="card-title">
                                 <div id="product__total">
                                     <b>Итого:</b>
-                                    <span>{{number_format($total, 0, '.', ' ')}}</span> руб.
+                                    <span>{{number_format($total, 0, '.', ' ')}}</span> RUB
                                     <input type="hidden" value="{{$total}}">
                                 </div>
                             </h4>

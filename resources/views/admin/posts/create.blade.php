@@ -11,8 +11,7 @@
                     <h3 class="box-title">{{$post->id?"Изменить":"Добавить"}} публикацию</h3>
                 </div>
                 <!-- /.box-header -->
-                {{--                {{dd($post)}}--}}
-                        <!-- form start -->
+                <!-- form start -->
                 <form role="form" method="post" enctype="multipart/form-data"
                       action="{{$post->id ? route('admin.posts.update', $post->id) : route('admin.posts.store')}}">
                     {{ csrf_field() }}
@@ -77,8 +76,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="checkbox">
                             <label>
                                 <input {{$post->status || old('status')?'checked':''}} name="status" value="1"

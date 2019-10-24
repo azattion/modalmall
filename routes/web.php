@@ -57,7 +57,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::match(['get', 'post'], 'products/multiple/', 'ProductController@multiple')->name('products.multiple');
 
     Route::resource('products', 'ProductController');
-    Route::post('/products', 'ProductController@multi_selection')->name('products.multi_selection');
+    Route::post('/products/multi', 'ProductController@multi_selection')->name('products.multi_selection');
     Route::resource('menu', 'MenuController');
     Route::resource('brands', 'BrandController');
     Route::resource('posts', 'PostController');
@@ -66,3 +66,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::resource('orders', 'OrderController');
     Route::resource('reviews', 'ReviewController');
 });
+
+//Route::any('/ckfinder/examples/{example?}', 'CKSource\CKFinderBridge\Controller\CKFinderController@examplesAction')
+//    ->name('ckfinder_examples');

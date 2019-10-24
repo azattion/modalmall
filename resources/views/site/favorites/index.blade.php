@@ -43,16 +43,16 @@
                         </a>
                         <div>
                             @if($favorite->product->is_sale)
-                                {{number_format($favorite->product->cost_with_sale, 0, '.', ' ')}} руб.
+                                {{number_format($favorite->product->cost_with_sale, 0, '.', ' ')}} RUB
                                 <br/>
                                 <span style="text-decoration: line-through">
-                                {{$favorite->product['cost']}} руб.
+                                {{$favorite->product['cost']}} RUB
                             </span>
                                 Скидка {{ $favorite->product['sale_percent'] }}%
                             @else
-                                {{number_format($favorite->product['cost'], 0, '.', ' ')}} руб.
+                                {{number_format($favorite->product['cost'], 0, '.', ' ')}} RUB
                             @endif
-                            {{--{{$favorite->product['cost']}} руб.--}}
+                            {{--{{$favorite->product['cost']}} RUB--}}
                         </div>
                     </td>
                     <td>

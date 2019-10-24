@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="product__field product__cover text-center">
-                @if(false and count($product->images))
+                @if(count($product->images))
                     <div class="exzoom" id="exzoom">
                         <!-- Images -->
                         <div class="exzoom_img_box">
@@ -115,11 +115,11 @@
             <div class="clearfix"></div>
             <div class="product__field product__cost">
                 @if($product->is_sale)
-                    <span class="product__field product__cost_sale">{{$product['cost']}} руб.</span>
-                    {{$product->cost_with_sale}} руб.
+                    <span class="product__field product__cost_sale">{{$product['cost']}} RUB</span>
+                    {{$product->cost_with_sale}} RUB
                     <span class="badge badge-modal">{{$product['sale_percent']}}%</span>
                 @else
-                    <span>{{number_format($product['cost'], 0, '.', ' ')}}</span> руб.
+                    <span>{{number_format($product['cost'], 0, '.', ' ')}}</span> RUB
                 @endif
             </div>
             {{--<div class="product__field product__collection">Коллекция: {{$product['collection']}}</div>--}}
@@ -483,13 +483,12 @@
                         <div class="col-md-12">
                             @foreach($product->reviews as $review)
                                 <div class="row product__review-row">
-                                    <div class="col-md-1">
+                                    <div class="col-md-12">
                                         <div class="product__review-author-img">
                                             <img src="https://images.wbstatic.net/img/0/small/PersonalPhoto.png?2">
                                         </div>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="product__review-header">
+                                        <div class="product__review-content">
+                                            <div class="product__review-header">
                                             <span class="product__review-author">
                                                 {{$review->user['name']}}
                                             </span>
@@ -497,25 +496,26 @@
                                                 {{$review['created_at']}}
                                             </span>
 
-                                            @if(auth()->id() && $review['uid']==auth()->id())
-                                                <?php $hasUserReview = 1; ?>
-                                                <form style="display: inline-block" method="post"
-                                                      action="{{route('user.review.destroy', $review['id'])}}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button onclick="return confirm('Вы действительно хотите удалить?')"
-                                                            class="btn btn-link no-padding"
-                                                            type="submit">Удалить мой отзыв
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                        <div class="product__review-img product__review-img-sm">
-                                            <div style="width:{{$review['star']*100/5}}%"></div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="product__review-text">
-                                            {{$review['text']}}
+                                                @if(auth()->id() && $review['uid']==auth()->id())
+                                                    <?php $hasUserReview = 1; ?>
+                                                    <form style="display: inline-block" method="post"
+                                                          action="{{route('user.review.destroy', $review['id'])}}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button onclick="return confirm('Вы действительно хотите удалить?')"
+                                                                class="btn btn-link no-padding"
+                                                                type="submit">Удалить мой отзыв
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                            <div class="product__review-img product__review-img-sm">
+                                                <div style="width:{{$review['star']*100/5}}%"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="product__review-text">
+                                                {{$review['text']}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -625,11 +625,12 @@
         }
 
         .gallery-top {
-            height: 280px;
+            height: 400px;
             width: 100%;
-            padding: 40px;
+            /*padding: 40px;*/
         }
-        .gallery-top .swiper-wrapper{
+
+        .gallery-top .swiper-wrapper {
             /*border: 5px solid #f7b5bd;*/
             /*border-radius: 5px;*/
             /*background: url(/img/frame-left.png) top/100% no-repeat;*/

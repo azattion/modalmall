@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-#!/opt/php/7.1/bin/php
+#!/opt/php/7.3/bin/php
 <?php
 
 define('LARAVEL_START', microtime(true));

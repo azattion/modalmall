@@ -133,8 +133,10 @@ class ProductController extends Controller
                 $category = Category::where('status', 1)
                     ->where('id', $category_exploded[0])->first();
                 $related_products = Product::where('status', 1)
-//                    ->where('cats', 'LIKE', '%|' . $category_exploded[0] . '|%')
-                        ->take(12)->get();
+                    ->where('cats', 'LIKE', '%|' . $category_exploded[0] . '|%')
+                    ->where('id', '!=', $id)
+                    ->orderBy('id', 'desc')
+                    ->take(12)->get();
             }
         }
         $product->images = $product->images()->orderBy('order')->get();
