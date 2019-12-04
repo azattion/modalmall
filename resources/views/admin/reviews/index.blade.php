@@ -55,7 +55,7 @@
                                         <form action="{{route('admin.reviews.destroy', $review['id'])}}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-link">
+                                            <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit" class="btn btn-link">
                                                 <i class="fa fa-remove"></i> Удалить
                                             </button>
                                         </form>

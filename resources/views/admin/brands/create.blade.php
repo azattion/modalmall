@@ -115,3 +115,6 @@
         </div>
     </div>
 @endsection
+@section('script')
+    @include('layouts.ckeditor-include', ['name' => 'desc'])
+@endsection

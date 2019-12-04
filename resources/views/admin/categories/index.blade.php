@@ -61,7 +61,7 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td data-pid="{{$category['pid']}}" data-level="{{$category['level']}}"  data-ordr="{{$category['ordr']}}">{{str_repeat("—", $category['level']-1)}} {{$category->name}}</td>
+                                    <td data-pid="{{$category['pid']}}" data-level="{{$category['level']}}"  data-ordr="{{$category['ordr']}}">{{$category['level']?str_repeat("—", $category['level']-1):""}} {{$category->name}}</td>
                                     <td>
                                         @if($category['status'])
                                             <span class="label label-success">Активный</span>
@@ -91,7 +91,7 @@
                                                href="{{route('admin.categories.edit', $category)}}">
                                                 <i class="fa fa-edit"></i> Изменить
                                             </a>
-                                            <button type="submit" class="btn btn-default"
+                                            <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit" class="btn btn-default"
                                                     href="{{route('admin.categories.destroy', $category)}}">
                                                 <i class="fa fa-remove"></i> Удалить
                                             </button>

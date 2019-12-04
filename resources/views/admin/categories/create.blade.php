@@ -49,8 +49,10 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('pid') has-error @enderror">
                                     <label for="pid">Родительская категория</label>
-                                    <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid" size="20">
-                                        <option @if(old('pid', $category->pid)==0) selected @endif value="0">Корень</option>
+                                    <select name="pid" class="form-control" data-cat="{{$category->pid}}" id="pid"
+                                            size="20">
+                                        <option @if(old('pid', $category->pid)==0) selected @endif value="0">Корень
+                                        </option>
                                         @foreach($categories as $cat)
                                             @if($category->id == $cat->id) @continue @endif
                                             <option @if(old('pid', $category->pid) == $cat->id) selected
@@ -72,7 +74,9 @@
                                                href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"><img
                                                         class="img-responsive"
                                                         src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}"></a>
-                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}" name="image-del[{{$image['id']}}]"> Удалить</label></div>
+                                            <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}"
+                                                                                name="image-del[{{$image['id']}}]">
+                                                    Удалить</label></div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -81,8 +85,8 @@
 
                         <div class="form-group @error('desc') has-error @enderror">
                             <label for="desc">Описание</label>
-                        <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"
-                                  placeholder="Характеристика">{{ old('desc', $category->desc) }}</textarea>
+                            <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"
+                                      placeholder="Характеристика">{{ old('desc', $category->desc) }}</textarea>
                         </div>
                         <div class="box box-default collapsed-box">
                             <div class="box-header with-border">
@@ -105,8 +109,8 @@
                                 </div>
                                 <div class="form-group @error('meta_desc') has-error @enderror">
                                     <label for="meta_desc">Описание</label>
-                        <textarea name="meta_desc" class="form-control" id="meta_desc"
-                                  placeholder="Характеристика">{{ old('meta_desc', $category->meta_desc) }}</textarea>
+                                    <textarea name="meta_desc" class="form-control" id="meta_desc"
+                                              placeholder="Характеристика">{{ old('meta_desc', $category->meta_desc) }}</textarea>
                                 </div>
                                 <div class="form-group @error('meta_keywords') has-error @enderror">
                                     <label for="meta_keywords">Ключевые слова</label>
@@ -137,4 +141,8 @@
             <!-- /.box -->
         </div>
     </div>
+@endsection
+
+@section('script')
+    @include('layouts.ckeditor-include', ['name' => 'desc'])
 @endsection

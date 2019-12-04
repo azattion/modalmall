@@ -25,6 +25,7 @@ class CreateImagesTable extends Migration
             $table->boolean('status')->default(true);
             $table->string('uid')->nullable(true)->index();
             $table->string('desc')->nullable(true);
+            $table->tinyInteger('color')->default(0);
             $table->string('imageable_type')->default(0);
             $table->integer('imageable_id')->default(0)->index();
             $table->integer('order')->default(0);

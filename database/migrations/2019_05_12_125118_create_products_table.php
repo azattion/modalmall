@@ -36,6 +36,7 @@ class CreateProductsTable extends Migration
             $table->string('unit')->nullable(true);
             $table->integer('pack_cost')->nullable(true);
             $table->integer('cost')->default(0);
+            $table->string('costs')->default('');
             $table->integer('tax')->nullable(true);
             $table->integer('available')->nullable(true);
             $table->boolean('status')->default(true)->index();

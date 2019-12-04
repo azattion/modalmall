@@ -285,6 +285,7 @@
             /*top: -100px;*/
             padding: 40px 40px 0;
             background: url(/img/frame-left.png) top/100% no-repeat;
+            background-size: contain;
         }
         .col-md-4 .product-card{
             padding: 50px 50px 0;
@@ -381,6 +382,7 @@
         .exzoom .exzoom_img_ul_outer .exzoom_img_ul li {
             /*padding: 42px 52px 42px;*/
             background: url(/img/frame-left.png) top/100% no-repeat;
+            /*background-size: contain;*/
         }
 
         .exzoom div.exzoom_nav {
@@ -813,13 +815,17 @@
     }
 
     .mob-sub.active > ul {
-        display: list-item;
+        display: none;
+    }
+    .mob-sub .caret{
+        color: #ee6688;
     }
 
     .mob-nav {
         width: 100%;
         height: 100%;
         position: fixed;
+        text-transform: uppercase;
         /*display: none;*/
         top: 0;
         right: 0;
@@ -1036,6 +1042,9 @@
         -webkit-transform: rotate3d(0, 0, 1, -45deg);
         transform: rotate3d(0, 0, 1, -45deg);
     }
+    table img{
+        max-width: 100%;
+    }
 </style>
 <input type="checkbox" id="nav-control" class="nav-control">
 <label for="nav-control" class="toggle-button d-block d-sm-none">
@@ -1059,6 +1068,7 @@
             </a>
         </li>
         @foreach($cats[0] as $item)
+            @if($item['inc_menu']==0) @continue @endif
             <li class="mob-sub active">
                 <a href="{{route('products.category', $item['id'])}}">{{$item['name']}}
                     @if(isset($cats[$item['id']]))<span class="caret"></span>@endif
@@ -1175,6 +1185,7 @@
                             <a class="main-nav__link text-uppercase" href="/page/about">О нас</a>
                         </li>
                         @foreach($cats[0] as $item)
+                            @if($item['inc_menu']==0) @continue @endif
                             <li class="main-nav__item col sub">
                                 <a class="main-nav__link text-uppercase"
                                    href="{{route('products.category', $item['id'])}}">{{$item['name']}}
@@ -1463,5 +1474,13 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8v
     </script>
     {{--<script src="//code.jivosite.com/widget.js" jv-id="HppuFpTeFt" async></script>--}}
 </main>
+<script src='/js/ekko-lightbox.min.js'></script>
+<link href='/css/ekko-lightbox.min.js'>
+<script>
+    $(document).on('click', '.lightbox', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
 </body>
 </html>

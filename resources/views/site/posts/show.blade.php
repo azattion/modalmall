@@ -8,7 +8,7 @@
 @section('content')
     <h1>{{$post['title']}}</h1>
     <p>{{$post['date']}}</p>
-    <div class="post__admin">
+    <div class="post__admin" style="margin: 5px 0">
         <a target="_blank" href="{{route('admin.posts.edit', $post['id'])}}">
             Редактировать публикацию
         </a>

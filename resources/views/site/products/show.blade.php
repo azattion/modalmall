@@ -22,18 +22,20 @@
                             <ul class='exzoom_img_ul'>
                                 @foreach($product->images as $image)
                                     <li class="">
-                                        <img class="img-fluid"
+                                        <img data-color="{{$image['color']}}" class="img-fluid"
                                              src="/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}}">
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="exzoom_nav"></div>
-                        <!-- Nav Buttons -->
-                        <p class="exzoom_btn">
-                            <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
-                            <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
-                        </p>
+                        @if(count($product->images)>1)
+                            <div class="exzoom_nav"></div>
+                            <!-- Nav Buttons -->
+                            <p class="exzoom_btn">
+                                <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+                                <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+                            </p>
+                        @endif
                     </div>
                 @elseif(count($product->images))
                     <div class="swiper-container-top gallery-top">
@@ -47,14 +49,16 @@
                         <div class="swiper-button-next swiper-button-white"></div>
                         <div class="swiper-button-prev swiper-button-white"></div>
                     </div>
-                    <div class="swiper-container-top gallery-thumbs">
-                        <div class="swiper-wrapper">
-                            @foreach($product->images as $image)
-                                <div class="swiper-slide"
-                                     style="background-image:url(/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}})"></div>
-                            @endforeach
+                    @if(count($product->images)>1)
+                        <div class="swiper-container-top gallery-thumbs">
+                            <div class="swiper-wrapper">
+                                @foreach($product->images as $image)
+                                    <div class="swiper-slide"
+                                         style="background-image:url(/storage{{$image['path']}}/{{$image['name']}}.{{$image['ext']}})"></div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @else
                     <div class="product__field product__img">
                         <img class="img-fluid"
@@ -79,7 +83,8 @@
                 {{--</div>--}}
             </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-8" data-code="{{$product['vendor_code']}}">
             @if($product['status'] != 1)
                 <h2>Товар в черновике</h2>
                 <style>section {
@@ -125,7 +130,7 @@
             {{--<div class="product__field product__collection">Коллекция: {{$product['collection']}}</div>--}}
             <div class="product__field product__quantity">Количество в упаковке: {{$product['quantity']}}</div>
 
-            <form class="product__cart-form" style="display: inline-block" method="post"
+            <form class="product__cart-form" method="post"
                   action="{{route('user.cart.store')}}">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -141,33 +146,52 @@
                 $colors = config('services.colors');
                 $product_colors = explode('|', trim($product['colors'], '|'));
                 @endphp
-                {{--@php dump($product_colors) @endphp--}}
-                @if($product['colors'] && count($product_colors))
-                    <div class="product__field product__colors">
-                        Выберите цвет:
-                        @foreach($product_colors as $key => $color)
-                            <div class="form-check form-check-inline">
-                                <input {{$key==0?"checked":""}} id="color{{$key}}" class="d-none form-check-input"
-                                       type="radio" name="color"
-                                       value="{{$color}}">
-                                <label class="form-check-label" for="color{{$key}}">{{$colors[$color]}}</label>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
+                {{--@if($product['colors'] && count($product_colors))--}}
+                {{--<div class="product__field product__colors">--}}
+                {{--Выберите цвет:--}}
+                {{--@foreach($product_colors as $key => $color)--}}
+                {{--<div class="form-check form-check-inline">--}}
+                {{--<input {{$key==0?"checked":""}} id="color{{$key}}" class="d-none form-check-input"--}}
+                {{--type="radio" name="color"--}}
+                {{--value="{{$color}}">--}}
+                {{--<label class="form-check-label" for="color{{$key}}">{{$colors[$color]}}</label>--}}
+                {{--</div>--}}
+                {{--@endforeach--}}
+                {{--</div>--}}
+                {{--@endif--}}
+                <div class="product__field product__colors">
+                    Выберите цвет:
+                    @foreach($product->pcolors as $k => $prod)
+                        @php
+                        $key = explode('|', trim($product['colors'], '|'))[0];
+                        @endphp
+                        @if(!isset($colors[$key])) @continue @endif
+                        <a href="{{route('products.show', $prod['id'])}}" class="form-check form-check-inline">
+                            {{--<input {{ $k==0?"checked":"" }} id="color{{$key}}" class="d-none form-check-input"--}}
+                            {{--type="radio" name="color"--}}
+                            {{--value="{{$key}}">--}}
+                            {{--<label class="form-check-label" for="color{{$key}}">{{$colors[$key]}}</label>--}}
+                            {{$colors[$key]}}
+                            <input type="hidden" name="color" value="{{$key}}">
+                        </a>
+                    @endforeach
+                </div>
+
 
                 @php
-                $sizes = config('services.sizes');
+                $sizes = [];
+                $full_sizes = config('services.full_sizes');
+                foreach($full_sizes as $si) foreach($si as $k => $s) $sizes[$k] = $s;
                 $product_sizes = explode('|', trim($product['sizes'], '|'));
                 @endphp
 
                 @if($product['sizes'] && count($product_sizes))
                     <div class="product__field product__sizes">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="row form-group">
-                                    <label for="size" class="col-sm-6 col-form-label">Выберите размер:</label>
-                                    <div class="col-sm-6">
+                            <div class="col-md-12">
+                                <div class="form-row form-group">
+                                    <div class="col-auto">
+                                        <label for="size">Выберите размер:</label>
                                         <select name="size" id="size">
                                             @foreach($product_sizes as $key => $size)
                                                 <option value="{{$size}}">{{$sizes[$size]}}</option>
@@ -176,12 +200,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-link" data-toggle="modal"
-                                        data-target="#tableSizes">
-                                    Таблица размеров
-                                </button>
-                            </div>
+                            {{--<div class="col-md-5">--}}
+                            {{--<button type="button" class="btn btn-link" data-toggle="modal"--}}
+                            {{--data-target="#tableSizes">--}}
+                            {{--Таблица размеров--}}
+                            {{--</button>--}}
+                            {{--</div>--}}
                         </div>
                     </div>
                 @endif
@@ -419,7 +443,7 @@
             </div>
         </div>
 
-        <div class="col-md-12" style="margin-bottom: 30px">
+        <div class="col-md-12" style="margin: 30px 0">
             <table class="table table-bordered">
                 @if($product['brand'])
                     <tr>

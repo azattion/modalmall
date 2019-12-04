@@ -142,6 +142,7 @@ class ProductController extends Controller
         $product->images = $product->images()->orderBy('order')->get();
 //        dd(auth()->id());
         $product->favorite = $product->favorite()->where('uid', auth()->id())->first();
+        $product->pcolors = Product::where('status', 1)->where('vendor_code', $product['vendor_code'])->get();
 
         return view('site.products.show',
             [

@@ -73,10 +73,10 @@
                                         <td>{{$product['cost']}}</td>
                                         {{--                                    <td>{{date('d-m-Y', strtotime($product['created_at']))}}</td>--}}
                                         <td>
-                                            @if($product['status'])
-                                                <span class="label label-success">Активный</span>
-                                            @else
-                                                <span class="label label-default">Невидимый</span>
+                                            @php $statues = config('services.product_status'); @endphp
+                                            {{--@dd($statues)--}}
+                                            @if(isset($statues[$product['status']]))
+                                                <span class="label label-{{$product['status']==1?'success':'danger'}}">{{$statues[$product['status']]}}</span>
                                             @endif
                                         </td>
                                         <td>{{$product->brands['name']}}</td>

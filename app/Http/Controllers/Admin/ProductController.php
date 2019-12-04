@@ -40,6 +40,7 @@ class ProductController extends Controller
             'desc' => 'nullable|string',
             'cat' => 'required|numeric|min:1',
             'cost' => 'required|numeric',
+            'costs' => 'nullable|string',
             'quantity' => 'nullable|numeric|min:0',
             'colors.*' => 'nullable|numeric',
             'sizes.*' => 'nullable|numeric',
@@ -128,6 +129,8 @@ class ProductController extends Controller
         }
         $product->cats = "|" . implode('|', $pid) . "|";
         $product->cost = $request->get('cost');
+        if($request->get('costs'))
+            $product->costs = "|" . str_replace(',', '|', $request->get('costs')) . "|";
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
@@ -194,6 +197,9 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
+//        print_r($product['vendor_code']);
+//        $product->pcolors = Product::where('status', 1)->where('vendor_code', $product['vendor_code'])->get();
+        $product['pcolors'] = Product::where('status', 1)->get();
         return view('admin.products.show', ['product' => $product]);
     }
 
@@ -244,6 +250,8 @@ class ProductController extends Controller
         $product->cats = "|" . implode('|', $pid) . "|";
 
         $product->cost = $request->get('cost');
+        if($request->get('costs'))
+            $product->costs = "|" . str_replace(',', '|', $request->get('costs')) . "|";
         $product->status = $request->get('status') ? 1 : 0;
         $product->vendor_code = $request->get('vendor_code');
         $product->barcode = $request->get('barcode');
@@ -292,6 +300,14 @@ class ProductController extends Controller
             foreach ($request->get('images-ord') as $key => $id) {
                 $image = ImageModel::find($id);
                 $image->order = $key;
+                $image->save();
+            }
+        }
+
+        if ($request->has('images-color')) {
+            foreach ($request->get('images-color') as $key => $id) {
+                $image = ImageModel::find($key);
+                $image->color = $id;
                 $image->save();
             }
         }
@@ -514,15 +530,14 @@ class ProductController extends Controller
                         $insert[$key][$k] = $item;
                     }
                     $insert[$key]['status'] = 2;
-                    Product::updateOrCreate(
-                        ['barcode' => $insert[$key]['barcode']],
-                        $insert[$key]
-                    );
+//                    Product::updateOrCreate(
+//                        ['barcode' => $insert[$key]['barcode']],
+//                        $insert[$key]
+//                    );
 //                    dump($insert[$key]);
                 }
-
                 $message = "Импорт успешно выполнен";
-//                Product::insert($insert);
+                Product::insert($insert);
 //                Storage::delete("/public/temp/{$uuid}.json");
                 return redirect()->route('admin.products.multiple')
                     ->with('success', $message);

@@ -66,14 +66,14 @@
                             </div>
                         </div>
                         {{--<div class="row">--}}
-                            {{--<div class="col-sm-6">--}}
-                                {{--<div class="form-group @error('collection') has-error @enderror">--}}
-                                    {{--<label for="collection">Коллекция</label>--}}
-                                    {{--<input type="text" name="collection" class="form-control" id="collection"--}}
-                                           {{--placeholder="Введите коллекцию"--}}
-                                           {{--value="{{ old('collection', $product->collection) }}">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                        {{--<div class="col-sm-6">--}}
+                        {{--<div class="form-group @error('collection') has-error @enderror">--}}
+                        {{--<label for="collection">Коллекция</label>--}}
+                        {{--<input type="text" name="collection" class="form-control" id="collection"--}}
+                        {{--placeholder="Введите коллекцию"--}}
+                        {{--value="{{ old('collection', $product->collection) }}">--}}
+                        {{--</div>--}}
+                        {{--</div>--}}
                         {{--</div>--}}
                         <div class="row">
                             <div class="col-sm-3">
@@ -137,7 +137,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group @error('colors') has-error @enderror">
                                     <label for="colors">Цвет</label>
-                                    <select name="colors[]" multiple class="form-control select2" id="colors">
+                                    <select name="colors[]" class="form-control" id="colors">
                                         {{--<option value="0">Выберите..</option>--}}
                                         <?php $colors = config('services.colors');
                                         $color_selected = $product->colors ? explode("|", trim($product->colors, '|')) : [];?>
@@ -150,18 +150,32 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group @error('sizes') has-error @enderror">
                                     <label for="sizes">Размеры</label>
                                     <select name="sizes[]" multiple class="form-control select2" id="sizes">
                                         {{--<option value="0">Выберите..</option>--}}
-                                        <?php $sizes = config('services.sizes');
+                                        <?php $sizes = config('services.full_sizes');
                                         $size_selected = $product->sizes ? explode("|", trim($product->sizes, '|')) : [];?>
-                                        @foreach($sizes as $key => $size)
-                                            <option @if(in_array($key, old('sizes', $size_selected))) selected
-                                                    @endif value="{{$key}}">{{$size}}</option>
+                                        @foreach($sizes as $k => $group)
+                                            <optgroup label="{{$k}}">
+                                                @foreach($group as $key => $size)
+                                                    <option @if(in_array($key, old('sizes', $size_selected))) selected
+                                                            @endif value="{{$key}}">{{$size}}</option>
+                                                @endforeach
+                                            </optgroup>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group @error('costs') has-error @enderror">
+                                    <label for="costs">Стоимость</label>
+                                    <input placeholder="Если стоимость отличается через запятую" type="text" id="costs" name="costs" class="form-control">
+                                    {{--<select id="costs" name="costs[]" class="form-control select2-tag">--}}
+                                    {{--</select>--}}
                                 </div>
                             </div>
                         </div>
@@ -217,19 +231,33 @@
                             <label for="images">Фотографии</label>
                             <input accept="image/*" type="file" name="images[]" multiple id="images">
                             <p class="help-block">Максимальный размер 3 Мб</p>
+                            @php $colors = config('services.colors'); @endphp
                             @if(count($product->images))
                                 <div class="row" id="sortable">
                                     @foreach($product->images as $image)
                                         <div class="col-sm-2">
                                             {{--<a target="_blank"--}}
-                                               {{--href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"> --}}
-                                               <img class="img-responsive"
-                                                        src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}">
+                                            {{--href="/public/storage{{$image['path']}}/lg/{{$image['name']}}.{{$image['ext']}}"> --}}
+                                            <img class="img-responsive"
+                                                 src="/public/storage{{$image['path']}}/sm/{{$image['name']}}.{{$image['ext']}}">
                                             {{--</a>--}}
                                             <div class="checkbox"><label><input type="checkbox" value="{{$image['id']}}"
                                                                                 name="image-del[{{$image['id']}}]">
                                                     Удалить</label></div>
                                             <input type="hidden" value="{{$image['id']}}" name="images-ord[]">
+                                            {{--<label for="images-color-{{$image['id']}}">Цвет:--}}
+                                                {{--<select id="images-color-{{$image['id']}}"--}}
+                                                        {{--name="images-color[{{$image['id']}}]">--}}
+                                                    {{--<option value="0">__</option>--}}
+                                                    {{--@php--}}
+                                                    {{--$color_selected = $image['color'];--}}
+                                                    {{--@endphp--}}
+                                                    {{--@foreach($colors as $key => $color)--}}
+                                                        {{--<option @if($key == $color_selected) selected--}}
+                                                                {{--@endif value="{{$key}}">{{$color}}</option>--}}
+                                                    {{--@endforeach--}}
+                                                {{--</select>--}}
+                                            {{--</label>--}}
                                         </div>
                                     @endforeach
                                 </div>
@@ -238,8 +266,8 @@
 
                         <div class="form-group @error('desc') has-error @enderror">
                             <label for="desc">Описание</label>
-                        <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"
-                                  placeholder="Характеристика">{{ old('desc', $product->desc) }}</textarea>
+                            <textarea rows="5" name="desc" class="form-control wysihtml5" id="desc"
+                                      placeholder="Характеристика">{{ old('desc', $product->desc) }}</textarea>
                         </div>
 
                         <div class="box box-default collapsed-box">
@@ -352,8 +380,8 @@
                                 </div>
                                 <div class="form-group @error('meta_desc') has-error @enderror">
                                     <label for="meta_desc">Описание</label>
-                        <textarea name="meta_desc" class="form-control" id="meta_desc"
-                                  placeholder="Характеристика">{{ old('meta_desc', $product->meta_desc) }}</textarea>
+                                    <textarea name="meta_desc" class="form-control" id="meta_desc"
+                                              placeholder="Характеристика">{{ old('meta_desc', $product->meta_desc) }}</textarea>
                                 </div>
                                 <div class="form-group @error('meta_keywords') has-error @enderror">
                                     <label for="meta_keywords">Ключевые слова</label>
@@ -387,8 +415,9 @@
 @endsection
 
 @section('script')
+    @include('layouts.ckeditor-include', ['name' => 'desc'])
     <style>
-        .ui-sortable-handle{
+        .ui-sortable-handle {
             cursor: move;
         }
     </style>
@@ -397,15 +426,15 @@
     <script src="/js/admin/bootstrap-datepicker.min.js"></script>
     <script src="/js/admin/select2.full.min.js"></script>
     <script>
-        //Date picker
         $('.datepicker').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd',
         });
         $(document).ready(function () {
             $('.select2').select2();
+            $('.select2-tag').select2({tags: true});
         });
-        $( function() {
+        $(function () {
             $("#sortable").sortable({
                 revert: true
             });

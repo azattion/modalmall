@@ -54,7 +54,7 @@
                                     <a class="btn btn-default" href="{{route('admin.posts.edit', $post)}}">
                                         <i class="fa fa-edit"></i> Изменить
                                     </a>
-                                    <button type="submit" class="btn btn-default"
+                                    <button onclick="return confirm('Вы действительно хотите удалить?')" type="submit" class="btn btn-default"
                                             href="{{route('admin.posts.destroy', $post)}}">
                                         <i class="fa fa-remove"></i> Удалить
                                     </button>

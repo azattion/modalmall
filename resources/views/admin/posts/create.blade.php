@@ -176,8 +176,8 @@
         </div>
     </div>
 @endsection
-
 @section('script')
+    @include('layouts.ckeditor-include', ['name' => 'text'])
     <link rel="stylesheet" href="/public/css/admin/bootstrap-datepicker.min.css">
     <script src="/public/js/admin/bootstrap-datepicker.min.js"></script>
     <script>
